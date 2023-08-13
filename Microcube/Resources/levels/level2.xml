@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<level>
+  <name>Drift</name>
+  <player start-x="0,0" start-y="5,0" start-z="0,0" />
+  <blocks>
+    <prism x="0,0" y="1,0" z="3,0" />
+    <prism x="3,0" y="1,0" z="3,0" />
+  </blocks>
+  <block-generators>
+    <generate-ground-plate start-x="-1,0" start-z="-1,0" end-x="2,0" end-z="5,0" height="0,0" />
+    <generate-ground-plate start-x="2,0" start-z="2,0" end-x="5,0" end-z="7,0" height="0,0" />
+    <generate-finish-plate x="3,0" y="0,0" z="8,0" />
+  </block-generators>
+</level>

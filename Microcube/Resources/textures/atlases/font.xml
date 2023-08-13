@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<texture-atlas>
+  <additional-info>
+    <tracking>1</tracking>
+    <leading>12</leading>
+    <word-spacing>5</word-spacing>
+  </additional-info>
+  <sprites>
+    <sprite identifier="A" x="1" y="1" width="5" height="7" />
+    <sprite identifier="B" x="7" y="1" width="5" height="7" />
+    <sprite identifier="C" x="13" y="1" width="5" height="7" />
+    <sprite identifier="D" x="19" y="1" width="5" height="7" />
+    <sprite identifier="E" x="25" y="1" width="5" height="7" />
+    <sprite identifier="F" x="31" y="1" width="5" height="7" />
+    <sprite identifier="G" x="37" y="1" width="5" height="7" />
+    <sprite identifier="H" x="43" y="1" width="5" height="7" />
+    <sprite identifier="I" x="49" y="1" width="3" height="7" />
+    <sprite identifier="J" x="55" y="1" width="5" height="7" />
+    <sprite identifier="K" x="1" y="9" width="5" height="7" />
+    <sprite identifier="L" x="7" y="9" width="5" height="7" />
+    <sprite identifier="M" x="13" y="9" width="5" height="7" />
+    <sprite identifier="N" x="19" y="9" width="5" height="7" />
+    <sprite identifier="O" x="25" y="9" width="5" height="7" />
+    <sprite identifier="P" x="31" y="9" width="5" height="7" />
+    <sprite identifier="Q" x="37" y="9" width="5" height="7" />
+    <sprite identifier="R" x="43" y="9" width="5" height="7" />
+    <sprite identifier="S" x="49" y="9" width="5" height="7" />
+    <sprite identifier="T" x="55" y="9" width="5" height="7" />
+    <sprite identifier="U" x="1" y="17" width="5" height="7" />
+    <sprite identifier="V" x="7" y="17" width="5" height="7" />
+    <sprite identifier="W" x="13" y="17" width="5" height="7" />
+    <sprite identifier="X" x="19" y="17" width="5" height="7" />
+    <sprite identifier="Y" x="25" y="17" width="5" height="7" />
+    <sprite identifier="Z" x="31" y="17" width="5" height="7" />
+    <sprite identifier="_" x="37" y="17" width="5" height="8" />
+    <sprite identifier="1" x="43" y="17" width="2" height="7" />
+    <sprite identifier="2" x="46" y="17" width="5" height="7" />
+    <sprite identifier="3" x="52" y="17" width="5" height="7" />
+    <sprite identifier="4" x="58" y="17" width="5" height="7" />
+    <sprite identifier="5" x="1" y="25" width="5" height="7" />
+    <sprite identifier="6" x="7" y="25" width="5" height="7" />
+    <sprite identifier="7" x="13" y="25" width="5" height="7" />
+    <sprite identifier="8" x="19" y="25" width="5" height="7" />
+    <sprite identifier="9" x="25" y="25" width="5" height="7" />
+    <sprite identifier="0" x="31" y="25" width="5" height="7" />
+    <sprite identifier="!" x="37" y="25" width="1" height="7" />
+    <sprite identifier="?" x="39" y="25" width="5" height="7" />
+    <sprite identifier="{" x="45" y="25" width="3" height="7" />
+    <sprite identifier="}" x="49" y="25" width="3" height="7" />
+    <sprite identifier="(" x="53" y="25" width="2" height="7" />
+    <sprite identifier=")" x="56" y="25" width="2" height="7" />
+    <sprite identifier="[" x="59" y="25" width="2" height="7" />
+    <sprite identifier="]" x="1" y="33" width="2" height="7" />
+    <sprite identifier="/" x="4" y="33" width="5" height="7" />
+    <sprite identifier="+" x="10" y="33" width="5" height="7" />
+    <sprite identifier="-" x="16" y="33" width="5" height="7" />
+    <sprite identifier="*" x="22" y="33" width="5" height="7" />
+    <sprite identifier="=" x="28" y="33" width="5" height="7" />
+    <sprite identifier="." x="34" y="33" width="1" height="7" />
+    <sprite identifier="," x="36" y="33" width="2" height="7" />
+    <sprite identifier="'" x="39" y="33" width="1" height="7" />
+    <sprite identifier=":" x="41" y="33" width="1" height="7" />
+    <sprite identifier=";" x="43" y="33" width="2" height="7" />
+    <sprite identifier="&lt;" x="46" y="33" width="3" height="7" />
+    <sprite identifier="&gt;" x="50" y="33" width="3" height="7" />
+    <sprite identifier="^" x="54" y="33" width="5" height="7" />
+    <sprite identifier="a" x="1" y="41" width="4" height="7" />
+    <sprite identifier="b" x="7" y="41" width="4" height="7" />
+    <sprite identifier="c" x="12" y="41" width="4" height="7" />
+    <sprite identifier="d" x="17" y="41" width="4" height="7" />
+    <sprite identifier="e" x="22" y="41" width="4" height="7" />
+    <sprite identifier="f" x="27" y="41" width="4" height="7" />
+    <sprite identifier="g" x="32" y="41" width="4" height="7" />
+    <sprite identifier="h" x="37" y="41" width="4" height="7" />
+    <sprite identifier="i" x="42" y="41" width="1" height="7" />
+    <sprite identifier="j" x="47" y="41" width="2" height="7" />
+    <sprite identifier="k" x="52" y="41" width="4" height="7" />
+    <sprite identifier="l" x="58" y="41" width="1" height="7" />
+    <sprite identifier="m" x="1" y="49" width="5" height="7" />
+    <sprite identifier="n" x="7" y="49" width="4" height="7" />
+    <sprite identifier="o" x="12" y="49" width="4" height="7" />
+    <sprite identifier="p" x="17" y="49" width="4" height="8" />
+    <sprite identifier="q" x="22" y="49" width="4" height="8" />
+    <sprite identifier="r" x="27" y="49" width="4" height="7" />
+    <sprite identifier="s" x="32" y="49" width="4" height="7" />
+    <sprite identifier="t" x="37" y="49" width="3" height="7" />
+    <sprite identifier="u" x="42" y="49" width="4" height="7" />
+    <sprite identifier="v" x="47" y="49" width="4" height="7" />
+    <sprite identifier="w" x="52" y="49" width="5" height="7" />
+    <sprite identifier="x" x="58" y="49" width="4" height="7" />
+    <sprite identifier="y" x="1" y="57" width="4" height="7" />
+    <sprite identifier="z" x="6" y="57" width="4" height="7" />
+  </sprites>
+</texture-atlas>

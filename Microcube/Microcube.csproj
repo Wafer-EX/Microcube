@@ -1,0 +1,100 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\levels\debug_level.xml" />
+    <None Remove="Resources\levels\level1.xml" />
+    <None Remove="Resources\levels\level2.xml" />
+    <None Remove="Resources\levels\level3.xml" />
+    <None Remove="Resources\levels\level4.xml" />
+    <None Remove="Resources\levels\level5.xml" />
+    <None Remove="Resources\shaders\block.frag" />
+    <None Remove="Resources\shaders\block.vert" />
+    <None Remove="Resources\shaders\screen_effects\chromatic_aberration.frag" />
+    <None Remove="Resources\shaders\screen_effects\chromatic_aberration.vert" />
+    <None Remove="Resources\shaders\screen_effects\default.frag" />
+    <None Remove="Resources\shaders\screen_effects\default.vert" />
+    <None Remove="Resources\shaders\screen_effects\translations\default.frag" />
+    <None Remove="Resources\shaders\screen_effects\translations\default.vert" />
+    <None Remove="Resources\shaders\sprite.frag" />
+    <None Remove="Resources\shaders\sprite.vert" />
+    <None Remove="Resources\textures\atlases\font.png" />
+    <None Remove="Resources\textures\atlases\font.xml" />
+    <None Remove="Resources\textures\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\levels\debug_level.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\levels\level1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\levels\level2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\levels\level3.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\levels\level4.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\levels\level5.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\block.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\block.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\screen_effects\chromatic_aberration.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\screen_effects\chromatic_aberration.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\screen_effects\default.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\screen_effects\default.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\screen_effects\translations\default.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\screen_effects\translations\default.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\sprite.frag">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\shaders\sprite.vert">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\textures\atlases\font.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\textures\atlases\font.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\textures\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Silk.NET.Input" Version="2.17.1" />
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.17.1" />
+    <PackageReference Include="Silk.NET.Windowing" Version="2.17.1" />
+    <PackageReference Include="StbImageSharp" Version="2.27.13" />
+  </ItemGroup>
+
+</Project>

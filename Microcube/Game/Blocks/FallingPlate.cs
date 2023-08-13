@@ -1,0 +1,88 @@
+﻿using Microcube.Game.Blocks.Enums;
+using Microcube.Graphics.ColorModels;
+using Silk.NET.Maths;
+
+namespace Microcube.Game.Blocks
+{
+    public class FallingPlate : Block, IDynamic
+    {
+        private Matrix4X4<float> modelMatrix;
+
+        private FallingPlateState state = FallingPlateState.Nothing;
+        private float elapsedTime = 0.0f;
+
+        private float velocity = 0.0f;
+        private float innerOffset = 0.0f;
+
+        public override Matrix4X4<float> ModelMatrix
+        {
+            get => modelMatrix;
+            set
+            {
+                modelMatrix = Matrix4X4.CreateScale(1.0f, 0.1f, 1.0f)
+                    * Matrix4X4.CreateTranslation(0.0f, 0.45f, 0.0f)
+                    * value;
+            }
+        }
+
+        public override RgbaColor TopColor
+        {
+            get
+            {
+                // TODO: refactor or remove?
+                if (MathF.Round(MathF.Abs(Position.X)) % 2.0f == MathF.Round(MathF.Abs(Position.Z)) % 2.0f)
+                    return new RgbaColor(Color.Red - 0.05f, Color.Green - 0.05f, Color.Blue - 0.05f, Color.Alpha);
+
+                return Color;
+            }
+        }
+
+        public override bool IsBarrier => state != FallingPlateState.Falling;
+
+        public FallingPlate(Vector3D<float> position, RgbaColor color) : base(position, color) { }
+
+        public void Update(float deltaTime, Level level)
+        {
+            if (state == FallingPlateState.Nothing)
+            {
+                // TODO: refactor?
+                if (Vector3D.Distance(level.Player.Position, Position + new Vector3D<float>(0.0f, 1.0f, 0.0f)) < 1.0f)
+                    state = FallingPlateState.Triggered;
+            }
+            else if (state == FallingPlateState.Triggered)
+            {
+                elapsedTime += deltaTime;
+                if (elapsedTime >= 1.0f)
+                {
+                    // TODO: should I remove this or replace to mass?
+                    velocity -= 0.05f;
+                    state = FallingPlateState.Falling;
+
+                    var platePlanePosition = new Vector2D<float>(Position.X, Position.Z);
+                    var playerPlanePosition = new Vector2D<float>(level.Player.Position.X, level.Player.Position.Z);
+                    var planeDistance = Vector2D.Distance(platePlanePosition, playerPlanePosition);
+
+                    if (planeDistance < 1.0f)
+                        level.Player.ProcessPosition(level.Player.Position);
+                }
+            }
+            else if (state == FallingPlateState.Falling)
+            {
+                if (IsRender && velocity > -10.0f)
+                {
+                    // TODO: something is wrong with this physics, it's
+                    // impossible to merge it with the player class
+                    float mass = 1.0f;
+                    float gravity = -9.81f;
+
+                    velocity += velocity * mass * -gravity * deltaTime;
+                    innerOffset += velocity;
+
+                    ModelMatrix = Matrix4X4.CreateTranslation(Position.X, Position.Y + innerOffset, Position.Z);
+                }
+                else if (IsRender)
+                    IsRender = false;
+            }
+        }
+    }
+}
