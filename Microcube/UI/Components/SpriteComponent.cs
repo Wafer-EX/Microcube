@@ -3,10 +3,19 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components
 {
+    /// <summary>
+    /// Represents component that shows a sprite inside displayed area
+    /// </summary>
     public class SpriteComponent : Component
     {
+        /// <summary>
+        /// Sprite that will be displayed inside this component.
+        /// </summary>
         public required Sprite Sprite { get; set; }
 
+        /// <summary>
+        /// Flag that enables sprite fitting to displayed area. Is true by default.
+        /// </summary>
         public bool Fit { get; set; }
 
         public SpriteComponent() : base() => Fit = true;

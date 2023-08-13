@@ -3,6 +3,9 @@ using Microcube.Input;
 
 namespace Microcube.UI.Components.Layouts
 {
+    /// <summary>
+    /// Represents an component that can display a lot of child components
+    /// </summary>
     public abstract class Layout : Component, IFocusable, IBackgrounded
     {
         private IReadOnlyList<Component> childs = new List<Component>();
@@ -26,6 +29,9 @@ namespace Microcube.UI.Components.Layouts
             }
         }
 
+        /// <summary>
+        /// All childs of this component.
+        /// </summary>
         public virtual IReadOnlyList<Component?> Childs
         {
             get => childs;
@@ -49,6 +55,9 @@ namespace Microcube.UI.Components.Layouts
             }
         }
 
+        /// <summary>
+        /// All childs of this component that can be focused.
+        /// </summary>
         protected IReadOnlyList<IFocusable> FocusableChilds { get; private set; }
 
         public Layout() : base()

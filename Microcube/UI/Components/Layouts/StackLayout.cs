@@ -6,10 +6,16 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Layouts
 {
+    /// <summary>
+    /// The component that fits childs to one direction.
+    /// </summary>
     public class StackLayout : Layout
     {
         private bool isFocused = false;
 
+        /// <summary>
+        /// Represents a focused element of childs that are can be focused.
+        /// </summary>
         protected int SelectedFocusableIndex { get; set; }
 
         public override bool IsFocused
@@ -41,10 +47,20 @@ namespace Microcube.UI.Components.Layouts
             }
         }
 
+        /// <summary>
+        /// Stack layout orientation, is vertical by default.
+        /// </summary>
         public StackLayoutOrientation Orientation { get; set; }
 
         public StackLayout() : base() => Orientation = StackLayoutOrientation.Vertical;
 
+        /// <summary>
+        /// Calculates a displayed area of the specific child (by index).
+        /// </summary>
+        /// <param name="displayedArea">Displayed area of the component.</param>
+        /// <param name="componentCount">Count of childs of this component.</param>
+        /// <param name="index">Index of child.</param>
+        /// <returns>Displayed area of specific child</returns>
         protected Rectangle<float> GetComponentDisplayedArea(Rectangle<float> displayedArea, int componentCount, int index)
         {
             float positionX = displayedArea.Origin.X;
@@ -61,6 +77,12 @@ namespace Microcube.UI.Components.Layouts
             return displayedArea;
         }
 
+        /// <summary>
+        /// Returns sprites of specific set of components. Is useful to 
+        /// </summary>
+        /// <param name="displayedArea"></param>
+        /// <param name="components"></param>
+        /// <returns></returns>
         protected virtual IEnumerable<Sprite> GetSpritesOfTheseComponents(Rectangle<float> displayedArea, IReadOnlyList<Component?> components)
         {
             if (!components.Any())

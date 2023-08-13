@@ -6,18 +6,37 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components
 {
+    /// <summary>
+    /// Represend a button that can be focused and reacted when the Enter is clicked.
+    /// </summary>
     public class ButtonComponent : Component, IFocusable
     {
+        /// <summary>
+        /// Action that will be performed after click.
+        /// </summary>
         public Action? OnClick { get; set; }
 
         public bool IsFocused { get; set; }
 
+        /// <summary>
+        /// Text that will be displayed inside this component.
+        /// </summary>
         public required string Text { get; set; }
 
+        /// <summary>
+        /// Font that will be used to display text. It's unrecommended to use global fonts because
+        /// this component switches some parameters of the font.
+        /// </summary>
         public required BitmapFont Font { get; set; }
 
+        /// <summary>
+        /// Button style when it's focused.
+        /// </summary>
         public ButtonStyle FocusedStyle { get; set; }
 
+        /// <summary>
+        /// Button style when it's unfocused.
+        /// </summary>
         public ButtonStyle UnfocusedStyle { get; set; }
 
         public bool IsLastFocused => true;

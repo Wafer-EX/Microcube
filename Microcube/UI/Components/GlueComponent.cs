@@ -4,8 +4,14 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components
 {
+    /// <summary>
+    /// Represents an empty component that provides to fill space by color or nothing.
+    /// </summary>
     public class GlueComponent : Component
     {
+        /// <summary>
+        /// Background filling color
+        /// </summary>
         public RgbaColor Color { get; set; }
 
         public GlueComponent() : base()
