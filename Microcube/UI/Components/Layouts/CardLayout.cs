@@ -5,12 +5,18 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Layouts
 {
+    /// <summary>
+    /// Represents a layout that shows only one component at the same time and can switch it.
+    /// </summary>
     public class CardLayout : Layout
     {
         private int selectedIndex = 0;
 
         public override bool IsFocused { get; set; }
 
+        /// <summary>
+        /// Index of selected component. Process any value to fit it to component range.
+        /// </summary>
         public int SelectedIndex
         {
             get => selectedIndex;
@@ -44,22 +50,6 @@ namespace Microcube.UI.Components.Layouts
         }
 
         public CardLayout() : base() { }
-
-        public void Next(int steps = 1)
-        {
-            if (Childs.Count == 0)
-                throw new InvalidOperationException();
-
-            SelectedIndex += steps;
-        }
-
-        public void Previous(int steps = 1)
-        {
-            if (Childs.Count == 0)
-                throw new InvalidOperationException();
-
-            SelectedIndex -= steps;
-        }
 
         public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
         {

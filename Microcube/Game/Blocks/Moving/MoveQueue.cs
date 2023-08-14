@@ -2,14 +2,23 @@
 
 namespace Microcube.Game.Blocks.Moving
 {
+    /// <summary>
+    /// Represents a queue of movements that can give offset of the frame or general offset.
+    /// </summary>
     public class MoveQueue
     {
         private readonly Movement[] movements;
         private readonly Queue<Movement> movementQueue;
         private Vector3D<float> accurateOffset;
 
+        /// <summary>
+        /// Represents general offset of the move queue as result of all movements for the elapsed time.
+        /// </summary>
         public Vector3D<float> Offset { get; private set; }
 
+        /// <summary>
+        /// Represents a movement for the specific frame.
+        /// </summary>
         public Vector3D<float> FrameOffset
         {
             get
@@ -22,10 +31,19 @@ namespace Microcube.Game.Blocks.Moving
             }
         }
 
+        /// <summary>
+        /// Is the move queue repeat from start when it will be ended.
+        /// </summary>
         public bool IsRepeatable { get; private set; }
 
+        /// <summary>
+        /// Is the move queue should work or not (like pause).
+        /// </summary>
         public bool IsActive { get; set; }
 
+        /// <summary>
+        /// Is any movement was happened at the frame.
+        /// </summary>
         public bool IsMoving
         {
             get
@@ -51,6 +69,10 @@ namespace Microcube.Game.Blocks.Moving
             IsActive = isActive;
         }
 
+        /// <summary>
+        /// Updates a movement of the move queue and store info about this.
+        /// </summary>
+        /// <param name="deltaTime">Time of the frame</param>
         public void Update(float deltaTime)
         {
             if (IsActive)

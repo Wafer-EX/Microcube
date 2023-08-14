@@ -78,11 +78,11 @@ namespace Microcube.UI.Components.Layouts
         }
 
         /// <summary>
-        /// Returns sprites of specific set of components. Is useful to 
+        /// Returns sprites of specific set of components. Is useful to render only small count of childs.
         /// </summary>
-        /// <param name="displayedArea"></param>
-        /// <param name="components"></param>
-        /// <returns></returns>
+        /// <param name="displayedArea">Displayed area of the component.</param>
+        /// <param name="components">All components that should be displayed</param>
+        /// <returns>Sprites of these components.</returns>
         protected virtual IEnumerable<Sprite> GetSpritesOfTheseComponents(Rectangle<float> displayedArea, IReadOnlyList<Component?> components)
         {
             if (!components.Any())

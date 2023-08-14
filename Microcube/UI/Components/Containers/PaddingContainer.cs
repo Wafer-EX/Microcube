@@ -4,6 +4,9 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Containers
 {
+    /// <summary>
+    /// A container that can set padding in the sides of the child.
+    /// </summary>
     public class PaddingContainer : Container
     {
         public float PaddingLeft { get; set; }

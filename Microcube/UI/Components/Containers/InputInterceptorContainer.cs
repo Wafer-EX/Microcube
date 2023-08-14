@@ -5,8 +5,15 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Containers
 {
+    /// <summary>
+    /// Container that do nothing with displayed area but can intercept input.
+    /// Is useful to change actions in the chain of components.
+    /// </summary>
     public class InputInterceptorContainer : Container
     {
+        /// <summary>
+        /// This delegate should return true if input was intercepted, otherwise false.
+        /// </summary>
         public required Predicate<GameActionBatch>? OnInterception { get; set; }
 
         public InputInterceptorContainer() : base() { }

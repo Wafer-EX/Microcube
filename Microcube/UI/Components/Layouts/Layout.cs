@@ -66,6 +66,11 @@ namespace Microcube.UI.Components.Layouts
             FocusableChilds = new List<IFocusable>();
         }
 
+
+        /// <summary>
+        /// Returns all sprites that the layout has as childs.
+        /// </summary>
+        /// <param name="deltaTime"></param>
         public override void Update(float deltaTime)
         {
             foreach (Component? child in Childs)

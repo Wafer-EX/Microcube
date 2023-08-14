@@ -5,10 +5,16 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Layouts
 {
+    /// <summary>
+    /// Represents a stack layout that limits displayed components at the same time.
+    /// </summary>
     public class LimitedStackLayout : StackLayout
     {
         private int displayedOffset = 0;
 
+        /// <summary>
+        /// Count of components that should be displayed.
+        /// </summary>
         public required int DisplayedCount { get; set; }
 
         public LimitedStackLayout() : base() { }

@@ -4,8 +4,14 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Containers
 {
+    /// <summary>
+    /// A container that can display second component as overlay, but don't send input there.
+    /// </summary>
     public class OverlayContainer : Container
     {
+        /// <summary>
+        /// External component to display.
+        /// </summary>
         public required Component? OverlayComponent { get; set; }
 
         public OverlayContainer() : base() { }

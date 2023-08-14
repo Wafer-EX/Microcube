@@ -4,8 +4,14 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Layouts
 {
+    /// <summary>
+    /// The component can do the same as stack layout but here can be applied a weights to childs.
+    /// </summary>
     public class WeightedStackLayout : StackLayout
     {
+        /// <summary>
+        /// Weights of the childs. The count of the weights should match to child count, also they should be 1.0f if sum it.
+        /// </summary>
         public required float[] Weights { get; set; }
 
         public WeightedStackLayout() : base() { }
