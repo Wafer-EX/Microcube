@@ -4,6 +4,9 @@ using Silk.NET.Maths;
 
 namespace Microcube.Game.Blocks
 {
+    /// <summary>
+    /// Represents a player that will be controlled by a... player. I mean who will play this game.
+    /// </summary>
     public class Player : Block
     {
         private readonly Level level;

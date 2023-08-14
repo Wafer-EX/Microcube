@@ -1,13 +1,28 @@
 ﻿namespace Microcube.Graphics.ColorModels
 {
+    /// <summary>
+    /// Represents the RGBA color model.
+    /// </summary>
     public struct RgbaColor
     {
+        /// <summary>
+        /// Red channel. The range is 0..1.
+        /// </summary>
         public float Red { get; set; }
 
+        /// <summary>
+        /// Green channel. The range is 0..1.
+        /// </summary>
         public float Green { get; set; }
 
+        /// <summary>
+        /// Blue channel. The range is 0..1.
+        /// </summary>
         public float Blue { get; set; }
 
+        /// <summary>
+        /// Alpha channel. The range is 0..1.
+        /// </summary>
         public float Alpha { get; set; }
 
         public static RgbaColor Black => new(0.0f, 0.0f, 0.0f, 1.0f);
@@ -24,12 +39,21 @@
             Alpha = a;
         }
 
-        public readonly RgbaColor OffsetHue(float hue)
+        /// <summary>
+        /// Safely offsets hue of the color.
+        /// </summary>
+        /// <param name="offset">Hue offset.</param>
+        /// <returns>RGBA color with offsetted hue.</returns>
+        public readonly RgbaColor OffsetHue(float offset)
         {
             var hsvaColor = (HsvaColor)this;
-            return (RgbaColor)hsvaColor.OffsetHue(hue);
+            return (RgbaColor)hsvaColor.OffsetHue(offset);
         }
 
+        /// <summary>
+        /// Converts this color to HsvaColor.
+        /// </summary>
+        /// <param name="color">RGBA color.</param>
         public static explicit operator HsvaColor(RgbaColor color)
         {
             float r = color.Red;

@@ -4,8 +4,14 @@ using Silk.NET.Maths;
 
 namespace Microcube.Game.Blocks
 {
+    /// <summary>
+    /// Represents an usual ground block that can interact with player as barrier.
+    /// </summary>
     public class Ground : MovableBlock, IDynamic
     {
+        /// <summary>
+        /// Color of the top side.
+        /// </summary>
         public override RgbaColor TopColor
         {
             get
@@ -19,6 +25,9 @@ namespace Microcube.Game.Blocks
 
         public override bool IsBarrier => true;
 
+        /// <summary>
+        /// Color of edges of the block. Shows when the block is moving (but it not influences to data here).
+        /// </summary>
         public RgbaColor EdgesColor { get; set; }
 
         public Ground(Vector3D<float> position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color, moveQueue)
@@ -61,6 +70,14 @@ namespace Microcube.Game.Blocks
             base.Update(deltaTime, level);
         }
 
+        /// <summary>
+        /// Generates a plane of ground block objects.
+        /// </summary>
+        /// <param name="pointA">A first corner of the plane.</param>
+        /// <param name="pointB">A second corner of the plane.</param>
+        /// <param name="height">The height where this plane will be generated</param>
+        /// <param name="color">Color of these blocks.</param>
+        /// <returns>List of blocks from the generated plane.</returns>
         public static IEnumerable<Ground> GeneratePlane(Vector2D<float> pointA, Vector2D<float> pointB, float height, RgbaColor color)
         {
             float minX = MathF.Min(pointA.X, pointB.X);

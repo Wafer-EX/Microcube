@@ -4,12 +4,24 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.Abstractions
 {
+    /// <summary>
+    /// Abstraction of an OpenGL shader program to more easily use in the project.
+    /// </summary>
     public class ShaderProgram : IDisposable
     {
         private readonly GL gl;
-
+        
+        /// <summary>
+        /// Identifier of the shader program.
+        /// </summary>
         public uint Identifier { get; init; }
 
+        /// <summary>
+        /// Creates shader from vertex and fragment shader files.
+        /// </summary>
+        /// <param name="gl">OpenGL context.</param>
+        /// <param name="vertexShaderPath">Vertex shader path.</param>
+        /// <param name="fragmentShaderPath">Fragment shader path.</param>
         public ShaderProgram(GL gl, string vertexShaderPath, string fragmentShaderPath)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
@@ -48,36 +60,64 @@ namespace Microcube.Graphics.Abstractions
             return shader;
         }
 
+        /// <summary>
+        /// Sets the int uniform of the shader.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value">Uniform value.</param>
         public void SetUniform(string name, int value)
         {
             int location = GetLocation(name);
             gl.Uniform1(location, value);
         }
 
+        /// <summary>
+        /// Sets the float uniform of the shader.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value">Uniform value.</param>
         public void SetUniform(string name, float value)
         {
             int location = GetLocation(name);
             gl.Uniform1(location, value);
         }
 
+        /// <summary>
+        /// Sets the vec3 uniform of the shader.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value">Uniform value.</param>
         public void SetUniform(string name, Vector3D<float> value)
         {
             int location = GetLocation(name);
             gl.Uniform3(location, value.ToSystem());
         }
 
+        /// <summary>
+        /// Sets the vec4 uniform of the shader.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="value">Uniform value.</param>
         public void SetUniform(string name, Vector4D<float> value)
         {
             int location = GetLocation(name);
             gl.Uniform4(location, value.ToSystem());
         }
 
+        /// <summary>
+        /// Sets the mat4 uniform of the shader.
+        /// </summary>
+        /// <param name="name">Uniform name.</param>
+        /// <param name="matrix">Uniform value.</param>
         public unsafe void SetUniform(string name, Matrix4X4<float> matrix)
         {
             int location = GetLocation(name);
             gl.UniformMatrix4(location, 1, false, (float*)&matrix);
         }
 
+        /// <summary>
+        /// Use this shader program when render anything.
+        /// </summary>
         public void Use() => gl.UseProgram(Identifier);
 
         public void Dispose()

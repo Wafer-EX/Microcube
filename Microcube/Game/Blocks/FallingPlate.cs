@@ -4,6 +4,9 @@ using Silk.NET.Maths;
 
 namespace Microcube.Game.Blocks
 {
+    /// <summary>
+    /// Represents a block that 
+    /// </summary>
     public class FallingPlate : Block, IDynamic
     {
         private Matrix4X4<float> modelMatrix;
@@ -25,6 +28,9 @@ namespace Microcube.Game.Blocks
             }
         }
 
+        /// <summary>
+        /// Color of the top side of the block.
+        /// </summary>
         public override RgbaColor TopColor
         {
             get

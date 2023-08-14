@@ -8,6 +8,9 @@ namespace Microcube.Game.Blocks
         private RgbaColor topSideColor;
         private readonly bool isCenter;
 
+        /// <summary>
+        /// Color of the top side of the finish.
+        /// </summary>
         public override RgbaColor TopColor
         {
             get
@@ -45,6 +48,12 @@ namespace Microcube.Game.Blocks
             }
         }
 
+        /// <summary>
+        /// Generates a finish plane with finish block at center.
+        /// </summary>
+        /// <param name="position">Position of the finish plane.</param>
+        /// <param name="color">Color of ground block.</param>
+        /// <returns>List of blocks from the generated finish plane.</returns>
         public static IEnumerable<Finish> GenerateFinish(Vector3D<float> position, RgbaColor color)
         {
             for (float x = -1; x <= 1; x++)

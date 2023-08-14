@@ -4,6 +4,9 @@ using Silk.NET.Maths;
 
 namespace Microcube.Game.Blocks
 {
+    /// <summary>
+    /// Represents a block that can be moved by move queue.
+    /// </summary>
     public abstract class MovableBlock : Block, IDynamic
     {
         private Vector3D<float> position;

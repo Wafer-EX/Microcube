@@ -1,13 +1,28 @@
 ﻿namespace Microcube.Graphics.ColorModels
 {
+    /// <summary>
+    /// Represents the HSV color model with extra alpha channel.
+    /// </summary>
     public struct HsvaColor
     {
+        /// <summary>
+        /// Hue of the color. The range is 0..360.
+        /// </summary>
         public float Hue { get; set; }
 
+        /// <summary>
+        /// Saturation of the color. The range is 0..1.
+        /// </summary>
         public float Saturation { get; set; }
 
+        /// <summary>
+        /// Value of the color. The range is 0..1.
+        /// </summary>
         public float Value { get; set; }
 
+        /// <summary>
+        /// Alpha of the color. The range is 0..1.
+        /// </summary>
         public float Alpha { get; set; }
 
         public HsvaColor(float hue, float saturation, float value, float alpha)
@@ -18,9 +33,14 @@
             Alpha = alpha;
         }
 
-        public HsvaColor OffsetHue(float hue)
+        /// <summary>
+        /// Safely offsets hue of this color.
+        /// </summary>
+        /// <param name="offset">Hue offset.</param>
+        /// <returns>HSVA color with offsetted hue.</returns>
+        public HsvaColor OffsetHue(float offset)
         {
-            Hue += hue;
+            Hue += offset;
 
             if (Hue >= 360.0f)
             {
@@ -36,6 +56,10 @@
             return this;
         }
 
+        /// <summary>
+        /// Converts this color to RgbaColor.
+        /// </summary>
+        /// <param name="color">This color</param>
         public static explicit operator RgbaColor(HsvaColor color)
         {
             float h = color.Hue;
