@@ -21,7 +21,7 @@ namespace Microcube.UI.Components
         /// <summary>
         /// The implementation can react to input actions, but it's not necessary.
         /// </summary>
-        /// <param name="actionBatch">Input information</param>
+        /// <param name="actionBatch">Input information.</param>
         public void Input(GameActionBatch actionBatch);
     }
 }

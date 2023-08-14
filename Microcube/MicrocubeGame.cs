@@ -8,6 +8,9 @@ using Silk.NET.Windowing;
 
 namespace Microcube
 {
+    /// <summary>
+    /// Main class of the game.
+    /// </summary>
     public class MicrocubeGame : IDisposable
     {
         private readonly IWindow window;

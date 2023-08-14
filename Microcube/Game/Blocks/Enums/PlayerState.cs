@@ -6,7 +6,7 @@
     public enum PlayerState : byte
     {
         /// <summary>
-        /// Any external force to the player isn't applied except by other blocks (pushing and etc.)
+        /// Any external force to the player isn't applied except by other blocks. (pushing and etc.)
         /// </summary>
         Standing = 1,
 

@@ -10,7 +10,7 @@ namespace Microcube.UI.Components
     public class GlueComponent : Component
     {
         /// <summary>
-        /// Background filling color
+        /// Background filling color. Is transparent by default.
         /// </summary>
         public RgbaColor Color { get; set; }
 

@@ -4,7 +4,7 @@ using Microcube.Input;
 namespace Microcube.UI.Components.Layouts
 {
     /// <summary>
-    /// Represents an component that can display a lot of child components
+    /// Represents an component that can display a lot of child components.
     /// </summary>
     public abstract class Layout : Component, IFocusable, IBackgrounded
     {

@@ -27,7 +27,7 @@ namespace Microcube.Graphics.Abstractions
         /// Attaches texture with the frame buffer.
         /// </summary>
         /// <param name="texture">Texture that should be attached.</param>
-        /// <param name="attachment">Texture attachement</param>
+        /// <param name="attachment">Texture attachement.</param>
         public void AttachTexture(TextureObject texture, FramebufferAttachment attachment)
         {
             gl.FramebufferTexture2D(FramebufferTarget.Framebuffer, attachment, TextureTarget.Texture2D, texture.Identifier, 0);

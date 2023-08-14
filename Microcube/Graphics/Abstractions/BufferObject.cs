@@ -5,7 +5,7 @@ namespace Microcube.Graphics.Abstractions
     /// <summary>
     /// Represents an OpenGL buffer object abstraction to more easily use in the project.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of data.</typeparam>
     public class BufferObject<T> : IDisposable where T : unmanaged
     {
         private readonly GL gl;

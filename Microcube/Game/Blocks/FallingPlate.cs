@@ -5,7 +5,7 @@ using Silk.NET.Maths;
 namespace Microcube.Game.Blocks
 {
     /// <summary>
-    /// Represents a block that 
+    /// Represents a block that can fall when player is stepped on it.
     /// </summary>
     public class FallingPlate : Block, IDynamic
     {

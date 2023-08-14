@@ -36,7 +36,7 @@ namespace Microcube.Graphics
         public float FieldOfView { get; set; }
 
         /// <summary>
-        /// Aspect ratio of the camera
+        /// Aspect ratio of the camera.
         /// </summary>
         public float AspectRatio { get; set; }
 

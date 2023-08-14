@@ -9,7 +9,7 @@ namespace Microcube.Graphics.ScreenEffects
     public abstract class ScreenEffect : IDisposable
     {
         // TODO: maybe I can set some attributes to new poperties in child classes
-        // and analyze and set it here in the setup method
+        // and analyze and set it here in the setup method.
 
         /// <summary>
         /// Shader program that is used when rendering.
@@ -25,7 +25,7 @@ namespace Microcube.Graphics.ScreenEffects
         /// <summary>
         /// Prepare this screen effect to render.
         /// </summary>
-        /// <param name="texture">Texture that should be rendered (like from render target and etc.)</param>
+        /// <param name="texture">Texture that should be rendered. (like from render target and etc.)</param>
         public abstract void Setup(TextureObject texture);
 
         public void Dispose()

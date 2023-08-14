@@ -6,8 +6,8 @@ using Silk.NET.OpenGL;
 namespace Microcube.Graphics.Raster
 {
     /// <summary>
-    /// Represents an texture object abstraction that can display
-    /// specific area of the texture, can be colored, scaled, rotated and etc...
+    /// Represents an texture object abstraction that can display specific area of the texture,
+    /// can be colored, scaled, rotated and etc...
     /// </summary>
     public struct Sprite
     {
@@ -98,7 +98,7 @@ namespace Microcube.Graphics.Raster
         /// <summary>
         /// Gets data that is ready to use in a shader that is made to render these sprites.
         /// </summary>
-        /// <returns>Data to use in a shader</returns>
+        /// <returns>Data to use in a shader.</returns>
         public readonly float[] GetData()
         {
             float uvStartX = TextureArea.Origin.X / Texture?.Width ?? 1.0f;

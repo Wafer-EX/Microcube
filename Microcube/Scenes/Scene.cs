@@ -13,7 +13,7 @@ namespace Microcube.Scenes
     public abstract class Scene : IDisposable
     {
         /// <summary>
-        /// OpenGL context
+        /// OpenGL context.
         /// </summary>
         protected GL GL { get; set; }
 

@@ -29,7 +29,7 @@ namespace Microcube.Graphics.Raster
         /// <summary>
         /// Loads texture atlas from the file.
         /// </summary>
-        /// <param name="gl">OpenGL context</param>
+        /// <param name="gl">OpenGL context.</param>
         /// <param name="texturePath">Path to the texture that is associated to the texture atlas.</param>
         /// <param name="atlasPath">Path to the xml file with all info about this texture atlas.</param>
         public TextureAtlas(GL gl, string texturePath, string atlasPath)

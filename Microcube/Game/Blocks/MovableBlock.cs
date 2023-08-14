@@ -19,6 +19,9 @@ namespace Microcube.Game.Blocks
             set => position = value;
         }
 
+        /// <summary>
+        /// Move queue of the block that will move this block.
+        /// </summary>
         public MoveQueue? MoveQueue { get; private set; }
 
         public MovableBlock(Vector3D<float> position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color)

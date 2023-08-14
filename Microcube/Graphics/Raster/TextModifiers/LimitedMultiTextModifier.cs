@@ -5,8 +5,14 @@
     /// </summary>
     public class LimitedMultiTextModifier : MultiTextModifier
     {
+        /// <summary>
+        /// The first character that will be modified (include this).
+        /// </summary>
         public int Start { get; set; }
 
+        /// <summary>
+        /// The last character that will be modifier (indlude this).
+        /// </summary>
         public int End { get; set; }
 
         public LimitedMultiTextModifier(int start, int end, params ITextModifier[] modifiers) : base(modifiers)

@@ -132,7 +132,13 @@ namespace Microcube.Game
             }
         }
 
-
+        /// <summary>
+        /// It's used to check is player has something in bottom or not.
+        /// </summary>
+        /// <param name="posX">Position X to check</param>
+        /// <param name="posZ">Position Z to check</param>
+        /// <param name="height">Restriction on Y coorditane.</param>
+        /// <returns></returns>
         public Block? GetHighestBarrierFromHeight(float posX, float posZ, float height)
         {
             // TODO: refactor?

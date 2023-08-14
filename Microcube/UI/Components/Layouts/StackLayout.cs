@@ -60,7 +60,7 @@ namespace Microcube.UI.Components.Layouts
         /// <param name="displayedArea">Displayed area of the component.</param>
         /// <param name="componentCount">Count of childs of this component.</param>
         /// <param name="index">Index of child.</param>
-        /// <returns>Displayed area of specific child</returns>
+        /// <returns>Displayed area of specific child.</returns>
         protected Rectangle<float> GetComponentDisplayedArea(Rectangle<float> displayedArea, int componentCount, int index)
         {
             float positionX = displayedArea.Origin.X;
@@ -81,7 +81,7 @@ namespace Microcube.UI.Components.Layouts
         /// Returns sprites of specific set of components. Is useful to render only small count of childs.
         /// </summary>
         /// <param name="displayedArea">Displayed area of the component.</param>
-        /// <param name="components">All components that should be displayed</param>
+        /// <param name="components">All components that should be displayed.</param>
         /// <returns>Sprites of these components.</returns>
         protected virtual IEnumerable<Sprite> GetSpritesOfTheseComponents(Rectangle<float> displayedArea, IReadOnlyList<Component?> components)
         {

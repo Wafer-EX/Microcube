@@ -63,7 +63,7 @@ namespace Microcube.Graphics.Raster
         /// Get width of the most wide stroke in the text.
         /// </summary>
         /// <param name="text">The text which width should be calculated.</param>
-        /// <returns>Width of the text</returns>
+        /// <returns>Width of the text.</returns>
         public float GetTextWidth(string text)
         {
             string[] splittedText = text.Split('\n');

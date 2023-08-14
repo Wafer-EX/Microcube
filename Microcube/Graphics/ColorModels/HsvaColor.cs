@@ -59,7 +59,7 @@
         /// <summary>
         /// Converts this color to RgbaColor.
         /// </summary>
-        /// <param name="color">This color</param>
+        /// <param name="color">This color.</param>
         public static explicit operator RgbaColor(HsvaColor color)
         {
             float h = color.Hue;

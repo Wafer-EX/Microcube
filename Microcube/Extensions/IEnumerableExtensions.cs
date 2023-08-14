@@ -7,8 +7,8 @@ namespace Microcube.Extensions
         /// <summary>
         /// Converts sprite collection to shader data.
         /// </summary>
-        /// <param name="sprites">Sprites collection that must me converted to shader data</param>
-        /// <returns>Shader data</returns>
+        /// <param name="sprites">Sprites collection that must me converted to shader data.</param>
+        /// <returns>Shader data.</returns>
         public static float[] ToSpriteData(this IEnumerable<Sprite> sprites)
         {
             var spriteData = new List<float>(sprites.Count() * 48);

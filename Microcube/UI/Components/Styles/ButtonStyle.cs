@@ -14,8 +14,7 @@ namespace Microcube.UI.Components.Styles
         public required RgbaColor TextColor { get; set; }
 
         /// <summary>
-        /// Color of filling of button space, i.e. background color
-        /// (button fills all available space as each component)
+        /// Color of filling of button space, i.e. background color. (button fills all available space as each component)
         /// </summary>
         public required RgbaColor BackgroundColor { get; set; }
 

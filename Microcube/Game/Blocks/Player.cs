@@ -103,6 +103,9 @@ namespace Microcube.Game.Blocks
         }
 
         // TODO: add acceleration and limit by max energy
+        /// <summary>
+        /// Energy of the block, I would say it represents a player speed.
+        /// </summary>
         public float Energy { get; set; }
 
         public Player(Vector3D<float> startPosition, RgbaColor color, Level level) : base(startPosition, color)
@@ -115,7 +118,7 @@ namespace Microcube.Game.Blocks
         }
 
         /// <summary>
-        /// 
+        /// When it called, player is moving if it isn't blocked by the state or something like that.
         /// </summary>
         /// <param name="isReversed">Is change direction from forward to otherwise.</param>
         /// <param name="changeAxis">Is change axis from Z to X.</param>
@@ -136,7 +139,7 @@ namespace Microcube.Game.Blocks
         /// Just pushes player, it's not the same to change position.
         /// It should be used when different block pushes this player.
         /// </summary>
-        /// <param name="offset">Offset of the player</param>
+        /// <param name="offset">Offset of the player.</param>
         public void Push(Vector3D<float> offset)
         {
             Position += offset;
@@ -225,7 +228,7 @@ namespace Microcube.Game.Blocks
         /// <summary>
         /// Processes new position like when player was stepped to this position.
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">New position.</param>
         public void ProcessPosition(Vector3D<float> position)
         {
             innerOffset = 0.0f;

@@ -6,7 +6,7 @@ using Silk.NET.Maths;
 namespace Microcube.UI
 {
     /// <summary>
-    /// It's an entry point to any UI
+    /// It's an entry point to any UI.
     /// </summary>
     public class UIContext : IDisposable
     {
@@ -43,15 +43,15 @@ namespace Microcube.UI
         }
 
         /// <summary>
-        /// Recursively updates all childs of the UI
+        /// Recursively updates all childs of the UI.
         /// </summary>
-        /// <param name="deltaTime">Speed of frame update</param>
+        /// <param name="deltaTime">Speed of frame update.</param>
         public void Update(float deltaTime) => Child?.Update(deltaTime);
 
         /// <summary>
         /// Recursively sends input to child components.
         /// </summary>
-        /// <param name="actionBatch">All input information</param>
+        /// <param name="actionBatch">All input information.</param>
         public void Input(GameActionBatch actionBatch)
         {
             if (Child is IFocusable focusable)
@@ -61,7 +61,7 @@ namespace Microcube.UI
         /// <summary>
         /// Recursively gets all sprites and primitives of child components that are ready to draw.
         /// </summary>
-        /// <returns>Sprites and primitives of child components</returns>
+        /// <returns>Sprites and primitives of child components.</returns>
         public IEnumerable<Sprite> GetSprites()
         {
             if (Child == null)

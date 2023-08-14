@@ -50,7 +50,7 @@ namespace Microcube.Graphics
         /// Fit square with specific resolution to the center of the viewport.
         /// </summary>
         /// <param name="width">Width of the square.</param>
-        /// <param name="height">Height of the square</param>
+        /// <param name="height">Height of the square.</param>
         /// <returns>Fitted square at center of the viewport.</returns>
         public Rectangle<float> FitToCenter(float width, float height)
         {

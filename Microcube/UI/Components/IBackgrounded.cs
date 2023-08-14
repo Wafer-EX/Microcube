@@ -8,7 +8,7 @@ namespace Microcube.UI.Components
     public interface IBackgrounded
     {
         /// <summary>
-        /// Color to fill background of the component
+        /// Color to fill background of the component.
         /// </summary>
         public RgbaColor BackgroundColor { get; set; }
     }

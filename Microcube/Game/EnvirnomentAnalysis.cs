@@ -8,11 +8,11 @@ namespace Microcube.Game
         /// <summary>
         /// Compares positions of the first block and the second block that acts as a barrier.
         /// </summary>
-        /// <param name="blockPosition">Block position</param>
-        /// <param name="barrierPosition">Barrier position</param>
-        /// <param name="isReversed">Is change axis direction to opposite</param>
-        /// <param name="changeAxis">Is change axis from Z to X</param>
-        /// <returns>Barrier</returns>
+        /// <param name="blockPosition">Block position.</param>
+        /// <param name="barrierPosition">Barrier position.</param>
+        /// <param name="isReversed">Is change axis direction to opposite.</param>
+        /// <param name="changeAxis">Is change axis from Z to X.</param>
+        /// <returns>Player barrier in forward.</returns>
         public static PlayerBarrier GetSingleBarrierFromPosition(Vector3D<float> blockPosition, Vector3D<float> barrierPosition, bool isReversed, bool changeAxis)
         {
             float blockAxis = barrierPosition.Z;
@@ -60,11 +60,11 @@ namespace Microcube.Game
         /// <summary>
         /// Compares positions of the first block and the all blocks in the collection that acts as a barrier.
         /// </summary>
-        /// <param name="blockPosition">Block position</param>
-        /// <param name="barrierPositions">List of barrier positions</param>
-        /// <param name="isReversed">Is change axis direction to opposite</param>
-        /// <param name="changeAxis">Is change axis from Z to X</param>
-        /// <returns></returns>
+        /// <param name="blockPosition">Block position.</param>
+        /// <param name="barrierPositions">List of barrier positions.</param>
+        /// <param name="isReversed">Is change axis direction to opposite.</param>
+        /// <param name="changeAxis">Is change axis from Z to X.</param>
+        /// <returns>Final barrier that conside all blocks around.</returns>
         public static PlayerBarrier GetGlobalBarrierFromPosition(Vector3D<float> blockPosition, IEnumerable<Vector3D<float>> barrierPositions, bool isReversed, bool changeAxis)
         {
             PlayerBarrier finalforwardBarrier = PlayerBarrier.Nothing;

@@ -57,7 +57,7 @@ namespace Microcube.Parsing
         /// Get all content of the level, all blocks, all move queues...
         /// </summary>
         /// <param name="path">Path to level xml file.</param>
-        /// <returns>Level content</returns>
+        /// <returns>Level content.</returns>
         public static LevelContent Parse(string path)
         {
             var groundColor = new RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);
