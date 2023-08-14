@@ -5,16 +5,36 @@ using System.Xml;
 
 namespace Microcube.Graphics.Raster
 {
+    /// <summary>
+    /// Represents a texture atlas object that should be loaded from a file.
+    /// </summary>
+    /// <typeparam name="T">Type of sprite identifier.</typeparam>
     public class TextureAtlas<T> : IDisposable where T : notnull
     {
+        /// <summary>
+        /// All sprites that was parsed from a xml file.
+        /// </summary>
         protected Dictionary<T, Sprite> Sprites { get; init; }
 
+        /// <summary>
+        /// All additional info that was added to the section in xml file.
+        /// </summary>
         protected Dictionary<string, string> AdditionalInfo { get; init; }
 
+        /// <summary>
+        /// Texture that is associated with the texture atlas.
+        /// </summary>
         public TextureObject Texture { get; init; }
 
+        /// <summary>
+        /// Loads texture atlas from the file.
+        /// </summary>
+        /// <param name="gl">OpenGL context</param>
+        /// <param name="texturePath">Path to the texture that is associated to the texture atlas.</param>
+        /// <param name="atlasPath">Path to the xml file with all info about this texture atlas.</param>
         public TextureAtlas(GL gl, string texturePath, string atlasPath)
         {
+            // I'm not sure how I should throw and process exceptions in this constructor so I haven't made it.
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
 
             Sprites = new Dictionary<T, Sprite>();
@@ -74,6 +94,13 @@ namespace Microcube.Graphics.Raster
             }
         }
 
+        /// <summary>
+        /// Get sprite from the texture atlas by the identifier. Sets specific position because they are
+        /// don't defined in the xml file.
+        /// </summary>
+        /// <param name="identifier">Identifier of the sprite.</param>
+        /// <param name="position">Position of the sprite where it will be displayed.</param>
+        /// <returns>Sprite from the texture atlas.</returns>
         public Sprite GetSprite(T identifier, Vector2D<float> position)
         {
             Sprite sprite = Sprites[identifier];

@@ -6,20 +6,44 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.Raster
 {
+    /// <summary>
+    /// Abstraction on texture atlas, adds more features to render sprites as text, works only with a char identifiers.
+    /// </summary>
     public class BitmapFont : TextureAtlas<char>
     {
+        /// <summary>
+        /// Global position of the font. Can be changed by UI.
+        /// </summary>
         public Vector2D<float> Position { get; set; }
 
+        /// <summary>
+        /// Global color of the font. Can be changed by UI.
+        /// </summary>
         public RgbaColor Color { get; set; }
 
+        /// <summary>
+        /// Global scale of the font.
+        /// </summary>
         public float Scale { get; set; }
 
+        /// <summary>
+        /// Distance between characters.
+        /// </summary>
         public float Tracking { get; set; }
 
+        /// <summary>
+        /// Distance betweed strokes.
+        /// </summary>
         public float Leading { get; set; }
 
+        /// <summary>
+        /// Distance between words.
+        /// </summary>
         public float WordSpacing { get; set; }
 
+        /// <summary>
+        /// Global text modifier. Can be changed by UI.
+        /// </summary>
         public ITextModifier? TextModifier { get; set; }
 
         public BitmapFont(GL gl, string texturePath, string atlasPath) : base(gl, texturePath, atlasPath)
@@ -35,6 +59,11 @@ namespace Microcube.Graphics.Raster
 
         public void Update(float deltaTime) => TextModifier?.Update(deltaTime);
 
+        /// <summary>
+        /// Get width of the most wide stroke in the text.
+        /// </summary>
+        /// <param name="text">The text which width should be calculated.</param>
+        /// <returns>Width of the text</returns>
         public float GetTextWidth(string text)
         {
             string[] splittedText = text.Split('\n');
@@ -57,12 +86,23 @@ namespace Microcube.Graphics.Raster
             return width;
         }
 
+        /// <summary>
+        /// Get height of the text.
+        /// </summary>
+        /// <param name="text">The text which height should be getted.</param>
+        /// <returns>Height of the text.</returns>
         public float GetTextHeight(string text)
         {
             string[] splittedText = text.Split('\n');
             return splittedText.Length * Leading;
         }
 
+        /// <summary>
+        /// Get the text as a set of sprites to render it somewhere with specific position.
+        /// </summary>
+        /// <param name="text">Text that should be rendered.</param>
+        /// <param name="specificPosition">Specific position of the text.</param>
+        /// <returns>Sprites of the characters in the text.</returns>
         public IEnumerable<Sprite> GetSprites(string text, Vector2D<float> specificPosition)
         {
             if (text.Length == 0)
@@ -98,8 +138,21 @@ namespace Microcube.Graphics.Raster
             }
         }
 
+        /// <summary>
+        /// Get the text as a set of sprites to render it somewhere with global position.
+        /// </summary>
+        /// <param name="text">Text that should be rendered.</param>
+        /// <returns>Sprites of the characters in the text.</returns>
         public IEnumerable<Sprite> GetSprites(string text) => GetSprites(text, Position);
 
+        /// <summary>
+        /// Get the text as a set of sprites to render it somewhere with aligned position inside specific area.
+        /// </summary>
+        /// <param name="text">Text that should be rendered.</param>
+        /// <param name="specificArea">Specific area where the text will be in.</param>
+        /// <param name="horizontalAlignment">Horizontal alignment of the text.</param>
+        /// <param name="verticalAlignment">Vertical alignment of the text.</param>
+        /// <returns>Sprites of the characters in the text.</returns>
         public IEnumerable<Sprite> GetSprites(string text, Rectangle<float> specificArea, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Top)
         {
             // TODO: refactor this?

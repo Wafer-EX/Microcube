@@ -7,6 +7,9 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.Renderers
 {
+    /// <summary>
+    /// Renders a level.
+    /// </summary>
     public class LevelRenderer : Renderer<Level, Camera3D>, IDisposable
     {
         private readonly VertexArrayObject blockVao;

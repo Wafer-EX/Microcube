@@ -6,8 +6,16 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.Renderers
 {
+    /// <summary>
+    /// Represents a batch of sprites with the same texture.
+    /// </summary>
+    /// <param name="Texture">Texture of these sprites.</param>
+    /// <param name="Sprites">Sprites in the batch.</param>
     public record SpriteBatch(TextureObject? Texture, IEnumerable<Sprite> Sprites);
 
+    /// <summary>
+    /// Renders a sprite set.
+    /// </summary>
     public class SpriteRenderer : Renderer<IEnumerable<Sprite>, Camera2D>, IDisposable
     {
         private readonly VertexArrayObject spriteVao;

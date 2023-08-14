@@ -1,5 +1,8 @@
 ﻿namespace Microcube.Graphics.Raster.TextModifiers
 {
+    /// <summary>
+    /// Represents a text modifier that can combine many text modifiers in this one.
+    /// </summary>
     public class MultiTextModifier : ITextModifier
     {
         private readonly ITextModifier[] modifiers;

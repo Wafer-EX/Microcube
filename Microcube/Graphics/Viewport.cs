@@ -3,14 +3,29 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics
 {
+    /// <summary>
+    /// Represents an main viewport info, the area of the window.
+    /// </summary>
     public class Viewport
     {
+        /// <summary>
+        /// OpenGL context.
+        /// </summary>
         public GL GLContext { get; set; }
 
+        /// <summary>
+        /// Width of the viewport.
+        /// </summary>
         public uint Width { get; set; }
 
+        /// <summary>
+        /// Height of the viewport.
+        /// </summary>
         public uint Height { get; set; }
 
+        /// <summary>
+        /// Aspect ratio of the viewport.
+        /// </summary>
         public float AspectRatio => (float)Width / Height;
 
         public Viewport(GL gl, uint width, uint height)
@@ -22,11 +37,21 @@ namespace Microcube.Graphics
             Height = height;
         }
 
+        /// <summary>
+        /// Get camera of the viewport to render something using it.
+        /// </summary>
+        /// <returns>Camera of the viewport.</returns>
         public Camera2D GetCamera()
         {
             return new Camera2D(Width, Height);
         }
 
+        /// <summary>
+        /// Fit square with specific resolution to the center of the viewport.
+        /// </summary>
+        /// <param name="width">Width of the square.</param>
+        /// <param name="height">Height of the square</param>
+        /// <returns>Fitted square at center of the viewport.</returns>
         public Rectangle<float> FitToCenter(float width, float height)
         {
             float scaleFactor = MathF.Min(Width / width, Height / height);

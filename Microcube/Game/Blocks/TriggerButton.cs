@@ -4,10 +4,16 @@ using Silk.NET.Maths;
 
 namespace Microcube.Game.Blocks
 {
+    /// <summary>
+    /// Represents a button on the ground that can be pressed by player and start move queue.
+    /// </summary>
     public class TriggerButton : Block, IDynamic
     {
         private readonly MoveQueue moveQueue;
 
+        /// <summary>
+        /// Is the button pressed at this moment or not.
+        /// </summary>
         public bool IsPressed { get; private set; }
 
         // TODO: add second constructor with other trigger button? (to unpress)

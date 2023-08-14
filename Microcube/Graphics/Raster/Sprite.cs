@@ -5,22 +5,47 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.Raster
 {
-    // TODO: should I refactor this class?
+    /// <summary>
+    /// Represents an texture object abstraction that can display
+    /// specific area of the texture, can be colored, scaled, rotated and etc...
+    /// </summary>
     public struct Sprite
     {
+        /// <summary>
+        /// Original texture object that will be displayed.
+        /// </summary>
         public TextureObject? Texture { get; set; }
 
+        /// <summary>
+        /// Specific area on a viewport to that the texture will be stretched.
+        /// </summary>
         public Rectangle<float> ViewportArea { get; set; }
 
+        /// <summary>
+        /// Specific area of the texture object that will be displayed in the viewport area.
+        /// </summary>
         public Rectangle<float> TextureArea { get; set; }
 
+        /// <summary>
+        /// Color of the texture. The texture pixel colors will be multiplied to the color.
+        /// </summary>
         public RgbaColor Color { get; set; }
 
+        /// <summary>
+        /// Scale of the texture. Anchor point is center of the texture. Is 1.0f by default.
+        /// </summary>
         public float Scale { get; set; }
 
+        /// <summary>
+        /// Rotation of the texture. Is 0.0f by default.
+        /// </summary>
         public float Rotation { get; set; }
 
-        // It's used in empty component as a test
+        /// <summary>
+        /// Creates an empty sprite that will be displayed just as color on the displayed area.
+        /// </summary>
+        /// <param name="viewportArea">Displayed area of the sprite.</param>
+        /// <param name="color">Color that will be displayed in the displayed area.</param>
         public Sprite(Rectangle<float> viewportArea, RgbaColor color)
         {
             Texture = null;
@@ -32,6 +57,12 @@ namespace Microcube.Graphics.Raster
             Rotation = 0.0f;
         }
 
+        /// <summary>
+        /// Creates a sprite with ready to render texture.
+        /// </summary>
+        /// <param name="texture">Ready to render texture.</param>
+        /// <param name="viewportArea">Viewport area of the sprite.</param>
+        /// <param name="textureArea">Area of the texture that will be rendered in the viewport area.</param>
         public Sprite(TextureObject? texture, Rectangle<float> viewportArea, Rectangle<float> textureArea)
         {
             Texture = texture;
@@ -43,6 +74,11 @@ namespace Microcube.Graphics.Raster
             Rotation = 0.0f;
         }
 
+        /// <summary>
+        /// Creates a sprite from texture file.
+        /// </summary>
+        /// <param name="gl">OpenGL context.</param>
+        /// <param name="texturePath">Texture path.</param>
         public Sprite(GL gl, string texturePath)
         {
             Texture = new TextureObject(gl, texturePath);
@@ -59,6 +95,10 @@ namespace Microcube.Graphics.Raster
             Rotation = 0.0f;
         }
 
+        /// <summary>
+        /// Gets data that is ready to use in a shader that is made to render these sprites.
+        /// </summary>
+        /// <returns>Data to use in a shader</returns>
         public readonly float[] GetData()
         {
             float uvStartX = TextureArea.Origin.X / Texture?.Width ?? 1.0f;

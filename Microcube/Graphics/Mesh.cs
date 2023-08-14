@@ -1,13 +1,27 @@
 ﻿namespace Microcube.Graphics
 {
+    /// <summary>
+    /// Represent a mesh that include vertices data.
+    /// </summary>
     public class Mesh
     {
+        /// <summary>
+        /// Vertices of the mesh.
+        /// </summary>
         public float[] Vertices { get; private set; }
 
+        /// <summary>
+        /// Count of the vertices of the mesh.
+        /// </summary>
         public uint VerticesCount { get; private set; }
 
         protected Mesh() => Vertices = Array.Empty<float>();
 
+        /// <summary>
+        /// Creates textured cube with positions, normals and texture coordinates (uv).
+        /// </summary>
+        /// <param name="scale">Scale of the cube.</param>
+        /// <returns>Mesh of the cube.</returns>
         public static Mesh CreateTexturedCube(float scale)
         {
             float halfScale = scale / 2;

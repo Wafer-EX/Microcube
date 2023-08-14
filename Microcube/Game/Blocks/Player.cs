@@ -43,8 +43,14 @@ namespace Microcube.Game.Blocks
             private protected set => base.IsRender = value;
         }
 
+        /// <summary>
+        /// Position what will be setted when player will be died or a level will be started.
+        /// </summary>
         public Vector3D<float> StartPosition { get; set; }
 
+        /// <summary>
+        /// Fake position of the player that takes into account it's inner offset
+        /// </summary>
         public Vector3D<float> OffsettedPosition
         {
             get
@@ -74,6 +80,9 @@ namespace Microcube.Game.Blocks
             }
         }
 
+        /// <summary>
+        /// Next position that's expected when player will do step.
+        /// </summary>
         public Vector3D<float> NextPosition
         {
             get
@@ -105,6 +114,11 @@ namespace Microcube.Game.Blocks
             Energy = 1.5f;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="isReversed">Is change direction from forward to otherwise.</param>
+        /// <param name="changeAxis">Is change axis from Z to X.</param>
         public void Move(bool isReversed, bool changeAxis)
         {
             if (state != PlayerState.Falling)
@@ -118,6 +132,11 @@ namespace Microcube.Game.Blocks
             }
         }
 
+        /// <summary>
+        /// Just pushes player, it's not the same to change position.
+        /// It should be used when different block pushes this player.
+        /// </summary>
+        /// <param name="offset">Offset of the player</param>
         public void Push(Vector3D<float> offset)
         {
             Position += offset;
@@ -126,6 +145,7 @@ namespace Microcube.Game.Blocks
 
         public void Update(float deltaTime)
         {
+            // TODO: something is wrong with velocity on different framerates
             velocity += velocity * (mass * gravity) * deltaTime;
             Color = (RgbaColor)((HsvaColor)Color).OffsetHue(Energy * 240.0f * deltaTime);
 
@@ -202,6 +222,10 @@ namespace Microcube.Game.Blocks
             isPushed = false;
         }
 
+        /// <summary>
+        /// Processes new position like when player was stepped to this position.
+        /// </summary>
+        /// <param name="position"></param>
         public void ProcessPosition(Vector3D<float> position)
         {
             innerOffset = 0.0f;
@@ -215,6 +239,13 @@ namespace Microcube.Game.Blocks
                 state = PlayerState.Falling;
         }
 
+        /// <summary>
+        /// Get player model matrix when it's moving forward.
+        /// </summary>
+        /// <param name="offset">Inner offset of the player.</param>
+        /// <param name="barrier">A barrier forward player.</param>
+        /// <param name="changeAxis">Is change axis from Z to X.</param>
+        /// <returns>Player model matrix</returns>
         public static Matrix4X4<float> CalculateMovingMatrix(float offset, PlayerBarrier barrier, bool changeAxis)
         {
             float translateY = 0.5f, translateZ = -MathF.CopySign(0.5f, offset);

@@ -5,6 +5,9 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics
 {
+    /// <summary>
+    /// Abstraction on OpenGL frame buffer, can be used to render there something like in texture.
+    /// </summary>
     public class RenderTarget : IDisposable
     {
         private readonly GL gl;
@@ -13,16 +16,34 @@ namespace Microcube.Graphics
         private readonly BufferObject<float> screenQuadVbo;
         private readonly FramebufferObject framebuffer;
 
+        /// <summary>
+        /// Color texture that represents colors of vertices.
+        /// </summary>
         public TextureObject ColorTexture { get; init; }
 
+        /// <summary>
+        /// Combine depth and stencil textures in the same object.
+        /// </summary>
         public TextureObject DepthStencilTexture { get; init; }
 
+        /// <summary>
+        /// Screen effect that can change final output.
+        /// </summary>
         public ScreenEffect ScreenEffect { get; set; }
 
+        /// <summary>
+        /// Width of the render target.
+        /// </summary>
         public uint Width { get; init; }
 
+        /// <summary>
+        /// Height of the render target.
+        /// </summary>
         public uint Height { get; init; }
 
+        /// <summary>
+        /// Identifier of the frame buffer that was generated inside this render target.
+        /// </summary>
         public uint Framebuffer => framebuffer.Identifier;
 
         public RenderTarget(GL gl, uint width, uint height, ScreenEffect? screenEffect = null)
@@ -65,13 +86,23 @@ namespace Microcube.Graphics
             screenQuadVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, sizeof(float) * 2);
         }
 
+        /// <summary>
+        /// Use this render target to render there something.
+        /// </summary>
         public void Use()
         {
             gl.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer.Identifier);
             gl.Viewport(0, 0, Width, Height);
         }
 
-        //public void Render(uint framebuffer, uint width, uint height, int x = 0, int y = 0)
+        /// <summary>
+        /// Render this render target to specific frame buffer. Lets to draw render targets to each other.
+        /// </summary>
+        /// <param name="framebuffer">Specific frame buffer.</param>
+        /// <param name="x">X coordinate in the viewport.</param>
+        /// <param name="y">X coordinate in the viewport.</param>
+        /// <param name="width">Width in the viewport.</param>
+        /// <param name="height">Height in the viewport.</param>
         public void Render(uint framebuffer, int x, int y, uint width, uint height)
         {
             gl.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
@@ -82,6 +113,11 @@ namespace Microcube.Graphics
             gl.DrawArrays(PrimitiveType.Triangles, 0, screenQuadVbo.Count);
         }
 
+        /// <summary>
+        /// Render this render target to specific frame buffer. Lets to draw render targets to each other.
+        /// </summary>
+        /// <param name="frameBuffer">Specific frame buffer.</param>
+        /// <param name="displayedArea">Displayed area in the viewport.</param>
         public void Render(uint frameBuffer, Rectangle<float> displayedArea)
         {
             Render(frameBuffer, (int)displayedArea.Origin.X, (int)displayedArea.Origin.Y, (uint)displayedArea.Size.X, (uint)displayedArea.Size.Y);

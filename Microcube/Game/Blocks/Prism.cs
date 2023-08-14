@@ -3,10 +3,16 @@ using Silk.NET.Maths;
 
 namespace Microcube.Game.Blocks
 {
+    /// <summary>
+    /// Represents a prism that can be collected by player
+    /// </summary>
     public class Prism : Block, IDynamic
     {
         private float elapsedTime = 0.0f;
 
+        /// <summary>
+        /// Shows is the prism was collected.
+        /// </summary>
         public bool IsCollected { get; private set; }
 
         public Prism(Vector3D<float> position) : base(position, new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f)) { }

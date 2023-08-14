@@ -1,5 +1,8 @@
 ﻿namespace Microcube.Graphics.Raster.TextModifiers
 {
+    /// <summary>
+    /// Represents a text modifier that can combine many text modifiers and apply it to specific range of characters of the text.
+    /// </summary>
     public class LimitedMultiTextModifier : MultiTextModifier
     {
         public int Start { get; set; }

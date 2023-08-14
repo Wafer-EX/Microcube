@@ -2,6 +2,9 @@
 
 namespace Microcube.Input
 {
+    /// <summary>
+    /// Represents a Silk.NET keyboards abstractions with extra methods.
+    /// </summary>
     public class KeyboardManager
     {
         private readonly IReadOnlyList<IKeyboard> keyboards;
@@ -27,12 +30,31 @@ namespace Microcube.Input
             }
         }
 
+        /// <summary>
+        /// Shows is the key was clicked at the first time in the frame.
+        /// </summary>
+        /// <param name="key">Key to check</param>
+        /// <returns>Is this key was clicked.</returns>
         public bool IsKeyClicked(Key key) => pressedKeys.Contains(key) && !repeatedKeys.Contains(key);
 
+        /// <summary>
+        /// Shows is the key pressed in the frame.
+        /// </summary>
+        /// <param name="key">Key to check</param>
+        /// <returns>Is this key was pressed (holded).</returns>
         public bool IsKeyPressed(Key key) => pressedKeys.Contains(key);
 
+        /// <summary>
+        /// Shows is the key was pressed not in the first time in the frame..
+        /// </summary>
+        /// <param name="key">Key to check</param>
+        /// <returns>Is this key was repeated.</returns>
         public bool IsKeyRepeated(Key key) => repeatedKeys.Contains(key);
 
+        /// <summary>
+        /// Converts all key presses into game actions.
+        /// </summary>
+        /// <returns>Game actions</returns>
         public IEnumerable<GameActionInfo> GetActions()
         {
             foreach (Key key in pressedKeys)
@@ -62,7 +84,9 @@ namespace Microcube.Input
             }
         }
 
-        // Should be called after all
+        /// <summary>
+        /// Updated info of pressed keys. Should be called at end.
+        /// </summary>
         public void Update()
         {
             foreach (Key key in pressedKeys)
