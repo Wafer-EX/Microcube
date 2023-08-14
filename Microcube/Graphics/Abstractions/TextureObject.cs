@@ -77,7 +77,8 @@ namespace Microcube.Graphics.Abstractions
         /// <summary>
         /// Binds texture to the unit. It means that if the unit is Texture0,
         /// we will get the texture from sampler in a shader when the sampler's
-        /// value is 0 (it's can be setted as usual int uniform)
+        /// value is 0 (it's can be setted as usual int uniform).
+        /// It's like global flag.
         /// </summary>
         /// <param name="unit">Unit to bind the texture.</param>
         public void Bind(TextureUnit unit = TextureUnit.Texture0)

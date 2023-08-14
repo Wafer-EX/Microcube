@@ -8,11 +8,18 @@ namespace Microcube.Parsing
 {
     public record LevelContent(string Name, Block[] Blocks, MoveQueue[] MoveQueues, Vector3D<float> StartPosition);
 
+    /// <summary>
+    /// Represents a set of methods to parse level and get info about it.
+    /// </summary>
     public static class LevelParser
     {
-        // TODO: refactor this?
+        /// <summary>
+        /// Get only levels info, not include levels data.
+        /// </summary>
+        /// <returns>A set of levels info.</returns>
         public static IEnumerable<LevelInfo> GetLevels()
         {
+            // TODO: refactor this?
             var levelList = new List<LevelInfo>();
 
             foreach (string levelPath in Directory.GetFiles("Resources/levels/"))
@@ -46,6 +53,11 @@ namespace Microcube.Parsing
             return levelList;
         }
 
+        /// <summary>
+        /// Get all content of the level, all blocks, all move queues...
+        /// </summary>
+        /// <param name="path">Path to level xml file.</param>
+        /// <returns>Level content</returns>
         public static LevelContent Parse(string path)
         {
             var groundColor = new RgbaColor(1.0f, 1.0f, 1.0f, 1.0f);

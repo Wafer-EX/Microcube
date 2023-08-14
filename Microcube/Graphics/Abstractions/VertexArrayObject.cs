@@ -34,7 +34,7 @@ namespace Microcube.Graphics.Abstractions
         }
 
         /// <summary>
-        /// Binds this vertex array object to use somewhere (it's like global flag).
+        /// Binds this vertex array object to use somewhere. It's like global flag.
         /// </summary>
         public void Bind() => gl.BindVertexArray(Identifier);
 

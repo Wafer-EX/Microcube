@@ -5,12 +5,24 @@ using Silk.NET.Maths;
 
 namespace Microcube.UI.Components.Containers
 {
+    /// <summary>
+    /// Represents an container where the child is with specific size that can be aligned.
+    /// </summary>
     public class SizedContainer : Container
     {
+        /// <summary>
+        /// Size of the container.
+        /// </summary>
         public required Vector2D<float> Size { get; set; }
 
+        /// <summary>
+        /// Horizontal alignment of the sized area.
+        /// </summary>
         public HorizontalAlignment HorizontalAlignment { get; set; }
 
+        /// <summary>
+        /// Vertical alignment of the sized area.
+        /// </summary>
         public VerticalAlignment VerticalAlignment { get; set; }
 
         public SizedContainer() : base()

@@ -15,6 +15,9 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Scenes
 {
+    /// <summary>
+    /// Represents a scene that renders current level with all necessary UI.
+    /// </summary>
     public class LevelScene : Scene
     {
         private bool isPaused = false;

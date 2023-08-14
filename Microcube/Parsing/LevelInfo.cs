@@ -1,5 +1,8 @@
 ﻿namespace Microcube.Parsing
 {
+    /// <summary>
+    /// Just a level info, name, path, next level and that's all.
+    /// </summary>
     public class LevelInfo
     {
         public string Name { get; set; }

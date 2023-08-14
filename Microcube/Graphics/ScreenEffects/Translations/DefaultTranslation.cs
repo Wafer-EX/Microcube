@@ -3,6 +3,9 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.ScreenEffects.Translations
 {
+    /// <summary>
+    /// Default translation that just makes the screen darker.
+    /// </summary>
     public class DefaultTranslation : Translation
     {
         private const string VertexShaderPath = "Resources/shaders/screen_effects/translations/default.vert";

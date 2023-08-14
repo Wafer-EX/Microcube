@@ -5,13 +5,27 @@ using Silk.NET.Maths;
 
 namespace Microcube.Game
 {
+    /// <summary>
+    /// Represents a level class that include all blocks, move queues, player and etc.
+    /// and that's all can be updated by this.
+    /// </summary>
     public class Level
     {
         private List<Block>? blocks;
 
+        /// <summary>
+        /// This event calls when a prism was collected.
+        /// </summary>
         public event Action? PrismCollected;
+
+        /// <summary>
+        /// This event calls when the level was finished.
+        /// </summary>
         public event Action? Finished;
 
+        /// <summary>
+        /// All blocks of this level not include player.
+        /// </summary>
         public List<Block> Blocks
         {
             get
@@ -34,14 +48,29 @@ namespace Microcube.Game
             }
         }
 
+        /// <summary>
+        /// All move queues in the level.
+        /// </summary>
         public List<MoveQueue> MoveQueues { get; private set; }
 
+        /// <summary>
+        /// Player of this level.
+        /// </summary>
         public Player Player { get; private set; }
 
+        /// <summary>
+        /// Collected prism count.
+        /// </summary>
         public int CollectedPrisms { get; private set; }
 
+        /// <summary>
+        /// All prisms that are in the level, include collected.
+        /// </summary>
         public int PrismCount { get; private set; }
 
+        /// <summary>
+        /// Is this level finished or not.
+        /// </summary>
         public bool IsFinished { get; private set; }
 
         public Level(Block[] blocks, MoveQueue[] moveQueues, Vector3D<float> playerStartPosition)
@@ -54,6 +83,10 @@ namespace Microcube.Game
             Player = new Player(playerStartPosition, new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f), this);
         }
 
+        /// <summary>
+        /// Updates all blocks, move queues and player.
+        /// </summary>
+        /// <param name="deltaTime"></param>
         public void Update(float deltaTime)
         {
             if (!IsFinished)
@@ -69,13 +102,18 @@ namespace Microcube.Game
             }
         }
 
-        // TODO: remove this method?
+        /// <summary>
+        /// When it's called, collected prism count increases to 1.
+        /// </summary>
         public void CollectPrism()
         {
             CollectedPrisms++;
             PrismCollected?.Invoke();
         }
 
+        /// <summary>
+        /// When it's called the level sets to finished and can't be controller.
+        /// </summary>
         public void Finish()
         {
             if (!IsFinished)

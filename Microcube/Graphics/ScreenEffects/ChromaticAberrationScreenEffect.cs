@@ -3,6 +3,9 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.ScreenEffects
 {
+    /// <summary>
+    /// A screen effect that can apply chromatic aberration to the texture.
+    /// </summary>
     public class ChromaticAberrationScreenEffect : ScreenEffect
     {
         private const string VertexShaderPath = "Resources/shaders/screen_effects/chromatic_aberration.vert";

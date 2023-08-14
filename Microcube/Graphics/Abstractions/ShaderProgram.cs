@@ -116,7 +116,7 @@ namespace Microcube.Graphics.Abstractions
         }
 
         /// <summary>
-        /// Use this shader program when render anything.
+        /// Use this shader program when render anything. It's like global flag.
         /// </summary>
         public void Use() => gl.UseProgram(Identifier);
 

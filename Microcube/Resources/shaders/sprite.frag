@@ -11,6 +11,7 @@ in VertexData {
 
 void main() {
     if (inData.isIgnoreSprite != 0.0) {
+        // If this shader should ignore sprite it draws just a color.
         FragColor = inData.color;
     }
     else {

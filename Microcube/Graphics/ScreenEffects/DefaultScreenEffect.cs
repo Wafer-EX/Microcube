@@ -3,6 +3,9 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.ScreenEffects
 {
+    /// <summary>
+    /// Default screen effect that just draws texture and doing nothing else.
+    /// </summary>
     public class DefaultScreenEffect : ScreenEffect
     {
         private const string VertexShaderPath = "Resources/shaders/screen_effects/default.vert";

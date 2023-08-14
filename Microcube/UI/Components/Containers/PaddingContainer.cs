@@ -9,12 +9,24 @@ namespace Microcube.UI.Components.Containers
     /// </summary>
     public class PaddingContainer : Container
     {
+        /// <summary>
+        /// Left padding of the container.
+        /// </summary>
         public float PaddingLeft { get; set; }
 
+        /// <summary>
+        /// Right padding of the container.
+        /// </summary>
         public float PaddingRight { get; set; }
 
+        /// <summary>
+        /// Top padding of the container.
+        /// </summary>
         public float PaddingTop { get; set; }
 
+        /// <summary>
+        /// Bottom padding of the container.
+        /// </summary>
         public float PaddingBottom { get; set; }
 
         public PaddingContainer() : base() { }

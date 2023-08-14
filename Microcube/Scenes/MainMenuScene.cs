@@ -12,6 +12,9 @@ using Silk.NET.OpenGL;
 
 namespace Microcube.Scenes
 {
+    /// <summary>
+    /// Represents a scene that renders main menu with level list.
+    /// </summary>
     public class MainMenuScene : Scene
     {
         public MainMenuScene(GL gl, uint width, uint height) : base(gl, width, height)
