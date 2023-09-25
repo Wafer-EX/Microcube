@@ -27,7 +27,7 @@ namespace Microcube.Scenes
             CardLayout? cardLayout = null;
             SpriteComponent spriteComponent = new()
             {
-                Fit = false,
+                IsFitToDisplayedArea = false,
                 Sprite = logoSprite,
             };
 

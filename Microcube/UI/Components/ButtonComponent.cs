@@ -1,5 +1,7 @@
-﻿using Microcube.Graphics.Enums;
+﻿using Microcube.Graphics.ColorModels;
+using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster;
+using Microcube.Graphics.Raster.TextModifiers;
 using Microcube.Input;
 using Microcube.UI.Components.Styles;
 using Silk.NET.Maths;
@@ -60,10 +62,10 @@ namespace Microcube.UI.Components
         {
             yield return new Sprite(displayedArea, IsFocused ? FocusedStyle.BackgroundColor : UnfocusedStyle.BackgroundColor);
 
-            Font.Color = IsFocused ? FocusedStyle.TextColor : UnfocusedStyle.TextColor;
-            Font.TextModifier = IsFocused ? FocusedStyle.TextModifier : UnfocusedStyle.TextModifier;
+            RgbaColor fontColor = IsFocused ? FocusedStyle.TextColor : UnfocusedStyle.TextColor;
+            ITextModifier? textModifier = IsFocused ? FocusedStyle.TextModifier : UnfocusedStyle.TextModifier;
 
-            IEnumerable<Sprite> sprites = Font.GetSprites(Text, displayedArea, HorizontalAlignment.Center, VerticalAlignment.Middle);
+            IEnumerable<Sprite> sprites = Font.GetSprites(Text, displayedArea, fontColor, textModifier, HorizontalAlignment.Center, VerticalAlignment.Middle);
             foreach (Sprite sprite in sprites)
                 yield return sprite;
         }

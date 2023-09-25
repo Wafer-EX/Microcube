@@ -101,7 +101,7 @@ namespace Microcube.UI.Components.Layouts
             if (BackgroundColor != RgbaColor.Transparent)
                 yield return new Sprite(displayedArea, BackgroundColor);
 
-            foreach (Sprite sprite in  GetSpritesOfTheseComponents(displayedArea, Childs))
+            foreach (Sprite sprite in GetSpritesOfTheseComponents(displayedArea, Childs))
                 yield return sprite;
         }
 

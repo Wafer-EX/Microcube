@@ -16,13 +16,13 @@ namespace Microcube.UI.Components
         /// <summary>
         /// Flag that enables sprite fitting to displayed area. Is true by default.
         /// </summary>
-        public bool Fit { get; set; }
+        public bool IsFitToDisplayedArea { get; set; }
 
-        public SpriteComponent() : base() => Fit = true;
+        public SpriteComponent() : base() => IsFitToDisplayedArea = true;
 
         public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
         {
-            if (Fit)
+            if (IsFitToDisplayedArea)
             {
                 Sprite fittedSprite = Sprite;
 

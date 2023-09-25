@@ -53,11 +53,6 @@ namespace Microcube.UI.Components
         public override void Update(float deltaTime) => TextModifier?.Update(deltaTime);
 
         public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
-        {
-            Font.Color = Color;
-            Font.TextModifier = TextModifier;
-
-            return Font.GetSprites(Text, displayedArea, HorizontalAlignment, VerticalAlignment);
-        }
+            => Font.GetSprites(Text, displayedArea, Color, TextModifier, HorizontalAlignment, VerticalAlignment);
     }
 }

@@ -12,12 +12,12 @@ namespace Microcube.Graphics.Raster
     public class BitmapFont : TextureAtlas<char>
     {
         /// <summary>
-        /// Global position of the font. Can be changed by UI.
+        /// Global position of the font. Shoudn't be changed by UI.
         /// </summary>
         public Vector2D<float> Position { get; set; }
 
         /// <summary>
-        /// Global color of the font. Can be changed by UI.
+        /// Global color of the font. Shoudn't be changed by UI.
         /// </summary>
         public RgbaColor Color { get; set; }
 
@@ -42,7 +42,7 @@ namespace Microcube.Graphics.Raster
         public float WordSpacing { get; set; }
 
         /// <summary>
-        /// Global text modifier. Can be changed by UI.
+        /// Global text modifier. Shoudn't be changed by UI.
         /// </summary>
         public ITextModifier? TextModifier { get; set; }
 
@@ -98,12 +98,15 @@ namespace Microcube.Graphics.Raster
         }
 
         /// <summary>
-        /// Get the text as a set of sprites to render it somewhere with specific position.
+        /// Get the text as a set of sprites to render it somewhere with specific position, color and text modifier.
+        /// Is useful to change some parameters for this concrete call.
         /// </summary>
         /// <param name="text">Text that should be rendered.</param>
         /// <param name="specificPosition">Specific position of the text.</param>
+        /// <param name="specificColor">Specific color for this call.</param>
+        /// <param name="specificTextModifier">Specific text modifier for this call.</param>
         /// <returns>Sprites of the characters in the text.</returns>
-        public IEnumerable<Sprite> GetSprites(string text, Vector2D<float> specificPosition)
+        public IEnumerable<Sprite> GetSprites(string text, Vector2D<float> specificPosition, RgbaColor? specificColor = null, ITextModifier? specificTextModifier = null)
         {
             if (text.Length == 0)
                 yield break;
@@ -120,11 +123,13 @@ namespace Microcube.Graphics.Raster
                 else if (character != '\n')
                 {
                     var sprite = Sprites[character];
-                    sprite.Color = Color;
+                    sprite.Color = specificColor ?? Color;
                     sprite.Scale = Scale;
                     sprite.ViewportArea = new Rectangle<float>(specificPosition.X + offsetX, specificPosition.Y + offsetY, sprite.TextureArea.Size);
 
-                    if (TextModifier != null)
+                    if (specificTextModifier != null)
+                        sprite = specificTextModifier.ModifyCharacter(sprite, i);
+                    else if (TextModifier != null)
                         sprite = TextModifier.ModifyCharacter(sprite, i);
 
                     yield return sprite;
@@ -147,13 +152,17 @@ namespace Microcube.Graphics.Raster
 
         /// <summary>
         /// Get the text as a set of sprites to render it somewhere with aligned position inside specific area.
+        /// Is useful to control sprites getting fully and ignore global parameters as color and text modifier.
         /// </summary>
         /// <param name="text">Text that should be rendered.</param>
         /// <param name="specificArea">Specific area where the text will be in.</param>
+        /// <param name="specificColor">Specific color for this call.</param>
+        /// <param name="specificTextModifier">Specific text modifier for this call.</param>
         /// <param name="horizontalAlignment">Horizontal alignment of the text.</param>
         /// <param name="verticalAlignment">Vertical alignment of the text.</param>
         /// <returns>Sprites of the characters in the text.</returns>
-        public IEnumerable<Sprite> GetSprites(string text, Rectangle<float> specificArea, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Top)
+        public IEnumerable<Sprite> GetSprites(string text, Rectangle<float> specificArea,RgbaColor? specificColor = null, ITextModifier? specificTextModifier = null,
+            HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Top)
         {
             // TODO: refactor this?
 
@@ -191,7 +200,7 @@ namespace Microcube.Graphics.Raster
                     Y = specificArea.Origin.Y + offsetY,
                 };
 
-                foreach (Sprite sprite in GetSprites(splittedText[lineIndex], position))
+                foreach (Sprite sprite in GetSprites(splittedText[lineIndex], position, specificColor, specificTextModifier))
                     yield return sprite;
             }
         }
