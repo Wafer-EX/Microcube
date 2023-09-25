@@ -18,7 +18,7 @@ It was just an experiment to me like a challenge, it's not pretend to be a real 
 
 | Game (with chromatic aberration) | Win screen |
 | - | - |
-| When you collect prisms, counter increases on 1 and chromatic aberration effect happens. If you step on the finish, you will win. | Description |
+| When you collect prisms, counter increases on 1 and chromatic aberration effect happens. If you step on the finish, you will win. | If the level is not last, the button "Next level" is displayed. |
 | ![image](https://github.com/Wafer-EX/MicrocubeDemo/assets/76843479/884cd368-7a5e-44f1-811a-80bfe9fb66b0) | ![image](https://github.com/Wafer-EX/MicrocubeDemo/assets/76843479/89e2b6f1-e5e2-4b64-b902-23dd6f8f7352) |
 
 ## System requirements
