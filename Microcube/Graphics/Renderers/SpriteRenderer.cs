@@ -82,7 +82,7 @@ namespace Microcube.Graphics.Renderers
                 GL.ClearColor(ClearColor.Red, ClearColor.Green, ClearColor.Blue, ClearColor.Alpha);
             }
 
-            foreach (var spriteBatch in spriteBatches)
+            foreach (SpriteBatch spriteBatch in spriteBatches)
             {
                 spriteVbo.SetBufferData(spriteBatch.Sprites.ToSpriteData());
                 spriteBatch.Texture?.Bind(TextureUnit.Texture0);
