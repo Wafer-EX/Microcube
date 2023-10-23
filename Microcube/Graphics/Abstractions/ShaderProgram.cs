@@ -1,5 +1,4 @@
-﻿using Microcube.Extensions;
-using Silk.NET.Maths;
+﻿using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.Abstractions
