@@ -22,7 +22,7 @@ It was just an experiment to me like a challenge, it's not pretend to be a real 
 | ![image](https://github.com/Wafer-EX/MicrocubeDemo/assets/76843479/884cd368-7a5e-44f1-811a-80bfe9fb66b0) | ![image](https://github.com/Wafer-EX/MicrocubeDemo/assets/76843479/89e2b6f1-e5e2-4b64-b902-23dd6f8f7352) |
 
 ## System requirements
-- .NET 7.0
+- .NET 8.0
 - OpenGL 4.6 (this project wasn't tested on older versions)
 - ...I don't know what else to add :D
 
