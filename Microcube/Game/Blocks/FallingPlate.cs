@@ -1,6 +1,6 @@
 ﻿using Microcube.Game.Blocks.Enums;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
@@ -9,7 +9,7 @@ namespace Microcube.Game.Blocks
     /// </summary>
     public class FallingPlate : Block, IDynamic
     {
-        private Matrix4X4<float> modelMatrix;
+        private Matrix4x4 modelMatrix;
 
         private FallingPlateState state = FallingPlateState.Nothing;
         private float elapsedTime = 0.0f;
@@ -17,13 +17,13 @@ namespace Microcube.Game.Blocks
         private float velocity = 0.0f;
         private float innerOffset = 0.0f;
 
-        public override Matrix4X4<float> ModelMatrix
+        public override Matrix4x4 ModelMatrix
         {
             get => modelMatrix;
             set
             {
-                modelMatrix = Matrix4X4.CreateScale(1.0f, 0.1f, 1.0f)
-                    * Matrix4X4.CreateTranslation(0.0f, 0.45f, 0.0f)
+                modelMatrix = Matrix4x4.CreateScale(1.0f, 0.1f, 1.0f)
+                    * Matrix4x4.CreateTranslation(0.0f, 0.45f, 0.0f)
                     * value;
             }
         }
@@ -45,14 +45,14 @@ namespace Microcube.Game.Blocks
 
         public override bool IsBarrier => state != FallingPlateState.Falling;
 
-        public FallingPlate(Vector3D<float> position, RgbaColor color) : base(position, color) { }
+        public FallingPlate(Vector3 position, RgbaColor color) : base(position, color) { }
 
         public void Update(float deltaTime, Level level)
         {
             if (state == FallingPlateState.Nothing)
             {
                 // TODO: refactor?
-                if (Vector3D.Distance(level.Player.Position, Position + new Vector3D<float>(0.0f, 1.0f, 0.0f)) < 1.0f)
+                if (Vector3.Distance(level.Player.Position, Position + new Vector3(0.0f, 1.0f, 0.0f)) < 1.0f)
                     state = FallingPlateState.Triggered;
             }
             else if (state == FallingPlateState.Triggered)
@@ -64,9 +64,9 @@ namespace Microcube.Game.Blocks
                     velocity -= 0.05f;
                     state = FallingPlateState.Falling;
 
-                    var platePlanePosition = new Vector2D<float>(Position.X, Position.Z);
-                    var playerPlanePosition = new Vector2D<float>(level.Player.Position.X, level.Player.Position.Z);
-                    var planeDistance = Vector2D.Distance(platePlanePosition, playerPlanePosition);
+                    var platePlanePosition = new Vector2(Position.X, Position.Z);
+                    var playerPlanePosition = new Vector2(level.Player.Position.X, level.Player.Position.Z);
+                    var planeDistance = Vector2.Distance(platePlanePosition, playerPlanePosition);
 
                     if (planeDistance < 1.0f)
                         level.Player.ProcessPosition(level.Player.Position);
@@ -84,7 +84,7 @@ namespace Microcube.Game.Blocks
                     velocity += velocity * mass * -gravity * deltaTime;
                     innerOffset += velocity;
 
-                    ModelMatrix = Matrix4X4.CreateTranslation(Position.X, Position.Y + innerOffset, Position.Z);
+                    ModelMatrix = Matrix4x4.CreateTranslation(Position.X, Position.Y + innerOffset, Position.Z);
                 }
                 else if (IsRender)
                     IsRender = false;

@@ -1,6 +1,6 @@
 ﻿using Microcube.Graphics;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
@@ -17,7 +17,7 @@ namespace Microcube.Game.Blocks
         /// <summary>
         /// Position of the block. Shouldn't change mesh, only transformation matrix.
         /// </summary>
-        public virtual Vector3D<float> Position { get; set; }
+        public virtual Vector3 Position { get; set; }
 
         /// <summary>
         /// Color of the block.
@@ -32,7 +32,7 @@ namespace Microcube.Game.Blocks
         /// <summary>
         /// Model matrix of the block.
         /// </summary>
-        public virtual Matrix4X4<float> ModelMatrix { get; set; }
+        public virtual Matrix4x4 ModelMatrix { get; set; }
 
         /// <summary>
         /// Represents should this block interact with player as barrier or not.
@@ -47,11 +47,11 @@ namespace Microcube.Game.Blocks
 
         static Block() => Mesh = Mesh.CreateTexturedCube(1.0f);
 
-        private protected Block(Vector3D<float> position, RgbaColor color)
+        private protected Block(Vector3 position, RgbaColor color)
         {
             Position = position;
             Color = color;
-            ModelMatrix = Matrix4X4.CreateTranslation(Position);
+            ModelMatrix = Matrix4x4.CreateTranslation(Position);
             IsRender = true;
         }
 
@@ -65,8 +65,8 @@ namespace Microcube.Game.Blocks
             if (!IsRender)
                 throw new InvalidOperationException();
 
-            return new float[]
-            {
+            return
+            [
                 // Color
                 Color.Red, Color.Green, Color.Blue,
 
@@ -84,7 +84,7 @@ namespace Microcube.Game.Blocks
 
                 // Display edges
                 0.0f,
-            };
+            ];
         }
     }
 }

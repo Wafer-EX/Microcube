@@ -1,12 +1,12 @@
 ﻿using Microcube.Game.Blocks;
 using Microcube.Game.Blocks.Moving;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 using System.Xml;
 
 namespace Microcube.Parsing
 {
-    public record LevelContent(string Name, Block[] Blocks, MoveQueue[] MoveQueues, Vector3D<float> StartPosition);
+    public record LevelContent(string Name, Block[] Blocks, MoveQueue[] MoveQueues, Vector3 StartPosition);
 
     /// <summary>
     /// Represents a set of methods to parse level and get info about it.
@@ -67,7 +67,7 @@ namespace Microcube.Parsing
             string levelName = "[Undefined]";
             var blocks = new List<Block>();
             var moveQueues = new Dictionary<string, MoveQueue>();
-            var playerStartPosition = Vector3D<float>.Zero;
+            var playerStartPosition = Vector3.Zero;
 
             var document = new XmlDocument();
             document.Load(path);
@@ -93,7 +93,7 @@ namespace Microcube.Parsing
                             float startY = float.Parse(startYAttribute.Value);
                             float startZ = float.Parse(startZAttribute.Value);
 
-                            playerStartPosition = new Vector3D<float>(startX, startY, startZ);
+                            playerStartPosition = new Vector3(startX, startY, startZ);
                         }
                     }
                     else if (childNode.Name == "move-queues")
@@ -160,7 +160,7 @@ namespace Microcube.Parsing
                                 if (moveQueueAttribute?.Value != null)
                                     moveQueue = moveQueues[moveQueueAttribute.Value];
 
-                                var position = new Vector3D<float>(x, y, z);
+                                var position = new Vector3(x, y, z);
                                 Block? block = blockNode.Name switch
                                 {
                                     "ground" => new Ground(position, groundColor, moveQueue),
@@ -194,8 +194,8 @@ namespace Microcube.Parsing
                                     float endZ = float.Parse(endZAttribute.Value);
                                     float height = float.Parse(heightAttribute.Value);
 
-                                    var pointA = new Vector2D<float>(startX, startZ);
-                                    var pointB = new Vector2D<float>(endX, endZ);
+                                    var pointA = new Vector2(startX, startZ);
+                                    var pointB = new Vector2(endX, endZ);
 
                                     blocks.AddRange(Ground.GeneratePlane(pointA, pointB, height, groundColor));
                                 }
@@ -212,7 +212,7 @@ namespace Microcube.Parsing
                                     float positionY = float.Parse(positionYAttribute.Value);
                                     float positionZ = float.Parse(positionZAttribute.Value);
 
-                                    var position = new Vector3D<float>(positionX, positionY, positionZ);
+                                    var position = new Vector3(positionX, positionY, positionZ);
 
                                     blocks.AddRange(Finish.GenerateFinish(position, groundColor));
                                 }

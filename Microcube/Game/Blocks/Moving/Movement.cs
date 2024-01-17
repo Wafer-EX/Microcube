@@ -1,4 +1,4 @@
-﻿using Silk.NET.Maths;
+﻿using System.Numerics;
 
 namespace Microcube.Game.Blocks.Moving
 {
@@ -7,16 +7,16 @@ namespace Microcube.Game.Blocks.Moving
         private readonly float time;
         private float elapsedTime;
 
-        public Vector3D<float> FrameOffset { get; private set; }
+        public Vector3 FrameOffset { get; private set; }
 
-        public Vector3D<float> FinalOffset { get; private set; }
+        public Vector3 FinalOffset { get; private set; }
 
         public bool IsTimeElapsed { get; private set; }
 
         public Movement(float x, float y, float z, float time)
         {
             this.time = time;
-            FinalOffset = new Vector3D<float>(x, y, z);
+            FinalOffset = new Vector3(x, y, z);
         }
 
         public void Update(float deltaTime)
@@ -29,7 +29,7 @@ namespace Microcube.Game.Blocks.Moving
                 if (elapsedTime > time)
                 {
                     IsTimeElapsed = true;
-                    FrameOffset = Vector3D<float>.Zero;
+                    FrameOffset = Vector3.Zero;
                 }
             }
         }

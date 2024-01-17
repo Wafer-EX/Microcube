@@ -1,6 +1,6 @@
 ﻿using Microcube.Game.Blocks.Moving;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
@@ -9,11 +9,11 @@ namespace Microcube.Game.Blocks
     /// </summary>
     public abstract class MovableBlock : Block, IDynamic
     {
-        private Vector3D<float> position;
-        private Vector3D<float> offsettedPosition;
+        private Vector3 position;
+        private Vector3 offsettedPosition;
         private bool attachPlayer = false;
 
-        public override Vector3D<float> Position
+        public override Vector3 Position
         {
             get => MoveQueue != null ? offsettedPosition : position;
             set => position = value;
@@ -24,7 +24,7 @@ namespace Microcube.Game.Blocks
         /// </summary>
         public MoveQueue? MoveQueue { get; private set; }
 
-        public MovableBlock(Vector3D<float> position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color)
+        public MovableBlock(Vector3 position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color)
         {
             MoveQueue = moveQueue;
         }
@@ -34,16 +34,16 @@ namespace Microcube.Game.Blocks
             ArgumentNullException.ThrowIfNull(level, nameof(level));
             if (MoveQueue != null)
             {
-                attachPlayer = level.Player.Position == offsettedPosition + new Vector3D<float>(0, 1.0f, 0);
+                attachPlayer = level.Player.Position == offsettedPosition + new Vector3(0, 1.0f, 0);
                 offsettedPosition = position + MoveQueue.Offset;
 
-                ModelMatrix = Matrix4X4.CreateTranslation(offsettedPosition);
+                ModelMatrix = Matrix4x4.CreateTranslation(offsettedPosition);
 
                 // TODO: something is wrong with player attaching
                 if (MoveQueue.IsMoving)
                 {
-                    float distance = Vector3D.Distance(offsettedPosition, level.Player.Position);
-                    float nextPositionDistance = Vector3D.Distance(offsettedPosition, level.Player.NextPosition);
+                    float distance = Vector3.Distance(offsettedPosition, level.Player.Position);
+                    float nextPositionDistance = Vector3.Distance(offsettedPosition, level.Player.NextPosition);
 
                     if (distance < 1.0f || nextPositionDistance < 1.0f || attachPlayer)
                         // TODO: calculate real push offset
@@ -51,7 +51,7 @@ namespace Microcube.Game.Blocks
                 }
                 else if (attachPlayer)
                 {
-                    level.Player.Position = new Vector3D<float>
+                    level.Player.Position = new Vector3
                     {
                         X = MathF.Round(level.Player.Position.X),
                         Y = MathF.Round(level.Player.Position.Y),

@@ -1,5 +1,5 @@
 ﻿using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
@@ -15,7 +15,7 @@ namespace Microcube.Game.Blocks
         /// </summary>
         public bool IsCollected { get; private set; }
 
-        public Prism(Vector3D<float> position) : base(position, new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f)) { }
+        public Prism(Vector3 position) : base(position, new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f)) { }
 
         public void Update(float deltaTime, Level level)
         {
@@ -23,7 +23,7 @@ namespace Microcube.Game.Blocks
 
             if (!IsCollected)
             {
-                if (Vector3D.Distance(level.Player.OffsettedPosition, Position) < 0.75f)
+                if (Vector3.Distance(level.Player.OffsettedPosition, Position) < 0.75f)
                 {
                     IsCollected = true;
                     IsRender = false;
@@ -33,10 +33,10 @@ namespace Microcube.Game.Blocks
                 {
                     elapsedTime += deltaTime;
 
-                    ModelMatrix = Matrix4X4.CreateScale(0.25f)
-                        * Matrix4X4.CreateRotationY(elapsedTime * 2.0f)
-                        * Matrix4X4.CreateTranslation(0.0f, MathF.Sin(elapsedTime * 2.0f) / 5.0f, 0.0f)
-                        * Matrix4X4.CreateTranslation(Position);
+                    ModelMatrix = Matrix4x4.CreateScale(0.25f)
+                        * Matrix4x4.CreateRotationY(elapsedTime * 2.0f)
+                        * Matrix4x4.CreateTranslation(0.0f, MathF.Sin(elapsedTime * 2.0f) / 5.0f, 0.0f)
+                        * Matrix4x4.CreateTranslation(Position);
                 }
             }
         }

@@ -2,8 +2,8 @@
 using Microcube.Game.Blocks;
 using Microcube.Graphics.Abstractions;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Numerics;
 
 namespace Microcube.Graphics.Renderers
 {
@@ -87,7 +87,7 @@ namespace Microcube.Graphics.Renderers
 
             blockVao.Bind();
             shaderProgram.Use();
-            shaderProgram.SetUniform("lightDirection", new Vector3D<float>(-0.65f, 1.0f, -0.75f));
+            shaderProgram.SetUniform("lightDirection", new Vector3(-0.65f, 1.0f, -0.75f));
             shaderProgram.SetUniform("projectionMatrix", camera.GetProjectionMatrix());
             shaderProgram.SetUniform("viewMatrix", camera.GetViewMatrix());
 

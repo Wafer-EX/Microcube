@@ -2,6 +2,7 @@
 using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster;
 using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.UI.Components.Containers
 {
@@ -13,7 +14,7 @@ namespace Microcube.UI.Components.Containers
         /// <summary>
         /// Size of the container.
         /// </summary>
-        public required Vector2D<float> Size { get; set; }
+        public required Vector2 Size { get; set; }
 
         /// <summary>
         /// Horizontal alignment of the sized area.

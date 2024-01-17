@@ -1,5 +1,5 @@
-﻿using Silk.NET.Maths;
-using Silk.NET.OpenGL;
+﻿using Silk.NET.OpenGL;
+using System.Numerics;
 
 namespace Microcube.Graphics.Abstractions
 {
@@ -86,10 +86,10 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         /// <param name="name">Uniform name.</param>
         /// <param name="value">Uniform value.</param>
-        public void SetUniform(string name, Vector3D<float> value)
+        public void SetUniform(string name, Vector3 value)
         {
             int location = GetLocation(name);
-            gl.Uniform3(location, value.ToSystem());
+            gl.Uniform3(location, value);
         }
 
         /// <summary>
@@ -97,10 +97,10 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         /// <param name="name">Uniform name.</param>
         /// <param name="value">Uniform value.</param>
-        public void SetUniform(string name, Vector4D<float> value)
+        public void SetUniform(string name, Vector4 value)
         {
             int location = GetLocation(name);
-            gl.Uniform4(location, value.ToSystem());
+            gl.Uniform4(location, value);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         /// <param name="name">Uniform name.</param>
         /// <param name="matrix">Uniform value.</param>
-        public unsafe void SetUniform(string name, Matrix4X4<float> matrix)
+        public unsafe void SetUniform(string name, Matrix4x4 matrix)
         {
             int location = GetLocation(name);
             gl.UniformMatrix4(location, 1, false, (float*)&matrix);

@@ -1,5 +1,5 @@
 ﻿using Microcube.Game.Blocks.Enums;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game
 {
@@ -13,7 +13,7 @@ namespace Microcube.Game
         /// <param name="isReversed">Is change axis direction to opposite.</param>
         /// <param name="changeAxis">Is change axis from Z to X.</param>
         /// <returns>Player barrier in forward.</returns>
-        public static PlayerBarrier GetSingleBarrierFromPosition(Vector3D<float> blockPosition, Vector3D<float> barrierPosition, bool isReversed, bool changeAxis)
+        public static PlayerBarrier GetSingleBarrierFromPosition(Vector3 blockPosition, Vector3 barrierPosition, bool isReversed, bool changeAxis)
         {
             float blockAxis = barrierPosition.Z;
             float playerAxis = blockPosition.Z;
@@ -65,7 +65,7 @@ namespace Microcube.Game
         /// <param name="isReversed">Is change axis direction to opposite.</param>
         /// <param name="changeAxis">Is change axis from Z to X.</param>
         /// <returns>Final barrier that conside all blocks around.</returns>
-        public static PlayerBarrier GetGlobalBarrierFromPosition(Vector3D<float> blockPosition, IEnumerable<Vector3D<float>> barrierPositions, bool isReversed, bool changeAxis)
+        public static PlayerBarrier GetGlobalBarrierFromPosition(Vector3 blockPosition, IEnumerable<Vector3> barrierPositions, bool isReversed, bool changeAxis)
         {
             PlayerBarrier finalforwardBarrier = PlayerBarrier.Nothing;
             PlayerBarrier finalbackBarrier = PlayerBarrier.Nothing;
@@ -82,7 +82,7 @@ namespace Microcube.Game
                     finalbackBarrier = backBarrier;
 
                 // TODO: improve this condition?
-                if (finalforwardBarrier == PlayerBarrier.Step && barrierPosition == blockPosition + new Vector3D<float>(0.0f, 2.0f, 0.0f))
+                if (finalforwardBarrier == PlayerBarrier.Step && barrierPosition == blockPosition + new Vector3(0.0f, 2.0f, 0.0f))
                     finalforwardBarrier = PlayerBarrier.Wall;
             }
 

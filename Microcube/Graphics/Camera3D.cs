@@ -1,4 +1,4 @@
-﻿using Silk.NET.Maths;
+﻿using System.Numerics;
 
 namespace Microcube.Graphics
 {
@@ -7,15 +7,15 @@ namespace Microcube.Graphics
     /// </summary>
     public class Camera3D
     {
-        private Vector3D<float> position;
-        private Vector3D<float> target;
-        private Vector3D<float> intermediatePosition;
-        private Vector3D<float> intermediateTarget;
+        private Vector3 position;
+        private Vector3 target;
+        private Vector3 intermediatePosition;
+        private Vector3 intermediateTarget;
 
         /// <summary>
         /// Position of the camera.
         /// </summary>
-        public Vector3D<float> Position
+        public Vector3 Position
         {
             get => intermediatePosition;
             set => position = value;
@@ -24,7 +24,7 @@ namespace Microcube.Graphics
         /// <summary>
         /// Position of the target.
         /// </summary>
-        public Vector3D<float> Target
+        public Vector3 Target
         {
             get => intermediateTarget;
             set => target = value;
@@ -45,7 +45,7 @@ namespace Microcube.Graphics
         /// </summary>
         public float MovingSpeed { get; set; }
 
-        public Camera3D(Vector3D<float> position, Vector3D<float> target, float fieldOfView, float aspectRatio, float movingSpeed = 0.0f)
+        public Camera3D(Vector3 position, Vector3 target, float fieldOfView, float aspectRatio, float movingSpeed = 0.0f)
         {
             Position = position;
             Target = target;
@@ -58,18 +58,18 @@ namespace Microcube.Graphics
         /// Get projection matrix to use it in a shader.
         /// </summary>
         /// <returns>Projection matrix</returns>
-        public Matrix4X4<float> GetProjectionMatrix()
+        public Matrix4x4 GetProjectionMatrix()
         {
-            return Matrix4X4.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, 0.1f, 100.0f);
+            return Matrix4x4.CreatePerspectiveFieldOfView(FieldOfView, AspectRatio, 0.1f, 100.0f);
         }
 
         /// <summary>
         /// Get view matrix to use it in a shader.
         /// </summary>
         /// <returns>View matrix</returns>
-        public Matrix4X4<float> GetViewMatrix()
+        public Matrix4x4 GetViewMatrix()
         {
-            return Matrix4X4.CreateLookAt(Position, Target, Vector3D<float>.UnitY);
+            return Matrix4x4.CreateLookAt(Position, Target, Vector3.UnitY);
         }
 
         /// <summary>

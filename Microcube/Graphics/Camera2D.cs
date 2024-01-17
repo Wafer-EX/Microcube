@@ -1,4 +1,4 @@
-﻿using Silk.NET.Maths;
+﻿using System.Numerics;
 
 namespace Microcube.Graphics
 {
@@ -27,9 +27,9 @@ namespace Microcube.Graphics
         /// Get projection matrix to use it in a shader.
         /// </summary>
         /// <returns>Projection matrix.</returns>
-        public Matrix4X4<float> GetProjectionMatrix()
+        public Matrix4x4 GetProjectionMatrix()
         {
-            return Matrix4X4.CreateOrthographicOffCenter(0, Width, Height, 0, -1.0f, 1.0f);
+            return Matrix4x4.CreateOrthographicOffCenter(0, Width, Height, 0, -1.0f, 1.0f);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microcube.Game.Blocks;
 using Microcube.Game.Blocks.Moving;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game
 {
@@ -73,7 +73,7 @@ namespace Microcube.Game
         /// </summary>
         public bool IsFinished { get; private set; }
 
-        public Level(Block[] blocks, MoveQueue[] moveQueues, Vector3D<float> playerStartPosition)
+        public Level(Block[] blocks, MoveQueue[] moveQueues, Vector3 playerStartPosition)
         {
             ArgumentNullException.ThrowIfNull(blocks, nameof(blocks));
             ArgumentNullException.ThrowIfNull(moveQueues, nameof(moveQueues));
@@ -123,7 +123,7 @@ namespace Microcube.Game
             }
         }
 
-        public IEnumerable<Vector3D<float>> GetBarrierBlockCoordinates()
+        public IEnumerable<Vector3> GetBarrierBlockCoordinates()
         {
             foreach (var block in Blocks)
             {
@@ -143,14 +143,14 @@ namespace Microcube.Game
         {
             // TODO: refactor?
             Block? highestBlock = null;
-            var pointPosition = new Vector2D<float>(posX, posZ);
+            var pointPosition = new Vector2(posX, posZ);
 
             foreach (var block in Blocks)
             {
                 if (block.IsBarrier && block.Position.Y < height)
                 {
-                    var blockPosition = new Vector2D<float>(block.Position.X, block.Position.Z);
-                    float distance = Vector2D.Distance(pointPosition, blockPosition);
+                    var blockPosition = new Vector2(block.Position.X, block.Position.Z);
+                    float distance = Vector2.Distance(pointPosition, blockPosition);
 
                     if (distance < 1.0f)
                     {

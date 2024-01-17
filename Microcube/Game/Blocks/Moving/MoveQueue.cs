@@ -1,4 +1,4 @@
-﻿using Silk.NET.Maths;
+﻿using System.Numerics;
 
 namespace Microcube.Game.Blocks.Moving
 {
@@ -9,17 +9,17 @@ namespace Microcube.Game.Blocks.Moving
     {
         private readonly Movement[] movements;
         private readonly Queue<Movement> movementQueue;
-        private Vector3D<float> accurateOffset;
+        private Vector3 accurateOffset;
 
         /// <summary>
         /// Represents general offset of the move queue as result of all movements for the elapsed time.
         /// </summary>
-        public Vector3D<float> Offset { get; private set; }
+        public Vector3 Offset { get; private set; }
 
         /// <summary>
         /// Represents a movement for the specific frame.
         /// </summary>
-        public Vector3D<float> FrameOffset
+        public Vector3 FrameOffset
         {
             get
             {
@@ -52,7 +52,7 @@ namespace Microcube.Game.Blocks.Moving
                 {
                     _ = movementQueue.TryPeek(out var movement);
                     if (movement != null)
-                        return movement.FrameOffset.LengthSquared != 0.0f;
+                        return movement.FrameOffset.LengthSquared() != 0.0f;
                 }
 
                 return false;
@@ -97,8 +97,8 @@ namespace Microcube.Game.Blocks.Moving
                         movementQueue.Enqueue(movement);
                         movement.Reset();
                     }
-                    Offset = Vector3D<float>.Zero;
-                    accurateOffset = Vector3D<float>.Zero;
+                    Offset = Vector3.Zero;
+                    accurateOffset = Vector3.Zero;
                 }
             }
         }

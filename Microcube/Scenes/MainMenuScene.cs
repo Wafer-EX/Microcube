@@ -7,8 +7,8 @@ using Microcube.Parsing;
 using Microcube.UI.Components;
 using Microcube.UI.Components.Containers;
 using Microcube.UI.Components.Layouts;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Numerics;
 
 namespace Microcube.Scenes
 {
@@ -53,7 +53,7 @@ namespace Microcube.Scenes
                                 spriteComponent,
                                 new SizedContainer()
                                 {
-                                    Size = new Vector2D<float>(256, 64),
+                                    Size = new Vector2(256, 64),
                                     HorizontalAlignment = HorizontalAlignment.Center,
                                     VerticalAlignment = VerticalAlignment.Middle,
                                     Child = new StackLayout()
@@ -117,7 +117,7 @@ namespace Microcube.Scenes
                         },
                         Child = new SizedContainer()
                         {
-                            Size = new Vector2D<float>(256, 128),
+                            Size = new Vector2(256, 128),
                             HorizontalAlignment = HorizontalAlignment.Center,
                             VerticalAlignment = VerticalAlignment.Middle,
                             Child = new LimitedStackLayout()

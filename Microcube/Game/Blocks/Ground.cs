@@ -1,6 +1,6 @@
 ﻿using Microcube.Game.Blocks.Moving;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
@@ -30,7 +30,7 @@ namespace Microcube.Game.Blocks
         /// </summary>
         public RgbaColor EdgesColor { get; set; }
 
-        public Ground(Vector3D<float> position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color, moveQueue)
+        public Ground(Vector3 position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color, moveQueue)
         {
             EdgesColor = new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f);
         }
@@ -40,8 +40,8 @@ namespace Microcube.Game.Blocks
             if (!IsRender)
                 throw new InvalidOperationException();
 
-            return new float[]
-            {
+            return
+            [
                 // Color
                 Color.Red, Color.Green, Color.Blue,
 
@@ -59,7 +59,7 @@ namespace Microcube.Game.Blocks
 
                 // Display edges
                 MoveQueue?.IsMoving ?? false ? 1.0f : 0.0f,
-            };
+            ];
         }
 
         public override void Update(float deltaTime, Level level)
@@ -78,7 +78,7 @@ namespace Microcube.Game.Blocks
         /// <param name="height">The height where this plane will be generated</param>
         /// <param name="color">Color of these blocks.</param>
         /// <returns>List of blocks from the generated plane.</returns>
-        public static IEnumerable<Ground> GeneratePlane(Vector2D<float> pointA, Vector2D<float> pointB, float height, RgbaColor color)
+        public static IEnumerable<Ground> GeneratePlane(Vector2 pointA, Vector2 pointB, float height, RgbaColor color)
         {
             float minX = MathF.Min(pointA.X, pointB.X);
             float maxX = MathF.Max(pointA.X, pointB.X);
@@ -89,7 +89,7 @@ namespace Microcube.Game.Blocks
             {
                 for (float y = minY; y < maxY; y++)
                 {
-                    var position = new Vector3D<float>(x, height, y);
+                    var position = new Vector3(x, height, y);
                     yield return new Ground(position, color);
                 }
             }

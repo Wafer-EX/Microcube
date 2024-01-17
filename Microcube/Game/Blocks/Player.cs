@@ -1,6 +1,7 @@
 ﻿using Microcube.Game.Blocks.Enums;
 using Microcube.Graphics.ColorModels;
 using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
@@ -25,7 +26,7 @@ namespace Microcube.Game.Blocks
         private readonly float mass = 0.01f;
         private readonly float gravity = -9.81f;
 
-        public override Vector3D<float> Position
+        public override Vector3 Position
         {
             get => base.Position;
             set
@@ -33,7 +34,7 @@ namespace Microcube.Game.Blocks
                 base.Position = value;
                 // TODO: something is wrong when player falling and pushing my other block
                 ModelMatrix = CalculateMovingMatrix(innerOffset, barrier, changeAxis)
-                    * Matrix4X4.CreateTranslation(Position);
+                    * Matrix4x4.CreateTranslation(Position);
             }
         }
 
@@ -46,12 +47,12 @@ namespace Microcube.Game.Blocks
         /// <summary>
         /// Position what will be setted when player will be died or a level will be started.
         /// </summary>
-        public Vector3D<float> StartPosition { get; set; }
+        public Vector3 StartPosition { get; set; }
 
         /// <summary>
         /// Fake position of the player that takes into account it's inner offset
         /// </summary>
-        public Vector3D<float> OffsettedPosition
+        public Vector3 OffsettedPosition
         {
             get
             {
@@ -64,17 +65,20 @@ namespace Microcube.Game.Blocks
                             if (changeAxis)
                                 (moveX, moveZ) = (moveZ, moveX);
 
-                            return Position + new Vector3D<float>(moveX, 0.0f, moveZ);
+                            return Position + new Vector3(moveX, 0.0f, moveZ);
                         }
                         else
                         {
-                            Vector4D<float> vector4D = new Vector4D<float>(0.0f, 0.0f, 0.0f, 1.0f)
-                                * CalculateMovingMatrix(innerOffset, barrier, changeAxis);
+                            // TODO: remove Silk.NET library using
+                            Vector4D<float> silkVector4D = new Vector4D<float>(0.0f, 0.0f, 0.0f, 1.0f)
+                                * CalculateMovingMatrix(innerOffset, barrier, changeAxis).ToGeneric();
 
-                            return Position + new Vector3D<float>(vector4D.X, vector4D.Y, vector4D.Z);
+                            Vector4 vector4D = silkVector4D.ToSystem();
+
+                            return Position + new Vector3(vector4D.X, vector4D.Y, vector4D.Z);
                         }
                     case PlayerState.Falling:
-                        return new Vector3D<float>(Position.X, Position.Y + innerOffset, Position.Z);
+                        return new Vector3(Position.X, Position.Y + innerOffset, Position.Z);
                 }
                 return Position;
             }
@@ -83,7 +87,7 @@ namespace Microcube.Game.Blocks
         /// <summary>
         /// Next position that's expected when player will do step.
         /// </summary>
-        public Vector3D<float> NextPosition
+        public Vector3 NextPosition
         {
             get
             {
@@ -96,7 +100,7 @@ namespace Microcube.Game.Blocks
                     if (changeAxis)
                         (moveX, moveZ) = (moveZ, moveX);
 
-                    return new Vector3D<float>(Position.X + moveX, Position.Y + moveY, Position.Z + moveZ);
+                    return new Vector3(Position.X + moveX, Position.Y + moveY, Position.Z + moveZ);
                 }
                 return Position;
             }
@@ -108,7 +112,7 @@ namespace Microcube.Game.Blocks
         /// </summary>
         public float Energy { get; set; }
 
-        public Player(Vector3D<float> startPosition, RgbaColor color, Level level) : base(startPosition, color)
+        public Player(Vector3 startPosition, RgbaColor color, Level level) : base(startPosition, color)
         {
             ArgumentNullException.ThrowIfNull(level, nameof(level));
             this.level = level;
@@ -140,7 +144,7 @@ namespace Microcube.Game.Blocks
         /// It should be used when different block pushes this player.
         /// </summary>
         /// <param name="offset">Offset of the player.</param>
-        public void Push(Vector3D<float> offset)
+        public void Push(Vector3 offset)
         {
             Position += offset;
             isPushed = true;
@@ -163,10 +167,10 @@ namespace Microcube.Game.Blocks
                 {
                     Block? highestBlock = level.GetHighestBarrierFromHeight(Position.X, Position.Z, Position.Y);
                     if (highestBlock?.IsBarrier is true && OffsettedPosition.Y - highestBlock.Position.Y < 1.0f)
-                        ProcessPosition(new Vector3D<float>(Position.X, highestBlock.Position.Y + 1.0f, Position.Z));
+                        ProcessPosition(new Vector3(Position.X, highestBlock.Position.Y + 1.0f, Position.Z));
                 }
 
-                ModelMatrix = Matrix4X4.CreateTranslation(Position.X, Position.Y + innerOffset, Position.Z);
+                ModelMatrix = Matrix4x4.CreateTranslation(Position.X, Position.Y + innerOffset, Position.Z);
             }
             else
             {
@@ -175,7 +179,7 @@ namespace Microcube.Game.Blocks
 
                 // TODO: rewrite it
                 if (!isPushed && state == PlayerState.Standing && (Math.Truncate(Position.X) != 0.0f || Math.Truncate(Position.Y) != 0.0f))
-                    ProcessPosition(new Vector3D<float>(MathF.Round(Position.X), Position.Y, MathF.Round(Position.Z)));
+                    ProcessPosition(new Vector3(MathF.Round(Position.X), Position.Y, MathF.Round(Position.Z)));
 
                 float movingForceStrength = velocity == 0.0f ? Energy : 0.50f;
                 float weightForceStrength = 0.25f;
@@ -218,7 +222,7 @@ namespace Microcube.Game.Blocks
                 }
 
                 ModelMatrix = CalculateMovingMatrix(innerOffset, barrier, changeAxis)
-                    * Matrix4X4.CreateTranslation(Position);
+                    * Matrix4x4.CreateTranslation(Position);
             }
 
             isKeyPressed = false;
@@ -229,7 +233,7 @@ namespace Microcube.Game.Blocks
         /// Processes new position like when player was stepped to this position.
         /// </summary>
         /// <param name="position">New position.</param>
-        public void ProcessPosition(Vector3D<float> position)
+        public void ProcessPosition(Vector3 position)
         {
             innerOffset = 0.0f;
             velocity = 0.0f;
@@ -249,7 +253,7 @@ namespace Microcube.Game.Blocks
         /// <param name="barrier">A barrier forward player.</param>
         /// <param name="changeAxis">Is change axis from Z to X.</param>
         /// <returns>Player model matrix</returns>
-        public static Matrix4X4<float> CalculateMovingMatrix(float offset, PlayerBarrier barrier, bool changeAxis)
+        public static Matrix4x4 CalculateMovingMatrix(float offset, PlayerBarrier barrier, bool changeAxis)
         {
             float translateY = 0.5f, translateZ = -MathF.CopySign(0.5f, offset);
 
@@ -263,12 +267,12 @@ namespace Microcube.Game.Blocks
                 }
             }
 
-            Matrix4X4<float> matrix = Matrix4X4.CreateTranslation(0.0f, translateY, translateZ)
-                * Matrix4X4.CreateRotationX(offset * (MathF.PI / 2.0f))
-                * Matrix4X4.CreateTranslation(0.0f, -translateY, -translateZ);
+            Matrix4x4 matrix = Matrix4x4.CreateTranslation(0.0f, translateY, translateZ)
+                * Matrix4x4.CreateRotationX(offset * (MathF.PI / 2.0f))
+                * Matrix4x4.CreateTranslation(0.0f, -translateY, -translateZ);
 
             if (changeAxis)
-                matrix *= Matrix4X4.CreateRotationY(MathF.PI / 2.0f);
+                matrix *= Matrix4x4.CreateRotationY(MathF.PI / 2.0f);
 
             return matrix;
         }

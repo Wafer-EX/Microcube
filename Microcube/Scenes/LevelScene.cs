@@ -10,8 +10,8 @@ using Microcube.UI.Components;
 using Microcube.UI.Components.Containers;
 using Microcube.UI.Components.Enums;
 using Microcube.UI.Components.Layouts;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Numerics;
 
 namespace Microcube.Scenes
 {
@@ -34,7 +34,7 @@ namespace Microcube.Scenes
             LevelContent levelContent = LevelParser.Parse(levelInfo.Path);
 
             level = new Level(levelContent.Blocks, levelContent.MoveQueues, levelContent.StartPosition);
-            camera3D = new Camera3D(Vector3D<float>.Zero, Vector3D<float>.Zero, 0.75f, (float)width / height, 5.0f);
+            camera3D = new Camera3D(Vector3.Zero, Vector3.Zero, 0.75f, (float)width / height, 5.0f);
             levelRenderer = new LevelRenderer(gl);
             levelScreenEffect = new ChromaticAberrationScreenEffect(gl);
             levelRenderTarget = new RenderTarget(gl, width, height, levelScreenEffect);
@@ -79,7 +79,7 @@ namespace Microcube.Scenes
                     },
                     new SizedContainer()
                     {
-                        Size = new Vector2D<float>(256, 64),
+                        Size = new Vector2(256, 64),
                         AutomaticallyFocusChild = true,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Middle,
@@ -111,17 +111,17 @@ namespace Microcube.Scenes
                     },
                     new SizedContainer()
                     {
-                        Size = new Vector2D<float>(360, 256),
+                        Size = new Vector2(360, 256),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Middle,
                         BackgroundColor = new RgbaColor(0.0f, 0.0f, 0.0f, 0.5f),
                         Child = new WeightedStackLayout()
                         {
-                            Weights = new float[]
-                            {
+                            Weights =
+                            [
                                 0.80f,
                                 0.20f
-                            },
+                            ],
                             Childs = new List<Component?>()
                             {
                                 new TextComponent()
@@ -186,7 +186,7 @@ namespace Microcube.Scenes
 
                 level.Update(deltaTime);
                 camera3D.Target = level.Player.OffsettedPosition;
-                camera3D.Position = level.Player.OffsettedPosition + new Vector3D<float>(-5, 5, -5);
+                camera3D.Position = level.Player.OffsettedPosition + new Vector3(-5, 5, -5);
                 camera3D.Update(deltaTime);
 
                 if (levelScreenEffect.Strength > 0.0f)

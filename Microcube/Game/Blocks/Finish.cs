@@ -1,5 +1,5 @@
 ﻿using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
@@ -31,7 +31,7 @@ namespace Microcube.Game.Blocks
 
         public override bool IsBarrier => true;
 
-        public Finish(Vector3D<float> position, RgbaColor color, bool isCenter) : base(position, color)
+        public Finish(Vector3 position, RgbaColor color, bool isCenter) : base(position, color)
         {
             this.isCenter = isCenter;
             topSideColor = new RgbaColor(1.0f, 0.25f, 0.25f, 1.0f);
@@ -43,7 +43,7 @@ namespace Microcube.Game.Blocks
 
             if (isCenter)
             {
-                if (Vector3D.Distance(level.Player.Position, Position + new Vector3D<float>(0.0f, 1.0f, 0.0f)) < 1.0f)
+                if (Vector3.Distance(level.Player.Position, Position + new Vector3(0.0f, 1.0f, 0.0f)) < 1.0f)
                     level.Finish();
             }
         }
@@ -54,13 +54,13 @@ namespace Microcube.Game.Blocks
         /// <param name="position">Position of the finish plane.</param>
         /// <param name="color">Color of ground block.</param>
         /// <returns>List of blocks from the generated finish plane.</returns>
-        public static IEnumerable<Finish> GenerateFinish(Vector3D<float> position, RgbaColor color)
+        public static IEnumerable<Finish> GenerateFinish(Vector3 position, RgbaColor color)
         {
             for (float x = -1; x <= 1; x++)
             {
                 for (float z = -1; z <= 1; z++)
                 {
-                    var blockPosition = new Vector3D<float>(position.X + x, position.Y, position.Z + z);
+                    var blockPosition = new Vector3(position.X + x, position.Y, position.Z + z);
                     bool isCenter = x == 0.0f && z == 0.0f;
                     yield return new Finish(blockPosition, color, isCenter);
                 }
