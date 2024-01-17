@@ -33,4 +33,4 @@ It was just an experiment to me like a challenge, it's not pretend to be a real 
 | StbImageSharp | [Github](https://github.com/StbSharp/StbImageSharp) |
 
 ## License
-This project doesn't has any license. By laws of many countries (include the country where I am) it means that only I have right to this code and all resources here. So... Copyright 2023 Kirill Lomakin. All rights reserved.
+This project doesn't has any license. By laws of many countries (include the country where I am) it means that only I have right to this code and all resources here. So... Copyright 2023-2024 Kirill Lomakin. All rights reserved.
