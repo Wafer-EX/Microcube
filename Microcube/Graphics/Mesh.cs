@@ -28,8 +28,8 @@
             return new Mesh()
             {
                 VerticesCount = 36,
-                Vertices = new float[]
-                {
+                Vertices =
+                [
                     // --- TOP ------------------------------------------
                     // 3x POSITIONS | 3x NORMALS | 2x TEXTURE COORDINATES
                     -halfScale,  halfScale, -halfScale,  0,  1,  0, 0, 0,
@@ -83,7 +83,7 @@
                     -halfScale, -halfScale, -halfScale,  0,  0, -1, 1, 1,
                     -halfScale,  halfScale, -halfScale,  0,  0, -1, 0, 1,
                      halfScale,  halfScale, -halfScale,  0,  0, -1, 0, 0,
-                },
+                ],
             };
         }
     }

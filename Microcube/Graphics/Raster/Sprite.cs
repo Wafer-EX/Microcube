@@ -125,15 +125,16 @@ namespace Microcube.Graphics.Raster
             }
 
             float isIgnoreSprite = Texture is null ? 1.0f : 0.0f;
-            return new float[]
-            {
+
+            return
+            [
                 pointA.X, pointA.Y, uvStartX, uvStartY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
                 pointB.X, pointB.Y, uvEndX, uvStartY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
                 pointC.X, pointC.Y, uvEndX, evEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
                 pointA.X, pointA.Y, uvStartX, uvStartY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
                 pointC.X, pointC.Y, uvEndX, evEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
                 pointD.X, pointD.Y, uvStartX, evEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
-            };
+            ];
         }
     }
 }

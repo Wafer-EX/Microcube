@@ -3,6 +3,7 @@ using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster.TextModifiers;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Numerics;
 
 namespace Microcube.Graphics.Raster
 {
@@ -14,7 +15,7 @@ namespace Microcube.Graphics.Raster
         /// <summary>
         /// Global position of the font. Shoudn't be changed by UI.
         /// </summary>
-        public Vector2D<float> Position { get; set; }
+        public Vector2 Position { get; set; }
 
         /// <summary>
         /// Global color of the font. Shoudn't be changed by UI.
@@ -48,7 +49,7 @@ namespace Microcube.Graphics.Raster
 
         public BitmapFont(GL gl, string texturePath, string atlasPath) : base(gl, texturePath, atlasPath)
         {
-            Position = Vector2D<float>.Zero;
+            Position = Vector2.Zero;
             Color = RgbaColor.White;
             Scale = 1.0f;
 
@@ -106,7 +107,7 @@ namespace Microcube.Graphics.Raster
         /// <param name="specificColor">Specific color for this call.</param>
         /// <param name="specificTextModifier">Specific text modifier for this call.</param>
         /// <returns>Sprites of the characters in the text.</returns>
-        public IEnumerable<Sprite> GetSprites(string text, Vector2D<float> specificPosition, RgbaColor? specificColor = null, ITextModifier? specificTextModifier = null)
+        public IEnumerable<Sprite> GetSprites(string text, Vector2 specificPosition, RgbaColor? specificColor = null, ITextModifier? specificTextModifier = null)
         {
             if (text.Length == 0)
                 yield break;
@@ -194,7 +195,7 @@ namespace Microcube.Graphics.Raster
                     _ => throw new NotImplementedException()
                 };
 
-                var position = new Vector2D<float>
+                var position = new Vector2
                 {
                     X = specificArea.Origin.X + offsetX,
                     Y = specificArea.Origin.Y + offsetY,

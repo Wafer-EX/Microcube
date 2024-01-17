@@ -1,6 +1,7 @@
 ﻿using Microcube.Graphics.Abstractions;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Numerics;
 using System.Xml;
 
 namespace Microcube.Graphics.Raster
@@ -101,10 +102,10 @@ namespace Microcube.Graphics.Raster
         /// <param name="identifier">Identifier of the sprite.</param>
         /// <param name="position">Position of the sprite where it will be displayed.</param>
         /// <returns>Sprite from the texture atlas.</returns>
-        public Sprite GetSprite(T identifier, Vector2D<float> position)
+        public Sprite GetSprite(T identifier, Vector2 position)
         {
             Sprite sprite = Sprites[identifier];
-            sprite.ViewportArea = new Rectangle<float>(position, sprite.ViewportArea.Size);
+            sprite.ViewportArea = new Rectangle<float>(position.ToGeneric(), sprite.ViewportArea.Size);
             return sprite;
         }
 

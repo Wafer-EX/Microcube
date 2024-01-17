@@ -1,4 +1,5 @@
 ﻿using Silk.NET.Maths;
+using System.Numerics;
 
 namespace Microcube.Graphics.Raster.TextModifiers
 {
@@ -12,19 +13,19 @@ namespace Microcube.Graphics.Raster.TextModifiers
         /// <summary>
         /// Strength of the modifier, in both coorditanes.
         /// </summary>
-        public Vector2D<float> Strength { get; set; }
+        public Vector2 Strength { get; set; }
 
         /// <summary>
         /// Wave size (frequency) of the modifier, in both coordinates.
         /// </summary>
-        public Vector2D<float> WaveSize { get; set; }
+        public Vector2 WaveSize { get; set; }
 
         /// <summary>
         /// Wave speed of the modifier, in both coordinates.
         /// </summary>
-        public Vector2D<float> Speed { get; set; }
+        public Vector2 Speed { get; set; }
 
-        public WaveTextModifier(Vector2D<float> strength, Vector2D<float> waveSize, Vector2D<float> speed)
+        public WaveTextModifier(Vector2 strength, Vector2 waveSize, Vector2 speed)
         {
             Strength = strength;
             WaveSize = waveSize;
