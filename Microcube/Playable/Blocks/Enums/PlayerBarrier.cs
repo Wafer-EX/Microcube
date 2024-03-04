@@ -1,4 +1,4 @@
-﻿namespace Microcube.Game.Blocks.Enums
+﻿namespace Microcube.Playable.Blocks.Enums
 {
     /// <summary>
     /// Represents a barrier in the moving direction at the frame.

@@ -1,4 +1,4 @@
-﻿namespace Microcube.Game.Blocks
+﻿namespace Microcube.Playable.Blocks
 {
     /// <summary>
     /// Represents a block that can be updated.

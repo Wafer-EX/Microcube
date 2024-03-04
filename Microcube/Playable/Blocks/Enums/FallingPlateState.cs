@@ -1,4 +1,4 @@
-﻿namespace Microcube.Game.Blocks.Enums
+﻿namespace Microcube.Playable.Blocks.Enums
 {
     /// <summary>
     /// Represents state of a plate at the frame.

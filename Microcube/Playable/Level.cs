@@ -1,9 +1,9 @@
-﻿using Microcube.Game.Blocks;
-using Microcube.Game.Blocks.Moving;
-using Microcube.Graphics.ColorModels;
+﻿using Microcube.Graphics.ColorModels;
+using Microcube.Playable.Blocks;
+using Microcube.Playable.Blocks.Moving;
 using System.Numerics;
 
-namespace Microcube.Game
+namespace Microcube.Playable
 {
     /// <summary>
     /// Represents a level class that include all blocks, move queues, player and etc.

@@ -1,7 +1,7 @@
 ﻿using Microcube.Graphics.ColorModels;
 using System.Numerics;
 
-namespace Microcube.Game.Blocks
+namespace Microcube.Playable.Blocks
 {
     /// <summary>
     /// Represents a prism that can be collected by player

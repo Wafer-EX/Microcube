@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Microcube.Game.Blocks.Moving
+namespace Microcube.Playable.Blocks.Moving
 {
     public class Movement(float x, float y, float z, float time)
     {

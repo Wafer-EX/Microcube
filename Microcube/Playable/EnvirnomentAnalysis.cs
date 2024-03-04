@@ -1,7 +1,7 @@
-﻿using Microcube.Game.Blocks.Enums;
+﻿using Microcube.Playable.Blocks.Enums;
 using System.Numerics;
 
-namespace Microcube.Game
+namespace Microcube.Playable
 {
     public static class EnvirnomentAnalysis
     {

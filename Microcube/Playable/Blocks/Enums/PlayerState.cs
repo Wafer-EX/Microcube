@@ -1,4 +1,4 @@
-﻿namespace Microcube.Game.Blocks.Enums
+﻿namespace Microcube.Playable.Blocks.Enums
 {
     /// <summary>
     /// Represents player state at this frame.

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Microcube.Game.Blocks.Moving
+namespace Microcube.Playable.Blocks.Moving
 {
     /// <summary>
     /// Represents a queue of movements that can give offset of the frame or general offset.

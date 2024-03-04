@@ -1,6 +1,6 @@
-﻿using Microcube.Game.Blocks;
-using Microcube.Game.Blocks.Moving;
-using Microcube.Graphics.ColorModels;
+﻿using Microcube.Graphics.ColorModels;
+using Microcube.Playable.Blocks;
+using Microcube.Playable.Blocks.Moving;
 using System.Numerics;
 using System.Xml;
 

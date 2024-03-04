@@ -1,8 +1,8 @@
-﻿using Microcube.Game.Blocks.Moving;
+﻿using Microcube.Playable.Blocks.Moving;
 using Microcube.Graphics.ColorModels;
 using System.Numerics;
 
-namespace Microcube.Game.Blocks
+namespace Microcube.Playable.Blocks
 {
     /// <summary>
     /// Represents an usual ground block that can interact with player as barrier.

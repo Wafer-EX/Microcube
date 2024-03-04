@@ -1,8 +1,8 @@
-﻿using Microcube.Game;
-using Microcube.Game.Blocks;
-using Microcube.Graphics.Abstractions;
+﻿using Microcube.Graphics.Abstractions;
 using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Shaders;
+using Microcube.Playable;
+using Microcube.Playable.Blocks;
 using Silk.NET.OpenGL;
 using System.Numerics;
 
@@ -24,8 +24,10 @@ namespace Microcube.Graphics.Renderers
             ClearColor = new RgbaColor(0.1f, 0.1f, 0.1f, 1.0f);
             IsClearBackground = true;
 
-            _shader = new BlockShader(gl);
-            _shader.LightDirection = new Vector3(-0.65f, 1.0f, -0.75f);
+            _shader = new BlockShader(gl)
+            {
+                LightDirection = new Vector3(-0.65f, 1.0f, -0.75f)
+            };
 
             _blockVao = new GLVertexArray(gl);
 

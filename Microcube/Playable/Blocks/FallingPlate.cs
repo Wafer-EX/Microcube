@@ -1,8 +1,8 @@
-﻿using Microcube.Game.Blocks.Enums;
-using Microcube.Graphics.ColorModels;
+﻿using Microcube.Graphics.ColorModels;
+using Microcube.Playable.Blocks.Enums;
 using System.Numerics;
 
-namespace Microcube.Game.Blocks
+namespace Microcube.Playable.Blocks
 {
     /// <summary>
     /// Represents a block that can fall when player is stepped on it.

@@ -1,7 +1,7 @@
 ﻿using Microcube.Graphics.ColorModels;
 using System.Numerics;
 
-namespace Microcube.Game.Blocks
+namespace Microcube.Playable.Blocks
 {
     public class Finish(Vector3 position, RgbaColor color, bool isCenter) : Block(position, color), IDynamic
     {
