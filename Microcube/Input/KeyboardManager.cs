@@ -84,6 +84,8 @@ namespace Microcube.Input
             }
         }
 
+        public GameActionBatch GetActionBatch() => new GameActionBatch(GetActions());
+
         /// <summary>
         /// Updated info of pressed keys. Should be called at end.
         /// </summary>

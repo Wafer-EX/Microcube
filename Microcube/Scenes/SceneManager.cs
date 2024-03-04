@@ -11,7 +11,7 @@ namespace Microcube.Scenes
     public class SceneManager : IDisposable
     {
         private readonly Viewport _viewport;
-        private Scene _currentScene;
+        private Scene? _currentScene;
         private Scene? _expectedScene;
 
         /// <summary>
@@ -19,16 +19,17 @@ namespace Microcube.Scenes
         /// </summary>
         public Translation Translation { get; set; }
 
-        public SceneManager(Viewport viewport, Scene initialScene)
+        public SceneManager(Viewport viewport, Scene? initialScene = null)
         {
             ArgumentNullException.ThrowIfNull(viewport, nameof(viewport));
-            ArgumentNullException.ThrowIfNull(initialScene, nameof(initialScene));
 
             Translation = new DefaultTranslation(viewport.GLContext);
 
             _viewport = viewport;
             _currentScene = initialScene;
-            _currentScene.SceneManager = this;
+
+            if (_currentScene != null)
+                _currentScene.SceneManager = this;
         }
 
         /// <summary>
@@ -55,13 +56,14 @@ namespace Microcube.Scenes
         public void Update(GameActionBatch actionBatch, float deltaTime)
         {
             Translation.Update(deltaTime);
+
             if (Translation.IsIntersectedCenter && _expectedScene != null)
             {
-                _currentScene.Dispose();
+                _currentScene?.Dispose();
                 _currentScene = _expectedScene;
             }
 
-            _currentScene.Update(actionBatch, deltaTime);
+            _currentScene?.Update(actionBatch, deltaTime);
         }
 
         /// <summary>
@@ -70,16 +72,19 @@ namespace Microcube.Scenes
         /// <param name="deltaTime">Time of the frame.</param>
         public void Render(float deltaTime)
         {
-            _currentScene.Render(deltaTime);
+            if (_currentScene != null)
+            {
+                _currentScene.Render(deltaTime);
 
-            RectangleF displayedArea = _viewport.FitToCenter(_currentScene.Width, _currentScene.Height);
-            _currentScene.FinalRenderTarget.ScreenEffect = Translation;
-            _currentScene.FinalRenderTarget.Render(0, displayedArea);
+                RectangleF displayedArea = _viewport.FitToCenter(_currentScene.Width, _currentScene.Height);
+                _currentScene.FinalRenderTarget.ScreenEffect = Translation;
+                _currentScene.FinalRenderTarget.Render(0, displayedArea);
+            }
         }
 
         public void Dispose()
         {
-            _currentScene.Dispose();
+            _currentScene?.Dispose();
             GC.SuppressFinalize(this);
         }
     }
