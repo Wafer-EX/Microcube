@@ -1,7 +1,6 @@
 ﻿using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster;
-using Silk.NET.Maths;
 using System.Drawing;
 using System.Numerics;
 

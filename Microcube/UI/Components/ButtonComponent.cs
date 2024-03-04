@@ -4,7 +4,6 @@ using Microcube.Graphics.Raster;
 using Microcube.Graphics.Raster.TextModifiers;
 using Microcube.Input;
 using Microcube.UI.Components.Styles;
-using Silk.NET.Maths;
 using System.Drawing;
 
 namespace Microcube.UI.Components

@@ -2,7 +2,6 @@
 using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster;
 using Microcube.Graphics.Raster.TextModifiers;
-using Silk.NET.Maths;
 using System.Drawing;
 
 namespace Microcube.UI.Components

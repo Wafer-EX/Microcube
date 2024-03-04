@@ -1,6 +1,7 @@
 ﻿using Microcube.Graphics;
 using Microcube.Graphics.ScreenEffects.Translations;
 using Microcube.Input;
+using System.Drawing;
 
 namespace Microcube.Scenes
 {
@@ -71,7 +72,7 @@ namespace Microcube.Scenes
         {
             _currentScene.Render(deltaTime);
 
-            var displayedArea = _viewport.FitToCenter(_currentScene.Width, _currentScene.Height);
+            RectangleF displayedArea = _viewport.FitToCenter(_currentScene.Width, _currentScene.Height);
             _currentScene.FinalRenderTarget.ScreenEffect = Translation;
             _currentScene.FinalRenderTarget.Render(0, displayedArea);
         }

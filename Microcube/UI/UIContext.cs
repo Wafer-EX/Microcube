@@ -1,9 +1,7 @@
 ﻿using Microcube.Graphics.Raster;
 using Microcube.Input;
 using Microcube.UI.Components;
-using Silk.NET.Maths;
 using System.Drawing;
-using System.Numerics;
 
 namespace Microcube.UI
 {
@@ -63,7 +61,7 @@ namespace Microcube.UI
             if (Child == null)
                 yield break;
 
-            var displayedArea = new RectangleF(0, 0, Width, Height);
+            RectangleF displayedArea = new(0, 0, Width, Height);
 
             foreach (Sprite sprite in Child.GetSprites(displayedArea))
                 yield return sprite;

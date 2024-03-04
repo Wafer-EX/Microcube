@@ -1,7 +1,7 @@
 ﻿using Microcube.Graphics.Abstractions;
 using Microcube.Graphics.ScreenEffects;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Drawing;
 
 namespace Microcube.Graphics
 {
@@ -118,9 +118,9 @@ namespace Microcube.Graphics
         /// </summary>
         /// <param name="frameBuffer">Specific frame buffer.</param>
         /// <param name="displayedArea">Displayed area in the viewport.</param>
-        public void Render(uint frameBuffer, Rectangle<float> displayedArea)
+        public void Render(uint frameBuffer, RectangleF displayedArea)
         {
-            Render(frameBuffer, (int)displayedArea.Origin.X, (int)displayedArea.Origin.Y, (uint)displayedArea.Size.X, (uint)displayedArea.Size.Y);
+            Render(frameBuffer, (int)displayedArea.X, (int)displayedArea.Y, (uint)displayedArea.Width, (uint)displayedArea.Height);
         }
 
         public void Dispose()

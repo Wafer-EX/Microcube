@@ -1,5 +1,5 @@
-﻿using Silk.NET.Maths;
-using Silk.NET.OpenGL;
+﻿using Silk.NET.OpenGL;
+using System.Drawing;
 
 namespace Microcube.Graphics
 {
@@ -52,7 +52,7 @@ namespace Microcube.Graphics
         /// <param name="width">Width of the square.</param>
         /// <param name="height">Height of the square.</param>
         /// <returns>Fitted square at center of the viewport.</returns>
-        public Rectangle<float> FitToCenter(float width, float height)
+        public RectangleF FitToCenter(float width, float height)
         {
             float scaleFactor = MathF.Min(Width / width, Height / height);
             float finalWidth = width * scaleFactor;
@@ -61,7 +61,7 @@ namespace Microcube.Graphics
             float offsetX = Width / 2.0f - finalWidth / 2.0f;
             float offsetY = Height / 2.0f - finalHeight / 2.0f;
 
-            return new Rectangle<float>(offsetX, offsetY, finalWidth, finalHeight);
+            return new RectangleF(offsetX, offsetY, finalWidth, finalHeight);
         }
     }
 }

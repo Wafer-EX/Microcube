@@ -2,7 +2,6 @@
 using Microcube.Graphics.Raster;
 using Microcube.Input;
 using Microcube.UI.Components.Enums;
-using Silk.NET.Maths;
 using System.Drawing;
 
 namespace Microcube.UI.Components.Layouts

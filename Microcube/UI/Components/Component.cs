@@ -1,5 +1,4 @@
 ﻿using Microcube.Graphics.Raster;
-using Silk.NET.Maths;
 using System.Drawing;
 
 namespace Microcube.UI.Components

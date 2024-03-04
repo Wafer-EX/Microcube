@@ -1,7 +1,6 @@
 ﻿using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Raster;
 using Microcube.Input;
-using Silk.NET.Maths;
 using System.Drawing;
 
 namespace Microcube.UI.Components.Layouts
