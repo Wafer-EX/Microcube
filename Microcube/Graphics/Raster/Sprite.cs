@@ -106,7 +106,7 @@ namespace Microcube.Graphics.Raster
             float uvStartX = TextureArea.X / Texture?.Width ?? 1.0f;
             float uvStartY = TextureArea.Y / Texture?.Height ?? 1.0f;
             float uvEndX = uvStartX + TextureArea.Width / Texture?.Width ?? 1.0f;
-            float evEndY = uvStartY + TextureArea.Height / Texture?.Height ?? 1.0f;
+            float uvEndY = uvStartY + TextureArea.Height / Texture?.Height ?? 1.0f;
 
             var pointA = new Vector4(ViewportArea.X, ViewportArea.Y, 0.0f, 1.0f);
             var pointB = new Vector4(ViewportArea.X + ViewportArea.Width, ViewportArea.Y, 0.0f, 1.0f);
@@ -132,10 +132,10 @@ namespace Microcube.Graphics.Raster
             [
                 pointA.X, pointA.Y, uvStartX, uvStartY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
                 pointB.X, pointB.Y, uvEndX, uvStartY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
-                pointC.X, pointC.Y, uvEndX, evEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
+                pointC.X, pointC.Y, uvEndX, uvEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
                 pointA.X, pointA.Y, uvStartX, uvStartY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
-                pointC.X, pointC.Y, uvEndX, evEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
-                pointD.X, pointD.Y, uvStartX, evEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
+                pointC.X, pointC.Y, uvEndX, uvEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
+                pointD.X, pointD.Y, uvStartX, uvEndY, Color.Red, Color.Green, Color.Blue, Color.Alpha, isIgnoreSprite,
             ];
         }
     }

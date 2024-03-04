@@ -19,7 +19,7 @@ namespace Microcube
 
         public Game(IGLContextSource contextSource, IReadOnlyList<IKeyboard> keyboardList, int width, int height)
         {
-            // TODO: fix drawing with this
+            // It's a wrong way to draw without it
             //StbImage.stbi_set_flip_vertically_on_load(1);
 
             GL = GL.GetApi(contextSource);
