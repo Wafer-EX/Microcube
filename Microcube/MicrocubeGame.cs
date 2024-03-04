@@ -9,9 +9,7 @@ namespace Microcube
     public class MicrocubeGame : Game
     {
         public MicrocubeGame(IGLContextSource contextSource, IReadOnlyList<IKeyboard> keyboardList, int width, int height) : base(contextSource, keyboardList, width, height)
-        {
-            SceneManager.SetScene(new MainMenuScene(GL, 640, 360));
-        }
+            => SceneManager.SetScene(new MainMenuScene(GL, 640, 360));
 
         public override void Update(float deltaTime)
         {
@@ -19,10 +17,7 @@ namespace Microcube
             KeyboardManager.Update();
         }
 
-        public override void Render(float deltaTime)
-        {
-            SceneManager?.Render(deltaTime);
-        }
+        public override void Render(float deltaTime) => SceneManager?.Render(deltaTime);
 
         public override void Resize(uint width, uint height)
         {

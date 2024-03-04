@@ -14,7 +14,7 @@ namespace Microcube.Input
         public KeyboardManager(IReadOnlyList<IKeyboard> keyboards)
         {
             ArgumentNullException.ThrowIfNull(keyboards, nameof(keyboards));
-            this._keyboards = keyboards;
+            _keyboards = keyboards;
 
             _pressedKeys = [];
             _repeatedKeys = [];
@@ -84,7 +84,7 @@ namespace Microcube.Input
             }
         }
 
-        public GameActionBatch GetActionBatch() => new GameActionBatch(GetActions());
+        public GameActionBatch GetActionBatch() => new(GetActions());
 
         /// <summary>
         /// Updated info of pressed keys. Should be called at end.

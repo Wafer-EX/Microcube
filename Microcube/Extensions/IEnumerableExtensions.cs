@@ -15,7 +15,7 @@ namespace Microcube.Extensions
             foreach (var sprite in sprites)
                 spriteData.AddRange(sprite.GetData());
 
-            return spriteData.ToArray();
+            return [.. spriteData];
         }
     }
 }
