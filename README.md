@@ -1,14 +1,15 @@
-# Microcube (Demo)
-This is a simple game that is a clone of the EDGE (by Mobigame) where you rolls a cube to finish. It was made from scratch using OpenGL. (Silk.NET bindings.)
+# Microcube
+It's a simple game where you roll the cube and may collect prisms to finish the level. It's a clone of EDGE game by Mobigame. It's made by OpenGL (Silk.NET bindings) from scratch.
 
 ### What's the goal?
-It was just an experiment to me like a challenge, it's not pretend to be a real game and shouldn't uploaded to places like Play Market, App Store and etc. This game include basic implementation of common things and was planned as example for me, how I can make a game from scratch, and to get some experience. So this game doesn't has any licence, i.e. all rights are reserved.
+I always wanted to know how people make games on low-level and how the graphics works, and this my personal project is opened these mysteries to me. I wanted to make the graphics beautiful, but I got I can't done relatively big projects... The game is not pretend to be a real game like people really play and have some fun, it include basic implementation of common things and was planned as example for me, how I can make a game from scratch, and to get some experience.
 
-### Implemented things:
+### Implemented basic things:
 - Levels
 - Sprites
 - Texture atlases (include fonts)
 - UI system
+- Translations
 ### Screenshots
 
 | Main menu | Level selection |
@@ -23,14 +24,13 @@ It was just an experiment to me like a challenge, it's not pretend to be a real 
 
 ## System requirements
 - .NET 8.0
-- OpenGL 4.6 (this project wasn't tested on older versions)
-- ...I don't know what else to add :D
+- OpenGL 3.3 (at least I strive for this)
 
-## Libraries that are used in the project
+## Third-party libraries
 | Name | Link |
 | - | - |
 | Silk.NET | [GitHub](https://github.com/dotnet/Silk.NET) |
 | StbImageSharp | [Github](https://github.com/StbSharp/StbImageSharp) |
 
 ## License
-This project doesn't has any license. By laws of many countries (include the country where I am) it means that only I have right to this code and all resources here. So... Copyright 2023-2024 Kirill Lomakin. All rights reserved.
+This game doesn't has any licence, i.e. all rights are reserved. But this code is trivial and was written by someone many times I guess, so you don't violate something when you write code like this, just don't copy and upload this game to resources like itch.io. I.e. formally... Copyright 2023-2024 Wafer EX. All rights reserved.
