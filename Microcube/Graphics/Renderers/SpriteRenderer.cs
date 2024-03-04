@@ -2,6 +2,7 @@
 using Microcube.Graphics.Abstractions;
 using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Raster;
+using Microcube.Graphics.Shaders;
 using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.Renderers
@@ -20,7 +21,7 @@ namespace Microcube.Graphics.Renderers
     {
         private readonly GLVertexArray _spriteVao;
         private readonly GLBuffer<float> _spriteVbo;
-        private readonly GLShaderProgram _shaderProgram;
+        private readonly SpriteShader _shader;
 
         private readonly List<SpriteBatch> spriteBatches;
 
@@ -29,7 +30,7 @@ namespace Microcube.Graphics.Renderers
             ClearColor = RgbaColor.Transparent;
             IsClearBackground = false;
 
-            _shaderProgram = new GLShaderProgram(gl, "Resources/shaders/sprite.vert", "Resources/shaders/sprite.frag");
+            _shader = new SpriteShader(gl, null);
             _spriteVao = new GLVertexArray(gl);
 
             _spriteVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, null);
@@ -85,15 +86,14 @@ namespace Microcube.Graphics.Renderers
             foreach (SpriteBatch spriteBatch in spriteBatches)
             {
                 _spriteVbo.SetBufferData(spriteBatch.Sprites.ToSpriteData());
-                spriteBatch.Texture?.Bind(TextureUnit.Texture0);
 
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
                 _spriteVao.Bind();
-                _shaderProgram.Use();
-                _shaderProgram.SetUniform("projectionMatrix", camera.GetProjectionMatrix());
-                _shaderProgram.SetUniform("sprite", 0);
+                _shader.ProjectionMatrix = camera.GetProjectionMatrix();
+                _shader.Texture = spriteBatch.Texture;
+                _shader.Prepare();
 
                 GL.DrawArrays(PrimitiveType.Triangles, 0, _spriteVbo.Count);
                 GL.Disable(EnableCap.Blend);
@@ -104,7 +104,7 @@ namespace Microcube.Graphics.Renderers
         {
             _spriteVao.Dispose();
             _spriteVbo.Dispose();
-            _shaderProgram.Dispose();
+            _shader.Dispose();
             GC.SuppressFinalize(this);
         }
     }

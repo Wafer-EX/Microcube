@@ -2,6 +2,7 @@
 using Microcube.Game.Blocks;
 using Microcube.Graphics.Abstractions;
 using Microcube.Graphics.ColorModels;
+using Microcube.Graphics.Shaders;
 using Silk.NET.OpenGL;
 using System.Numerics;
 
@@ -15,14 +16,17 @@ namespace Microcube.Graphics.Renderers
         private readonly GLVertexArray _blockVao;
         private readonly GLBuffer<float> _blockVerticesVbo;
         private readonly GLBuffer<float> _blockInstancesVbo;
-        private readonly GLShaderProgram _shaderProgram;
+
+        private readonly BlockShader _shader;
 
         public LevelRenderer(GL gl) : base(gl)
         {
             ClearColor = new RgbaColor(0.1f, 0.1f, 0.1f, 1.0f);
             IsClearBackground = true;
 
-            _shaderProgram = new GLShaderProgram(gl, "Resources/shaders/block.vert", "Resources/shaders/block.frag");
+            _shader = new BlockShader(gl);
+            _shader.LightDirection = new Vector3(-0.65f, 1.0f, -0.75f);
+
             _blockVao = new GLVertexArray(gl);
 
             _blockVerticesVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, Block.Mesh.Vertices);
@@ -86,10 +90,10 @@ namespace Microcube.Graphics.Renderers
             GL.Enable(EnableCap.CullFace);
 
             _blockVao.Bind();
-            _shaderProgram.Use();
-            _shaderProgram.SetUniform("lightDirection", new Vector3(-0.65f, 1.0f, -0.75f));
-            _shaderProgram.SetUniform("projectionMatrix", camera.GetProjectionMatrix());
-            _shaderProgram.SetUniform("viewMatrix", camera.GetViewMatrix());
+
+            _shader.ProjectionMatrix = camera.GetProjectionMatrix();
+            _shader.ViewMatrix = camera.GetViewMatrix();
+            _shader.Prepare();
 
             GL.DrawArraysInstanced(PrimitiveType.Triangles, 0, Block.Mesh.VerticesCount, _blockInstancesVbo.Count);
             GL.Disable(EnableCap.DepthTest);
@@ -101,7 +105,8 @@ namespace Microcube.Graphics.Renderers
             _blockVao.Dispose();
             _blockVerticesVbo.Dispose();
             _blockInstancesVbo.Dispose();
-            _shaderProgram.Dispose();
+
+            _shader.Dispose();
 
             GC.SuppressFinalize(this);
         }
