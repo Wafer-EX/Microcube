@@ -6,7 +6,7 @@ namespace Microcube.Graphics.Abstractions
     /// <summary>
     /// Represents an OpenGL texture object abstraction.
     /// </summary>
-    public class TextureObject : IDisposable
+    public class GLTexture : IDisposable
     {
         private readonly GL gl;
 
@@ -31,7 +31,7 @@ namespace Microcube.Graphics.Abstractions
         /// <param name="gl">OpenGL context.</param>
         /// <param name="width">Texture width.</param>
         /// <param name="height">Texture height.</param>
-        public TextureObject(GL gl, uint width, uint height, InternalFormat internalFormat, PixelFormat pixelFormat, PixelType pixelType)
+        public GLTexture(GL gl, uint width, uint height, InternalFormat internalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
             this.gl = gl;
@@ -49,7 +49,7 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         /// <param name="gl">OpenGL context.</param>
         /// <param name="path">Path to the texture.</param>
-        public TextureObject(GL gl, string path)
+        public GLTexture(GL gl, string path)
         {
             ArgumentNullException.ThrowIfNull(nameof(gl));
             this.gl = gl;

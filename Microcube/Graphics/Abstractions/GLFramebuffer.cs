@@ -5,7 +5,7 @@ namespace Microcube.Graphics.Abstractions
     /// <summary>
     /// Represents an OpenGL frame buffer abstraction to use it easily in the project.
     /// </summary>
-    public class FramebufferObject : IDisposable
+    public class GLFramebuffer : IDisposable
     {
         private readonly GL gl;
 
@@ -14,7 +14,7 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         public uint Identifier { get; init; }
 
-        public FramebufferObject(GL gl)
+        public GLFramebuffer(GL gl)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
             this.gl = gl;
@@ -28,7 +28,7 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         /// <param name="texture">Texture that should be attached.</param>
         /// <param name="attachment">Texture attachement.</param>
-        public void AttachTexture(TextureObject texture, FramebufferAttachment attachment)
+        public void AttachTexture(GLTexture texture, FramebufferAttachment attachment)
         {
             gl.FramebufferTexture2D(FramebufferTarget.Framebuffer, attachment, TextureTarget.Texture2D, texture.Identifier, 0);
         }

@@ -45,8 +45,8 @@ namespace Microcube.Scenes
             UIContext.Child = cardLayout = new CardLayout()
             {
                 IsFocused = true,
-                Childs = new List<Component?>()
-                {
+                Childs =
+                [
                     new InputInterceptorContainer()
                     {
                         OnInterception = actionBatch =>
@@ -85,8 +85,8 @@ namespace Microcube.Scenes
                         VerticalAlignment = VerticalAlignment.Middle,
                         Child = new StackLayout()
                         {
-                            Childs = new List<Component?>()
-                            {
+                            Childs =
+                            [
                                 new ButtonComponent()
                                 {
                                     Text = "Resume",
@@ -106,7 +106,7 @@ namespace Microcube.Scenes
                                     Font = DefaultFont,
                                     OnClick= () => SceneManager?.SetScene(new MainMenuScene(gl, width, height))
                                 },
-                            },
+                            ],
                         },
                     },
                     new SizedContainer()
@@ -122,8 +122,8 @@ namespace Microcube.Scenes
                                 0.80f,
                                 0.20f
                             ],
-                            Childs = new List<Component?>()
-                            {
+                            Childs =
+                            [
                                 new TextComponent()
                                 {
                                     Text = "The level was completed!",
@@ -137,8 +137,8 @@ namespace Microcube.Scenes
                                 new StackLayout()
                                 {
                                     Orientation = StackLayoutOrientation.Horizontal,
-                                    Childs = new List<Component?>()
-                                    {
+                                    Childs =
+                                    [
                                         levelInfo.NextLevel != null ? new ButtonComponent()
                                         {
                                             Text = "Next level",
@@ -151,12 +151,12 @@ namespace Microcube.Scenes
                                             Font = DefaultFont,
                                             OnClick = () => SceneManager?.SetScene(new MainMenuScene(gl, width, height)),
                                         },
-                                    },
+                                    ],
                                 },
-                            },
+                            ],
                         },
                     },
-                },
+                ],
             };
 
             level.PrismCollected += () =>

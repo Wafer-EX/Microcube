@@ -5,22 +5,22 @@ namespace Microcube.Graphics.ScreenEffects.Translations
     /// <summary>
     /// Represents a translation that can be applies as screen effect.
     /// </summary>
-    public abstract class Translation : ScreenEffect
+    public abstract class Translation(GL gl, string vertexShaderPath, string fragmentShaderPath) : ScreenEffect(gl, vertexShaderPath, fragmentShaderPath)
     {
         /// <summary>
         /// Elapsed time fo the translation. Can be from 0 to 1.
         /// </summary>
-        public float ElapsedTime { get; set; }
+        public float ElapsedTime { get; set; } = 0.0f;
 
         /// <summary>
         /// Speed of this translation.
         /// </summary>
-        public float Speed { get; set; }
+        public float Speed { get; set; } = 1.0f;
 
         /// <summary>
         /// Is this translation should be reversed in the time.
         /// </summary>
-        public bool IsReversed { get; set; }
+        public bool IsReversed { get; set; } = false;
 
         /// <summary>
         /// When the translation intersects the center, it means that
@@ -32,13 +32,6 @@ namespace Microcube.Graphics.ScreenEffects.Translations
         /// Is the translation works or just paused.
         /// </summary>
         public bool IsEnabled { get; set; }
-
-        public Translation(GL gl, string vertexShaderPath, string fragmentShaderPath) : base(gl, vertexShaderPath, fragmentShaderPath)
-        {
-            ElapsedTime = 0.0f;
-            Speed = 1.0f;
-            IsReversed = false;
-        }
 
         /// <summary>
         /// Update this translation.

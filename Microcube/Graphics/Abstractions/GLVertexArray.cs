@@ -5,7 +5,7 @@ namespace Microcube.Graphics.Abstractions
     /// <summary>
     /// Represents an OpenGL vertex array object abstraction to more easily use in the project.
     /// </summary>
-    public class VertexArrayObject : IDisposable
+    public class GLVertexArray : IDisposable
     {
         private readonly GL gl;
 
@@ -14,7 +14,7 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         public uint Identifier { get; init; }
 
-        public VertexArrayObject(GL gl)
+        public GLVertexArray(GL gl)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
             this.gl = gl;

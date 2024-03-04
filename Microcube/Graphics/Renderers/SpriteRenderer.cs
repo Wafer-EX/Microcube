@@ -11,16 +11,16 @@ namespace Microcube.Graphics.Renderers
     /// </summary>
     /// <param name="Texture">Texture of these sprites.</param>
     /// <param name="Sprites">Sprites in the batch.</param>
-    public record SpriteBatch(TextureObject? Texture, IEnumerable<Sprite> Sprites);
+    public record SpriteBatch(GLTexture? Texture, IEnumerable<Sprite> Sprites);
 
     /// <summary>
     /// Renders a sprite set.
     /// </summary>
     public class SpriteRenderer : Renderer<IEnumerable<Sprite>, Camera2D>, IDisposable
     {
-        private readonly VertexArrayObject spriteVao;
-        private readonly BufferObject<float> spriteVbo;
-        private readonly ShaderProgram shaderProgram;
+        private readonly GLVertexArray spriteVao;
+        private readonly GLBuffer<float> spriteVbo;
+        private readonly GLShaderProgram shaderProgram;
 
         private readonly List<SpriteBatch> spriteBatches;
 
@@ -29,16 +29,16 @@ namespace Microcube.Graphics.Renderers
             ClearColor = RgbaColor.Transparent;
             IsClearBackground = false;
 
-            shaderProgram = new ShaderProgram(gl, "Resources/shaders/sprite.vert", "Resources/shaders/sprite.frag");
-            spriteVao = new VertexArrayObject(gl);
+            shaderProgram = new GLShaderProgram(gl, "Resources/shaders/sprite.vert", "Resources/shaders/sprite.frag");
+            spriteVao = new GLVertexArray(gl);
 
-            spriteVbo = new BufferObject<float>(gl, BufferTargetARB.ArrayBuffer, null);
+            spriteVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, null);
             spriteVao.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 9, 0);
             spriteVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 2);
             spriteVao.VertexAttribPointer(2, 4, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 4);
             spriteVao.VertexAttribPointer(3, 1, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 8);
 
-            spriteBatches = new List<SpriteBatch>();
+            spriteBatches = [];
         }
 
         public override void SetData(IEnumerable<Sprite> sprites)
@@ -48,8 +48,8 @@ namespace Microcube.Graphics.Renderers
 
             if (sprites.Any())
             {
-                List<Sprite> spritesInBatch = new();
-                TextureObject? previousTexture = null;
+                List<Sprite> spritesInBatch = [];
+                GLTexture? previousTexture = null;
                 bool isFirstElement = true;
                 bool isSkipComparison = true;
 
@@ -57,7 +57,7 @@ namespace Microcube.Graphics.Renderers
                 {
                     if (!isSkipComparison && sprite.Texture != previousTexture)
                     {
-                        spriteBatches.Add(new SpriteBatch(spritesInBatch.Last().Texture, spritesInBatch.ToArray()));
+                        spriteBatches.Add(new SpriteBatch(spritesInBatch.Last().Texture, [.. spritesInBatch]));
                         spritesInBatch.Clear();
                     }
 
@@ -67,7 +67,7 @@ namespace Microcube.Graphics.Renderers
                     isFirstElement = false;
                 }
 
-                spriteBatches.Add(new SpriteBatch(spritesInBatch.First().Texture, spritesInBatch.ToArray()));
+                spriteBatches.Add(new SpriteBatch(spritesInBatch.First().Texture, [.. spritesInBatch]));
             }
         }
 

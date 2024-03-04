@@ -25,7 +25,7 @@ namespace Microcube.Graphics.Raster
         /// <summary>
         /// Texture that is associated with the texture atlas.
         /// </summary>
-        public TextureObject Texture { get; init; }
+        public GLTexture Texture { get; init; }
 
         /// <summary>
         /// Loads texture atlas from the file.
@@ -38,10 +38,10 @@ namespace Microcube.Graphics.Raster
             // I'm not sure how I should throw and process exceptions in this constructor so I haven't made it.
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
 
-            Sprites = new Dictionary<T, Sprite>();
-            AdditionalInfo = new Dictionary<string, string>();
+            Sprites = [];
+            AdditionalInfo = [];
 
-            Texture = new TextureObject(gl, texturePath);
+            Texture = new GLTexture(gl, texturePath);
             Texture.SetParameter(TextureParameterName.TextureWrapS, GLEnum.ClampToBorder);
             Texture.SetParameter(TextureParameterName.TextureWrapT, GLEnum.ClampToBorder);
             Texture.SetParameter(TextureParameterName.TextureMinFilter, GLEnum.Nearest);

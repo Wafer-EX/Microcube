@@ -12,25 +12,25 @@ namespace Microcube.Graphics.Renderers
     /// </summary>
     public class LevelRenderer : Renderer<Level, Camera3D>, IDisposable
     {
-        private readonly VertexArrayObject blockVao;
-        private readonly BufferObject<float> blockVerticesVbo;
-        private readonly BufferObject<float> blockInstancesVbo;
-        private readonly ShaderProgram shaderProgram;
+        private readonly GLVertexArray blockVao;
+        private readonly GLBuffer<float> blockVerticesVbo;
+        private readonly GLBuffer<float> blockInstancesVbo;
+        private readonly GLShaderProgram shaderProgram;
 
         public LevelRenderer(GL gl) : base(gl)
         {
             ClearColor = new RgbaColor(0.1f, 0.1f, 0.1f, 1.0f);
             IsClearBackground = true;
 
-            shaderProgram = new ShaderProgram(gl, "Resources/shaders/block.vert", "Resources/shaders/block.frag");
-            blockVao = new VertexArrayObject(gl);
+            shaderProgram = new GLShaderProgram(gl, "Resources/shaders/block.vert", "Resources/shaders/block.frag");
+            blockVao = new GLVertexArray(gl);
 
-            blockVerticesVbo = new BufferObject<float>(gl, BufferTargetARB.ArrayBuffer, Block.Mesh.Vertices);
+            blockVerticesVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, Block.Mesh.Vertices);
             blockVao.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
             blockVao.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 3 * sizeof(float));
             blockVao.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, 6 * sizeof(float));
 
-            blockInstancesVbo = new BufferObject<float>(gl, BufferTargetARB.ArrayBuffer, null);
+            blockInstancesVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, null);
             blockVao.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 0);
             blockVao.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 3 * sizeof(float));
             blockVao.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 6 * sizeof(float));

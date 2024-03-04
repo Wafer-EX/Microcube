@@ -14,7 +14,7 @@ namespace Microcube.Graphics.Raster
         /// <summary>
         /// Original texture object that will be displayed.
         /// </summary>
-        public TextureObject? Texture { get; set; }
+        public GLTexture? Texture { get; set; }
 
         /// <summary>
         /// Specific area on a viewport to that the texture will be stretched.
@@ -63,7 +63,7 @@ namespace Microcube.Graphics.Raster
         /// <param name="texture">Ready to render texture.</param>
         /// <param name="viewportArea">Viewport area of the sprite.</param>
         /// <param name="textureArea">Area of the texture that will be rendered in the viewport area.</param>
-        public Sprite(TextureObject? texture, Rectangle<float> viewportArea, Rectangle<float> textureArea)
+        public Sprite(GLTexture? texture, Rectangle<float> viewportArea, Rectangle<float> textureArea)
         {
             Texture = texture;
             ViewportArea = viewportArea;
@@ -81,7 +81,7 @@ namespace Microcube.Graphics.Raster
         /// <param name="texturePath">Texture path.</param>
         public Sprite(GL gl, string texturePath)
         {
-            Texture = new TextureObject(gl, texturePath);
+            Texture = new GLTexture(gl, texturePath);
             Texture.SetParameter(TextureParameterName.TextureWrapS, GLEnum.ClampToBorder);
             Texture.SetParameter(TextureParameterName.TextureWrapT, GLEnum.ClampToBorder);
             Texture.SetParameter(TextureParameterName.TextureMinFilter, GLEnum.Nearest);

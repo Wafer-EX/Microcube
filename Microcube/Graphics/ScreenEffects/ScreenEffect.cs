@@ -14,19 +14,19 @@ namespace Microcube.Graphics.ScreenEffects
         /// <summary>
         /// Shader program that is used when rendering.
         /// </summary>
-        protected ShaderProgram ShaderProgram { get; private set; }
+        protected GLShaderProgram ShaderProgram { get; private set; }
 
         public ScreenEffect(GL gl, string vertexShaderPath, string fragmentShaderPath)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
-            ShaderProgram = new ShaderProgram(gl, vertexShaderPath, fragmentShaderPath);
+            ShaderProgram = new GLShaderProgram(gl, vertexShaderPath, fragmentShaderPath);
         }
 
         /// <summary>
         /// Prepare this screen effect to render.
         /// </summary>
         /// <param name="texture">Texture that should be rendered. (like from render target and etc.)</param>
-        public abstract void Setup(TextureObject texture);
+        public abstract void Setup(GLTexture texture);
 
         public void Dispose()
         {

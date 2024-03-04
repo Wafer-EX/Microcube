@@ -12,19 +12,19 @@ namespace Microcube.Graphics
     {
         private readonly GL gl;
 
-        private readonly VertexArrayObject screenQuadVao;
-        private readonly BufferObject<float> screenQuadVbo;
-        private readonly FramebufferObject framebuffer;
+        private readonly GLVertexArray screenQuadVao;
+        private readonly GLBuffer<float> screenQuadVbo;
+        private readonly GLFramebuffer framebuffer;
 
         /// <summary>
         /// Color texture that represents colors of vertices.
         /// </summary>
-        public TextureObject ColorTexture { get; init; }
+        public GLTexture ColorTexture { get; init; }
 
         /// <summary>
         /// Combine depth and stencil textures in the same object.
         /// </summary>
-        public TextureObject DepthStencilTexture { get; init; }
+        public GLTexture DepthStencilTexture { get; init; }
 
         /// <summary>
         /// Screen effect that can change final output.
@@ -55,23 +55,23 @@ namespace Microcube.Graphics
             Height = height;
             ScreenEffect = screenEffect ?? new DefaultScreenEffect(gl);
 
-            ColorTexture = new TextureObject(gl, width, height, InternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
+            ColorTexture = new GLTexture(gl, width, height, InternalFormat.Rgb, PixelFormat.Rgb, PixelType.UnsignedByte);
             ColorTexture.SetParameter(TextureParameterName.TextureWrapS, GLEnum.ClampToEdge);
             ColorTexture.SetParameter(TextureParameterName.TextureWrapT, GLEnum.ClampToEdge);
             ColorTexture.SetParameter(TextureParameterName.TextureMinFilter, GLEnum.Nearest);
             ColorTexture.SetParameter(TextureParameterName.TextureMagFilter, GLEnum.Nearest);
 
-            DepthStencilTexture = new TextureObject(gl, width, height, InternalFormat.Depth24Stencil8, PixelFormat.DepthStencil, PixelType.UnsignedInt248);
+            DepthStencilTexture = new GLTexture(gl, width, height, InternalFormat.Depth24Stencil8, PixelFormat.DepthStencil, PixelType.UnsignedInt248);
             DepthStencilTexture.SetParameter(TextureParameterName.TextureMinFilter, GLEnum.Nearest);
             DepthStencilTexture.SetParameter(TextureParameterName.TextureMagFilter, GLEnum.Nearest);
 
-            framebuffer = new FramebufferObject(gl);
+            framebuffer = new GLFramebuffer(gl);
             framebuffer.AttachTexture(ColorTexture, FramebufferAttachment.ColorAttachment0);
             framebuffer.AttachTexture(DepthStencilTexture, FramebufferAttachment.DepthStencilAttachment);
 
-            screenQuadVao = new VertexArrayObject(gl);
-            screenQuadVbo = new BufferObject<float>(gl, BufferTargetARB.ArrayBuffer, new float[]
-            {
+            screenQuadVao = new GLVertexArray(gl);
+            screenQuadVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer,
+            [
                 // ---- SCREEN QUAD ----
                 // 2x POSITIONS | 2x UVs
                 -1.0f, -1.0f, 0.0f, 0.0f,
@@ -80,7 +80,7 @@ namespace Microcube.Graphics
                 -1.0f, -1.0f, 0.0f, 0.0f,
                  1.0f,  1.0f, 1.0f, 1.0f,
                 -1.0f,  1.0f, 0.0f, 1.0f,
-            });
+            ]);
 
             screenQuadVao.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, 0);
             screenQuadVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, sizeof(float) * 2);

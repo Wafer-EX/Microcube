@@ -6,16 +6,14 @@ namespace Microcube.Graphics.ScreenEffects
     /// <summary>
     /// A screen effect that can apply chromatic aberration to the texture.
     /// </summary>
-    public class ChromaticAberrationScreenEffect : ScreenEffect
+    public class ChromaticAberrationScreenEffect(GL gl) : ScreenEffect(gl, VertexShaderPath, FragmentShaderPath)
     {
         private const string VertexShaderPath = "Resources/shaders/screen_effects/chromatic_aberration.vert";
         private const string FragmentShaderPath = "Resources/shaders/screen_effects/chromatic_aberration.frag";
 
         public float Strength { get; set; }
 
-        public ChromaticAberrationScreenEffect(GL gl) : base(gl, VertexShaderPath, FragmentShaderPath) { }
-
-        public override void Setup(TextureObject texture)
+        public override void Setup(GLTexture texture)
         {
             ArgumentNullException.ThrowIfNull(texture, nameof(texture));
             texture.Bind(TextureUnit.Texture0);

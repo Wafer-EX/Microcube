@@ -6,7 +6,7 @@ namespace Microcube.Graphics.Abstractions
     /// <summary>
     /// Abstraction of an OpenGL shader program to more easily use in the project.
     /// </summary>
-    public class ShaderProgram : IDisposable
+    public class GLShaderProgram : IDisposable
     {
         private readonly GL gl;
         
@@ -21,7 +21,7 @@ namespace Microcube.Graphics.Abstractions
         /// <param name="gl">OpenGL context.</param>
         /// <param name="vertexShaderPath">Vertex shader path.</param>
         /// <param name="fragmentShaderPath">Fragment shader path.</param>
-        public ShaderProgram(GL gl, string vertexShaderPath, string fragmentShaderPath)
+        public GLShaderProgram(GL gl, string vertexShaderPath, string fragmentShaderPath)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
             this.gl = gl;

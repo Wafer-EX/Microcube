@@ -6,7 +6,7 @@ namespace Microcube.Graphics.Abstractions
     /// Represents an OpenGL buffer object abstraction to more easily use in the project.
     /// </summary>
     /// <typeparam name="T">Type of data.</typeparam>
-    public class BufferObject<T> : IDisposable where T : unmanaged
+    public class GLBuffer<T> : IDisposable where T : unmanaged
     {
         private readonly GL gl;
         private readonly BufferTargetARB target;
@@ -26,7 +26,7 @@ namespace Microcube.Graphics.Abstractions
         /// </summary>
         public uint Size { get; private set; }
 
-        public BufferObject(GL gl, BufferTargetARB target, ReadOnlySpan<T> data)
+        public GLBuffer(GL gl, BufferTargetARB target, ReadOnlySpan<T> data)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
             this.gl = gl;
