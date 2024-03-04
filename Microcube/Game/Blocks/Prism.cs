@@ -6,16 +6,14 @@ namespace Microcube.Game.Blocks
     /// <summary>
     /// Represents a prism that can be collected by player
     /// </summary>
-    public class Prism : Block, IDynamic
+    public class Prism(Vector3 position) : Block(position, new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f)), IDynamic
     {
-        private float elapsedTime = 0.0f;
+        private float _elapsedTime = 0.0f;
 
         /// <summary>
         /// Shows is the prism was collected.
         /// </summary>
         public bool IsCollected { get; private set; }
-
-        public Prism(Vector3 position) : base(position, new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f)) { }
 
         public void Update(float deltaTime, Level level)
         {
@@ -31,11 +29,11 @@ namespace Microcube.Game.Blocks
                 }
                 else
                 {
-                    elapsedTime += deltaTime;
+                    _elapsedTime += deltaTime;
 
                     ModelMatrix = Matrix4x4.CreateScale(0.25f)
-                        * Matrix4x4.CreateRotationY(elapsedTime * 2.0f)
-                        * Matrix4x4.CreateTranslation(0.0f, MathF.Sin(elapsedTime * 2.0f) / 5.0f, 0.0f)
+                        * Matrix4x4.CreateRotationY(_elapsedTime * 2.0f)
+                        * Matrix4x4.CreateTranslation(0.0f, MathF.Sin(_elapsedTime * 2.0f) / 5.0f, 0.0f)
                         * Matrix4x4.CreateTranslation(Position);
                 }
             }

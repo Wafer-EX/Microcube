@@ -1,7 +1,8 @@
 ﻿using Microcube.Graphics.Abstractions;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Drawing;
+using System.Numerics;
 
 namespace Microcube.Graphics.Raster
 {
@@ -19,12 +20,13 @@ namespace Microcube.Graphics.Raster
         /// <summary>
         /// Specific area on a viewport to that the texture will be stretched.
         /// </summary>
-        public Rectangle<float> ViewportArea { get; set; }
+        //public Rectangle<float> ViewportArea { get; set; }
+        public RectangleF ViewportArea { get; set; }
 
         /// <summary>
         /// Specific area of the texture object that will be displayed in the viewport area.
         /// </summary>
-        public Rectangle<float> TextureArea { get; set; }
+        public RectangleF TextureArea { get; set; }
 
         /// <summary>
         /// Color of the texture. The texture pixel colors will be multiplied to the color.
@@ -46,11 +48,11 @@ namespace Microcube.Graphics.Raster
         /// </summary>
         /// <param name="viewportArea">Displayed area of the sprite.</param>
         /// <param name="color">Color that will be displayed in the displayed area.</param>
-        public Sprite(Rectangle<float> viewportArea, RgbaColor color)
+        public Sprite(RectangleF viewportArea, RgbaColor color)
         {
             Texture = null;
             ViewportArea = viewportArea;
-            TextureArea = new Rectangle<float>();
+            TextureArea = RectangleF.Empty;
 
             Color = color;
             Scale = 1.0f;
@@ -63,7 +65,7 @@ namespace Microcube.Graphics.Raster
         /// <param name="texture">Ready to render texture.</param>
         /// <param name="viewportArea">Viewport area of the sprite.</param>
         /// <param name="textureArea">Area of the texture that will be rendered in the viewport area.</param>
-        public Sprite(GLTexture? texture, Rectangle<float> viewportArea, Rectangle<float> textureArea)
+        public Sprite(GLTexture? texture, RectangleF viewportArea, RectangleF textureArea)
         {
             Texture = texture;
             ViewportArea = viewportArea;
@@ -87,8 +89,8 @@ namespace Microcube.Graphics.Raster
             Texture.SetParameter(TextureParameterName.TextureMinFilter, GLEnum.Nearest);
             Texture.SetParameter(TextureParameterName.TextureMagFilter, GLEnum.Nearest);
 
-            ViewportArea = new Rectangle<float>(0, 0, Texture.Width, Texture.Height);
-            TextureArea = new Rectangle<float>(0, 0, Texture.Width, Texture.Height);
+            ViewportArea = new RectangleF(0, 0, Texture.Width, Texture.Height);
+            TextureArea = new RectangleF(0, 0, Texture.Width, Texture.Height);
 
             Color = RgbaColor.White;
             Scale = 1.0f;
@@ -101,27 +103,27 @@ namespace Microcube.Graphics.Raster
         /// <returns>Data to use in a shader.</returns>
         public readonly float[] GetData()
         {
-            float uvStartX = TextureArea.Origin.X / Texture?.Width ?? 1.0f;
-            float uvStartY = TextureArea.Origin.Y / Texture?.Height ?? 1.0f;
-            float uvEndX = uvStartX + TextureArea.Size.X / Texture?.Width ?? 1.0f;
-            float evEndY = uvStartY + TextureArea.Size.Y / Texture?.Height ?? 1.0f;
+            float uvStartX = TextureArea.X / Texture?.Width ?? 1.0f;
+            float uvStartY = TextureArea.Y / Texture?.Height ?? 1.0f;
+            float uvEndX = uvStartX + TextureArea.Width / Texture?.Width ?? 1.0f;
+            float evEndY = uvStartY + TextureArea.Height / Texture?.Height ?? 1.0f;
 
-            var pointA = new Vector4D<float>(ViewportArea.Origin.X, ViewportArea.Origin.Y, 0.0f, 1.0f);
-            var pointB = new Vector4D<float>(ViewportArea.Origin.X + ViewportArea.Size.X, ViewportArea.Origin.Y, 0.0f, 1.0f);
-            var pointC = new Vector4D<float>(ViewportArea.Origin.X + ViewportArea.Size.X, ViewportArea.Origin.Y + ViewportArea.Size.Y, 0.0f, 1.0f);
-            var pointD = new Vector4D<float>(ViewportArea.Origin.X, ViewportArea.Origin.Y + ViewportArea.Size.Y, 0.0f, 1.0f);
+            var pointA = new Vector4(ViewportArea.X, ViewportArea.Y, 0.0f, 1.0f);
+            var pointB = new Vector4(ViewportArea.X + ViewportArea.Width, ViewportArea.Y, 0.0f, 1.0f);
+            var pointC = new Vector4(ViewportArea.X + ViewportArea.Width, ViewportArea.Y + ViewportArea.Height, 0.0f, 1.0f);
+            var pointD = new Vector4(ViewportArea.X, ViewportArea.Y + ViewportArea.Height, 0.0f, 1.0f);
 
             if (Scale != 1.0f || Rotation != 0.0f)
             {
-                Matrix4X4<float> matrix = Matrix4X4.CreateTranslation(-ViewportArea.Center.X, -ViewportArea.Center.Y, 0.0f)
-                    * Matrix4X4.CreateRotationZ(Rotation)
-                    * Matrix4X4.CreateScale(Scale)
-                    * Matrix4X4.CreateTranslation(ViewportArea.Center.X, ViewportArea.Center.Y, 0.0f);
+                Matrix4x4 matrix = Matrix4x4.CreateTranslation(-(ViewportArea.X + ViewportArea.Width / 2.0f), -(ViewportArea.Y + ViewportArea.Height / 2.0f), 0.0f)
+                    * Matrix4x4.CreateRotationZ(Rotation)
+                    * Matrix4x4.CreateScale(Scale)
+                    * Matrix4x4.CreateTranslation(ViewportArea.X + ViewportArea.Width / 2.0f, ViewportArea.Y + ViewportArea.Height / 2.0f, 0.0f);
 
-                pointA *= matrix;
-                pointB *= matrix;
-                pointC *= matrix;
-                pointD *= matrix;
+                pointA = Vector4.Transform(pointA, matrix);
+                pointB = Vector4.Transform(pointB, matrix);
+                pointC = Vector4.Transform(pointC, matrix);
+                pointD = Vector4.Transform(pointD, matrix);
             }
 
             float isIgnoreSprite = Texture is null ? 1.0f : 0.0f;

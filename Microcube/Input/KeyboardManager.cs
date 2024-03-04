@@ -7,25 +7,25 @@ namespace Microcube.Input
     /// </summary>
     public class KeyboardManager
     {
-        private readonly IReadOnlyList<IKeyboard> keyboards;
-        private readonly List<Key> pressedKeys;
-        private readonly List<Key> repeatedKeys;
+        private readonly IReadOnlyList<IKeyboard> _keyboards;
+        private readonly List<Key> _pressedKeys;
+        private readonly List<Key> _repeatedKeys;
 
         public KeyboardManager(IReadOnlyList<IKeyboard> keyboards)
         {
             ArgumentNullException.ThrowIfNull(keyboards, nameof(keyboards));
-            this.keyboards = keyboards;
+            this._keyboards = keyboards;
 
-            pressedKeys = new List<Key>();
-            repeatedKeys = new List<Key>();
+            _pressedKeys = [];
+            _repeatedKeys = [];
 
             foreach (IKeyboard keyboard in keyboards)
             {
-                keyboard.KeyDown += (IKeyboard keyboard, Key key, int keycode) => pressedKeys.Add(key);
+                keyboard.KeyDown += (IKeyboard keyboard, Key key, int keycode) => _pressedKeys.Add(key);
                 keyboard.KeyUp += (IKeyboard keyboard, Key key, int keycode) =>
                 {
-                    _ = pressedKeys.RemoveAll((Key removedKey) => removedKey == key);
-                    _ = repeatedKeys.RemoveAll((Key removedKey) => removedKey == key);
+                    _ = _pressedKeys.RemoveAll((Key removedKey) => removedKey == key);
+                    _ = _repeatedKeys.RemoveAll((Key removedKey) => removedKey == key);
                 };
             }
         }
@@ -35,21 +35,21 @@ namespace Microcube.Input
         /// </summary>
         /// <param name="key">Key to check.</param>
         /// <returns>Is this key was clicked.</returns>
-        public bool IsKeyClicked(Key key) => pressedKeys.Contains(key) && !repeatedKeys.Contains(key);
+        public bool IsKeyClicked(Key key) => _pressedKeys.Contains(key) && !_repeatedKeys.Contains(key);
 
         /// <summary>
         /// Shows is the key pressed in the frame.
         /// </summary>
         /// <param name="key">Key to check.</param>
         /// <returns>Is this key was pressed (holded).</returns>
-        public bool IsKeyPressed(Key key) => pressedKeys.Contains(key);
+        public bool IsKeyPressed(Key key) => _pressedKeys.Contains(key);
 
         /// <summary>
         /// Shows is the key was pressed not in the first time in the frame..
         /// </summary>
         /// <param name="key">Key to check.</param>
         /// <returns>Is this key was repeated.</returns>
-        public bool IsKeyRepeated(Key key) => repeatedKeys.Contains(key);
+        public bool IsKeyRepeated(Key key) => _repeatedKeys.Contains(key);
 
         /// <summary>
         /// Converts all key presses into game actions.
@@ -57,7 +57,7 @@ namespace Microcube.Input
         /// <returns>Game actions.</returns>
         public IEnumerable<GameActionInfo> GetActions()
         {
-            foreach (Key key in pressedKeys)
+            foreach (Key key in _pressedKeys)
             {
                 // TODO: key mapping in xml
                 GameAction? gameAction = key switch
@@ -89,13 +89,13 @@ namespace Microcube.Input
         /// </summary>
         public void Update()
         {
-            foreach (Key key in pressedKeys)
+            foreach (Key key in _pressedKeys)
             {
-                foreach (IKeyboard keyboard in keyboards)
+                foreach (IKeyboard keyboard in _keyboards)
                 {
                     if (keyboard.IsKeyPressed(key))
                     {
-                        repeatedKeys.Add(key);
+                        _repeatedKeys.Add(key);
                     }
                 }
             }

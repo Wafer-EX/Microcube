@@ -7,7 +7,7 @@ namespace Microcube.Graphics.Abstractions
     /// </summary>
     public class GLVertexArray : IDisposable
     {
-        private readonly GL gl;
+        private readonly GL _gl;
 
         /// <summary>
         /// Identidier of the vertex array object.
@@ -17,7 +17,7 @@ namespace Microcube.Graphics.Abstractions
         public GLVertexArray(GL gl)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
-            this.gl = gl;
+            _gl = gl;
 
             Identifier = gl.GenVertexArray();
             Bind();
@@ -29,18 +29,18 @@ namespace Microcube.Graphics.Abstractions
         /// <param name="index">Index of the attribute. (as location in a shader)</param>
         public unsafe void VertexAttribPointer(uint index, int size, VertexAttribPointerType type, bool normalized, uint stride, int pointer)
         {
-            gl.VertexAttribPointer(index, size, type, normalized, stride, (void*)pointer);
-            gl.EnableVertexAttribArray(index);
+            _gl.VertexAttribPointer(index, size, type, normalized, stride, (void*)pointer);
+            _gl.EnableVertexAttribArray(index);
         }
 
         /// <summary>
         /// Binds this vertex array object to use somewhere. It's like global flag.
         /// </summary>
-        public void Bind() => gl.BindVertexArray(Identifier);
+        public void Bind() => _gl.BindVertexArray(Identifier);
 
         public void Dispose()
         {
-            gl.DeleteVertexArray(Identifier);
+            _gl.DeleteVertexArray(Identifier);
             GC.SuppressFinalize(this);
         }
     }

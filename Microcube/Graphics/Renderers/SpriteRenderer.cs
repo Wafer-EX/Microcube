@@ -18,9 +18,9 @@ namespace Microcube.Graphics.Renderers
     /// </summary>
     public class SpriteRenderer : Renderer<IEnumerable<Sprite>, Camera2D>, IDisposable
     {
-        private readonly GLVertexArray spriteVao;
-        private readonly GLBuffer<float> spriteVbo;
-        private readonly GLShaderProgram shaderProgram;
+        private readonly GLVertexArray _spriteVao;
+        private readonly GLBuffer<float> _spriteVbo;
+        private readonly GLShaderProgram _shaderProgram;
 
         private readonly List<SpriteBatch> spriteBatches;
 
@@ -29,14 +29,14 @@ namespace Microcube.Graphics.Renderers
             ClearColor = RgbaColor.Transparent;
             IsClearBackground = false;
 
-            shaderProgram = new GLShaderProgram(gl, "Resources/shaders/sprite.vert", "Resources/shaders/sprite.frag");
-            spriteVao = new GLVertexArray(gl);
+            _shaderProgram = new GLShaderProgram(gl, "Resources/shaders/sprite.vert", "Resources/shaders/sprite.frag");
+            _spriteVao = new GLVertexArray(gl);
 
-            spriteVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, null);
-            spriteVao.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 9, 0);
-            spriteVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 2);
-            spriteVao.VertexAttribPointer(2, 4, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 4);
-            spriteVao.VertexAttribPointer(3, 1, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 8);
+            _spriteVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, null);
+            _spriteVao.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 9, 0);
+            _spriteVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 2);
+            _spriteVao.VertexAttribPointer(2, 4, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 4);
+            _spriteVao.VertexAttribPointer(3, 1, VertexAttribPointerType.Float, false, sizeof(float) * 9, sizeof(float) * 8);
 
             spriteBatches = [];
         }
@@ -84,27 +84,27 @@ namespace Microcube.Graphics.Renderers
 
             foreach (SpriteBatch spriteBatch in spriteBatches)
             {
-                spriteVbo.SetBufferData(spriteBatch.Sprites.ToSpriteData());
+                _spriteVbo.SetBufferData(spriteBatch.Sprites.ToSpriteData());
                 spriteBatch.Texture?.Bind(TextureUnit.Texture0);
 
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-                spriteVao.Bind();
-                shaderProgram.Use();
-                shaderProgram.SetUniform("projectionMatrix", camera.GetProjectionMatrix());
-                shaderProgram.SetUniform("sprite", 0);
+                _spriteVao.Bind();
+                _shaderProgram.Use();
+                _shaderProgram.SetUniform("projectionMatrix", camera.GetProjectionMatrix());
+                _shaderProgram.SetUniform("sprite", 0);
 
-                GL.DrawArrays(PrimitiveType.Triangles, 0, spriteVbo.Count);
+                GL.DrawArrays(PrimitiveType.Triangles, 0, _spriteVbo.Count);
                 GL.Disable(EnableCap.Blend);
             }
         }
 
         public override void Dispose()
         {
-            spriteVao.Dispose();
-            spriteVbo.Dispose();
-            shaderProgram.Dispose();
+            _spriteVao.Dispose();
+            _spriteVbo.Dispose();
+            _shaderProgram.Dispose();
             GC.SuppressFinalize(this);
         }
     }

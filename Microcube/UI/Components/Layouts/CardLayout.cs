@@ -2,6 +2,7 @@
 using Microcube.Graphics.Raster;
 using Microcube.Input;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components.Layouts
 {
@@ -10,7 +11,7 @@ namespace Microcube.UI.Components.Layouts
     /// </summary>
     public class CardLayout : Layout
     {
-        private int selectedIndex = 0;
+        private int _selectedIndex = 0;
 
         public override bool IsFocused { get; set; }
 
@@ -19,51 +20,51 @@ namespace Microcube.UI.Components.Layouts
         /// </summary>
         public int SelectedIndex
         {
-            get => selectedIndex;
+            get => _selectedIndex;
             set
             {
-                if (Childs[selectedIndex] is IFocusable previousFocusable)
+                if (Children[_selectedIndex] is IFocusable previousFocusable)
                     previousFocusable.IsFocused = false;
 
-                selectedIndex = value;
+                _selectedIndex = value;
 
-                while (selectedIndex >= Childs.Count)
-                    selectedIndex -= Childs.Count;
+                while (_selectedIndex >= Children.Count)
+                    _selectedIndex -= Children.Count;
 
-                while (selectedIndex < 0)
-                    selectedIndex += Childs.Count;
+                while (_selectedIndex < 0)
+                    _selectedIndex += Children.Count;
 
-                if (IsFocused && Childs[selectedIndex] is IFocusable newFocusable)
+                if (IsFocused && Children[_selectedIndex] is IFocusable newFocusable)
                     newFocusable.IsFocused = true;
             }
         }
 
-        public override IReadOnlyList<Component?> Childs
+        public override IReadOnlyList<Component?> Children
         {
-            get => base.Childs;
+            get => base.Children;
             set
             {
-                base.Childs = value;
-                if (base.Childs.Any())
+                base.Children = value;
+                if (base.Children.Any())
                     SelectedIndex = 0;
             }
         }
 
         public CardLayout() : base() { }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             if (BackgroundColor != RgbaColor.Transparent)
                 yield return new Sprite(displayedArea, BackgroundColor);
 
-            Component? selectedChild = Childs[SelectedIndex];
-            foreach (Sprite sprite in selectedChild?.GetSprites(displayedArea) ?? Array.Empty<Sprite>())
+            Component? selectedChild = Children[SelectedIndex];
+            foreach (Sprite sprite in selectedChild?.GetSprites(displayedArea) ?? [])
                 yield return sprite;
         }
 
         public override void Input(GameActionBatch actionBatch)
         {
-            if (Childs.Any() && Childs[selectedIndex] is IFocusable focusable)
+            if (Children.Any() && Children[_selectedIndex] is IFocusable focusable)
             {
                 if (actionBatch.IsIncludeClick(GameAction.Escape) && focusable.IsLastFocused)
                     focusable.IsFocused = false;

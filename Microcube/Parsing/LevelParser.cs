@@ -42,7 +42,7 @@ namespace Microcube.Parsing
 
                         var levelInfo = new LevelInfo(name, levelPath);
 
-                        if (levelList.Any())
+                        if (levelList.Count != 0)
                             levelList.Last().NextLevel = levelInfo;
 
                         levelList.Add(levelInfo);
@@ -135,7 +135,7 @@ namespace Microcube.Parsing
                                         }
                                     }
 
-                                    var moveQueue = new MoveQueue(movements.ToArray(), isRepeatable, isActive);
+                                    var moveQueue = new MoveQueue([.. movements], isRepeatable, isActive);
                                     moveQueues.Add(name, moveQueue);
                                 }
                             }
@@ -222,7 +222,7 @@ namespace Microcube.Parsing
                 }
             }
 
-            return new LevelContent(levelName, blocks.ToArray(), moveQueues.Values.ToArray(), playerStartPosition);
+            return new LevelContent(levelName, [.. blocks], [.. moveQueues.Values], playerStartPosition);
         }
     }
 }

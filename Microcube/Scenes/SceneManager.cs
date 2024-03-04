@@ -9,9 +9,9 @@ namespace Microcube.Scenes
     /// </summary>
     public class SceneManager : IDisposable
     {
-        private readonly Viewport viewport;
-        private Scene currentScene;
-        private Scene? expectedScene;
+        private readonly Viewport _viewport;
+        private Scene _currentScene;
+        private Scene? _expectedScene;
 
         /// <summary>
         /// Translation that will be started between scenes.
@@ -25,9 +25,9 @@ namespace Microcube.Scenes
 
             Translation = new DefaultTranslation(viewport.GLContext);
 
-            this.viewport = viewport;
-            currentScene = initialScene;
-            currentScene.SceneManager = this;
+            _viewport = viewport;
+            _currentScene = initialScene;
+            _currentScene.SceneManager = this;
         }
 
         /// <summary>
@@ -38,10 +38,10 @@ namespace Microcube.Scenes
         {
             ArgumentNullException.ThrowIfNull(nextScene, nameof(nextScene));
 
-            if (nextScene != currentScene)
+            if (nextScene != _currentScene)
             {
-                expectedScene = nextScene;
-                expectedScene.SceneManager = this;
+                _expectedScene = nextScene;
+                _expectedScene.SceneManager = this;
                 Translation.IsEnabled = true;
             }
         }
@@ -54,13 +54,13 @@ namespace Microcube.Scenes
         public void Update(GameActionBatch actionBatch, float deltaTime)
         {
             Translation.Update(deltaTime);
-            if (Translation.IsIntersectedCenter && expectedScene != null)
+            if (Translation.IsIntersectedCenter && _expectedScene != null)
             {
-                currentScene.Dispose();
-                currentScene = expectedScene;
+                _currentScene.Dispose();
+                _currentScene = _expectedScene;
             }
 
-            currentScene.Update(actionBatch, deltaTime);
+            _currentScene.Update(actionBatch, deltaTime);
         }
 
         /// <summary>
@@ -69,16 +69,16 @@ namespace Microcube.Scenes
         /// <param name="deltaTime">Time of the frame.</param>
         public void Render(float deltaTime)
         {
-            currentScene.Render(deltaTime);
+            _currentScene.Render(deltaTime);
 
-            var displayedArea = viewport.FitToCenter(currentScene.Width, currentScene.Height);
-            currentScene.FinalRenderTarget.ScreenEffect = Translation;
-            currentScene.FinalRenderTarget.Render(0, displayedArea);
+            var displayedArea = _viewport.FitToCenter(_currentScene.Width, _currentScene.Height);
+            _currentScene.FinalRenderTarget.ScreenEffect = Translation;
+            _currentScene.FinalRenderTarget.Render(0, displayedArea);
         }
 
         public void Dispose()
         {
-            currentScene.Dispose();
+            _currentScene.Dispose();
             GC.SuppressFinalize(this);
         }
     }

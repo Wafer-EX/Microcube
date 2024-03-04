@@ -8,8 +8,8 @@ namespace Microcube.Graphics.Abstractions
     /// <typeparam name="T">Type of data.</typeparam>
     public class GLBuffer<T> : IDisposable where T : unmanaged
     {
-        private readonly GL gl;
-        private readonly BufferTargetARB target;
+        private readonly GL _gl;
+        private readonly BufferTargetARB _target;
 
         /// <summary>
         /// Identifier of the buffer object.
@@ -29,8 +29,8 @@ namespace Microcube.Graphics.Abstractions
         public GLBuffer(GL gl, BufferTargetARB target, ReadOnlySpan<T> data)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
-            this.gl = gl;
-            this.target = target;
+            _gl = gl;
+            _target = target;
 
             Identifier = gl.GenBuffer();
             SetBufferData(data);
@@ -45,18 +45,18 @@ namespace Microcube.Graphics.Abstractions
             Count = (uint)data.Length;
             Size = (uint)(data.Length * sizeof(T));
 
-            gl.BindBuffer(target, Identifier);
-            gl.BufferData(target, Size, data, BufferUsageARB.DynamicDraw);
+            _gl.BindBuffer(_target, Identifier);
+            _gl.BufferData(_target, Size, data, BufferUsageARB.DynamicDraw);
         }
 
         /// <summary>
         /// Bind the buffer (for example to use it with vertex array object and etc.). It's like global flag.
         /// </summary>
-        public void Bind() => gl.BindBuffer(target, Identifier);
+        public void Bind() => _gl.BindBuffer(_target, Identifier);
 
         public void Dispose()
         {
-            gl.DeleteBuffer(Identifier);
+            _gl.DeleteBuffer(Identifier);
             GC.SuppressFinalize(this);
         }
     }

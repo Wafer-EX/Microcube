@@ -5,23 +5,17 @@ namespace Microcube.Graphics
     /// <summary>
     /// Represents a 2D camera that is used to render flat 2D objects (like UI).
     /// </summary>
-    public class Camera2D
+    public class Camera2D(float width, float height)
     {
         /// <summary>
         /// Width of the camera.
         /// </summary>
-        public float Width { get; set; }
+        public float Width { get; set; } = width;
 
         /// <summary>
         /// Height of the camera.
         /// </summary>
-        public float Height { get; set; }
-
-        public Camera2D(float width, float height)
-        {
-            Width = width;
-            Height = height;
-        }
+        public float Height { get; set; } = height;
 
         /// <summary>
         /// Get projection matrix to use it in a shader.

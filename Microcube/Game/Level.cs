@@ -11,7 +11,7 @@ namespace Microcube.Game
     /// </summary>
     public class Level
     {
-        private List<Block>? blocks;
+        private List<Block>? _blocks;
 
         /// <summary>
         /// This event calls when a prism was collected.
@@ -30,17 +30,17 @@ namespace Microcube.Game
         {
             get
             {
-                if (blocks == null)
+                if (_blocks == null)
                     throw new NullReferenceException();
 
-                return blocks;
+                return _blocks;
             }
             set
             {
                 ArgumentNullException.ThrowIfNull(value, nameof(value));
 
-                blocks = value;
-                foreach (Block block in blocks)
+                _blocks = value;
+                foreach (Block block in _blocks)
                 {
                     if (block is Prism)
                         PrismCount++;
@@ -128,7 +128,9 @@ namespace Microcube.Game
             foreach (var block in Blocks)
             {
                 if (block.IsBarrier)
+                {
                     yield return block.Position;
+                }
             }
         }
 
@@ -143,13 +145,13 @@ namespace Microcube.Game
         {
             // TODO: refactor?
             Block? highestBlock = null;
-            var pointPosition = new Vector2(posX, posZ);
+            Vector2 pointPosition = new(posX, posZ);
 
             foreach (var block in Blocks)
             {
                 if (block.IsBarrier && block.Position.Y < height)
                 {
-                    var blockPosition = new Vector2(block.Position.X, block.Position.Z);
+                    Vector2 blockPosition = new(block.Position.X, block.Position.Z);
                     float distance = Vector2.Distance(pointPosition, blockPosition);
 
                     if (distance < 1.0f)

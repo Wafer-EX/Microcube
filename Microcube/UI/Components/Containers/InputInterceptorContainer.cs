@@ -2,6 +2,7 @@
 using Microcube.Graphics.Raster;
 using Microcube.Input;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components.Containers
 {
@@ -18,7 +19,7 @@ namespace Microcube.UI.Components.Containers
 
         public InputInterceptorContainer() : base() { }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             if (BackgroundColor != RgbaColor.Transparent)
                 yield return new Sprite(displayedArea, BackgroundColor);

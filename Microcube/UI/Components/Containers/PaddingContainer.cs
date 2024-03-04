@@ -1,6 +1,7 @@
 ﻿using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Raster;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components.Containers
 {
@@ -31,18 +32,18 @@ namespace Microcube.UI.Components.Containers
 
         public PaddingContainer() : base() { }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             if (BackgroundColor != RgbaColor.Transparent)
                 yield return new Sprite(displayedArea, BackgroundColor);
 
-            displayedArea = new Rectangle<float>(
-                displayedArea.Origin.X + PaddingLeft,
-                displayedArea.Origin.Y + PaddingTop,
-                displayedArea.Size.X - PaddingLeft - PaddingRight,
-                displayedArea.Size.Y - PaddingTop - PaddingBottom);
+            displayedArea = new RectangleF(
+                displayedArea.X + PaddingLeft,
+                displayedArea.Y + PaddingTop,
+                displayedArea.Width - PaddingLeft - PaddingRight,
+                displayedArea.Height - PaddingTop - PaddingBottom);
 
-            foreach (var sprite in Child?.GetSprites(displayedArea) ?? Array.Empty<Sprite>())
+            foreach (var sprite in Child?.GetSprites(displayedArea) ?? [])
                 yield return sprite;
         }
     }

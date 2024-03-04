@@ -3,41 +3,33 @@
     /// <summary>
     /// Represents the RGBA color model.
     /// </summary>
-    public struct RgbaColor
+    public struct RgbaColor(float r, float g, float b, float a)
     {
         /// <summary>
         /// Red channel. The range is 0..1.
         /// </summary>
-        public float Red { get; set; }
+        public float Red { get; set; } = r;
 
         /// <summary>
         /// Green channel. The range is 0..1.
         /// </summary>
-        public float Green { get; set; }
+        public float Green { get; set; } = g;
 
         /// <summary>
         /// Blue channel. The range is 0..1.
         /// </summary>
-        public float Blue { get; set; }
+        public float Blue { get; set; } = b;
 
         /// <summary>
         /// Alpha channel. The range is 0..1.
         /// </summary>
-        public float Alpha { get; set; }
+        public float Alpha { get; set; } = a;
 
         public static RgbaColor Black => new(0.0f, 0.0f, 0.0f, 1.0f);
 
         public static RgbaColor White => new(1.0f, 1.0f, 1.0f, 1.0f);
 
         public static RgbaColor Transparent => new(0.0f, 0.0f, 0.0f, 0.0f);
-
-        public RgbaColor(float r, float g, float b, float a)
-        {
-            Red = r;
-            Green = g;
-            Blue = b;
-            Alpha = a;
-        }
 
         /// <summary>
         /// Safely offsets hue of the color.

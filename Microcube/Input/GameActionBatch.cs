@@ -3,14 +3,12 @@
     /// <summary>
     /// Represents a batch of game actions.
     /// </summary>
-    public struct GameActionBatch
+    public struct GameActionBatch(IEnumerable<GameActionInfo> buttonGameActions)
     {
         /// <summary>
         /// Game action list with all info of these actions.
         /// </summary>
-        public IEnumerable<GameActionInfo> GameActions { get; set; }
-
-        public GameActionBatch(IEnumerable<GameActionInfo> buttonGameActions) => GameActions = buttonGameActions;
+        public IEnumerable<GameActionInfo> GameActions { get; set; } = buttonGameActions;
 
         /// <summary>
         /// Check is this batch include click of the action or not..

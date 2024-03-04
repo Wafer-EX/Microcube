@@ -7,7 +7,7 @@ namespace Microcube.Game.Blocks
     /// <summary>
     /// Represents an usual ground block that can interact with player as barrier.
     /// </summary>
-    public class Ground : MovableBlock, IDynamic
+    public class Ground(Vector3 position, RgbaColor color, MoveQueue? moveQueue = null) : MovableBlock(position, color, moveQueue), IDynamic
     {
         /// <summary>
         /// Color of the top side.
@@ -28,12 +28,7 @@ namespace Microcube.Game.Blocks
         /// <summary>
         /// Color of edges of the block. Shows when the block is moving (but it not influences to data here).
         /// </summary>
-        public RgbaColor EdgesColor { get; set; }
-
-        public Ground(Vector3 position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color, moveQueue)
-        {
-            EdgesColor = new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f);
-        }
+        public RgbaColor EdgesColor { get; set; } = new RgbaColor(1.0f, 0.0f, 0.0f, 1.0f);
 
         public override float[] GetInstanceData()
         {
@@ -89,7 +84,7 @@ namespace Microcube.Game.Blocks
             {
                 for (float y = minY; y < maxY; y++)
                 {
-                    var position = new Vector3(x, height, y);
+                    Vector3 position = new(x, height, y);
                     yield return new Ground(position, color);
                 }
             }

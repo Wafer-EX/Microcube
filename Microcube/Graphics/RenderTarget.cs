@@ -10,11 +10,11 @@ namespace Microcube.Graphics
     /// </summary>
     public class RenderTarget : IDisposable
     {
-        private readonly GL gl;
+        private readonly GL _gl;
 
-        private readonly GLVertexArray screenQuadVao;
-        private readonly GLBuffer<float> screenQuadVbo;
-        private readonly GLFramebuffer framebuffer;
+        private readonly GLVertexArray _screenQuadVao;
+        private readonly GLBuffer<float> _screenQuadVbo;
+        private readonly GLFramebuffer _framebuffer;
 
         /// <summary>
         /// Color texture that represents colors of vertices.
@@ -44,12 +44,12 @@ namespace Microcube.Graphics
         /// <summary>
         /// Identifier of the frame buffer that was generated inside this render target.
         /// </summary>
-        public uint Framebuffer => framebuffer.Identifier;
+        public uint Framebuffer => _framebuffer.Identifier;
 
         public RenderTarget(GL gl, uint width, uint height, ScreenEffect? screenEffect = null)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
-            this.gl = gl;
+            _gl = gl;
 
             Width = width;
             Height = height;
@@ -65,12 +65,12 @@ namespace Microcube.Graphics
             DepthStencilTexture.SetParameter(TextureParameterName.TextureMinFilter, GLEnum.Nearest);
             DepthStencilTexture.SetParameter(TextureParameterName.TextureMagFilter, GLEnum.Nearest);
 
-            framebuffer = new GLFramebuffer(gl);
-            framebuffer.AttachTexture(ColorTexture, FramebufferAttachment.ColorAttachment0);
-            framebuffer.AttachTexture(DepthStencilTexture, FramebufferAttachment.DepthStencilAttachment);
+            _framebuffer = new GLFramebuffer(gl);
+            _framebuffer.AttachTexture(ColorTexture, FramebufferAttachment.ColorAttachment0);
+            _framebuffer.AttachTexture(DepthStencilTexture, FramebufferAttachment.DepthStencilAttachment);
 
-            screenQuadVao = new GLVertexArray(gl);
-            screenQuadVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer,
+            _screenQuadVao = new GLVertexArray(gl);
+            _screenQuadVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer,
             [
                 // ---- SCREEN QUAD ----
                 // 2x POSITIONS | 2x UVs
@@ -82,8 +82,8 @@ namespace Microcube.Graphics
                 -1.0f,  1.0f, 0.0f, 1.0f,
             ]);
 
-            screenQuadVao.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, 0);
-            screenQuadVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, sizeof(float) * 2);
+            _screenQuadVao.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, 0);
+            _screenQuadVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, sizeof(float) * 2);
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace Microcube.Graphics
         /// </summary>
         public void Use()
         {
-            gl.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer.Identifier);
-            gl.Viewport(0, 0, Width, Height);
+            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _framebuffer.Identifier);
+            _gl.Viewport(0, 0, Width, Height);
         }
 
         /// <summary>
@@ -105,12 +105,12 @@ namespace Microcube.Graphics
         /// <param name="height">Height in the viewport.</param>
         public void Render(uint framebuffer, int x, int y, uint width, uint height)
         {
-            gl.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
-            gl.Viewport(x, y, width, height);
+            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+            _gl.Viewport(x, y, width, height);
 
-            screenQuadVao.Bind();
+            _screenQuadVao.Bind();
             ScreenEffect.Setup(ColorTexture);
-            gl.DrawArrays(PrimitiveType.Triangles, 0, screenQuadVbo.Count);
+            _gl.DrawArrays(PrimitiveType.Triangles, 0, _screenQuadVbo.Count);
         }
 
         /// <summary>
@@ -128,9 +128,9 @@ namespace Microcube.Graphics
             ScreenEffect.Dispose();
             ColorTexture.Dispose();
 
-            screenQuadVao.Dispose();
-            screenQuadVbo.Dispose();
-            framebuffer.Dispose();
+            _screenQuadVao.Dispose();
+            _screenQuadVbo.Dispose();
+            _framebuffer.Dispose();
 
             GC.SuppressFinalize(this);
         }

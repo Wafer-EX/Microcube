@@ -8,7 +8,7 @@ namespace Microcube.Graphics.Abstractions
     /// </summary>
     public class GLTexture : IDisposable
     {
-        private readonly GL gl;
+        private readonly GL _gl;
 
         /// <summary>
         /// Identifier of the texture.
@@ -34,7 +34,7 @@ namespace Microcube.Graphics.Abstractions
         public GLTexture(GL gl, uint width, uint height, InternalFormat internalFormat, PixelFormat pixelFormat, PixelType pixelType)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
-            this.gl = gl;
+            _gl = gl;
 
             Width = width;
             Height = height;
@@ -52,7 +52,7 @@ namespace Microcube.Graphics.Abstractions
         public GLTexture(GL gl, string path)
         {
             ArgumentNullException.ThrowIfNull(nameof(gl));
-            this.gl = gl;
+            _gl = gl;
 
             ImageResult result = ImageResult.FromMemory(File.ReadAllBytes(path), ColorComponents.RedGreenBlueAlpha);
 
@@ -71,7 +71,7 @@ namespace Microcube.Graphics.Abstractions
         /// <param name="value">Texture parameter value.</param>
         public void SetParameter(TextureParameterName name, GLEnum value)
         {
-            gl.TextureParameter(Identifier, name, (int)value);
+            _gl.TextureParameter(Identifier, name, (int)value);
         }
 
         /// <summary>
@@ -83,13 +83,13 @@ namespace Microcube.Graphics.Abstractions
         /// <param name="unit">Unit to bind the texture.</param>
         public void Bind(TextureUnit unit = TextureUnit.Texture0)
         {
-            gl.ActiveTexture(unit);
-            gl.BindTexture(TextureTarget.Texture2D, Identifier);
+            _gl.ActiveTexture(unit);
+            _gl.BindTexture(TextureTarget.Texture2D, Identifier);
         }
 
         public void Dispose()
         {
-            gl.DeleteTexture(Identifier);
+            _gl.DeleteTexture(Identifier);
             GC.SuppressFinalize(this);
         }
     }

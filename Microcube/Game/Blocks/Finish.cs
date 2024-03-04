@@ -3,10 +3,10 @@ using System.Numerics;
 
 namespace Microcube.Game.Blocks
 {
-    public class Finish : Block, IDynamic
+    public class Finish(Vector3 position, RgbaColor color, bool isCenter) : Block(position, color), IDynamic
     {
-        private RgbaColor topSideColor;
-        private readonly bool isCenter;
+        private RgbaColor _topSideColor = new(1.0f, 0.25f, 0.25f, 1.0f);
+        private readonly bool _isCenter = isCenter;
 
         /// <summary>
         /// Color of the top side of the finish.
@@ -15,33 +15,27 @@ namespace Microcube.Game.Blocks
         {
             get
             {
-                if (isCenter)
+                if (_isCenter)
                 {
                     return new RgbaColor
                     {
-                        Red = 1.0f - topSideColor.Red + 0.25f,
-                        Green = 1.0f - topSideColor.Green + 0.25f,
-                        Blue = 1.0f - topSideColor.Blue + 0.25f,
+                        Red = 1.0f - _topSideColor.Red + 0.25f,
+                        Green = 1.0f - _topSideColor.Green + 0.25f,
+                        Blue = 1.0f - _topSideColor.Blue + 0.25f,
                     };
                 }
 
-                return topSideColor;
+                return _topSideColor;
             }
         }
 
         public override bool IsBarrier => true;
 
-        public Finish(Vector3 position, RgbaColor color, bool isCenter) : base(position, color)
-        {
-            this.isCenter = isCenter;
-            topSideColor = new RgbaColor(1.0f, 0.25f, 0.25f, 1.0f);
-        }
-
         public void Update(float deltaTime, Level level)
         {
-            topSideColor = (RgbaColor)((HsvaColor)topSideColor).OffsetHue(125.0f * deltaTime);
+            _topSideColor = (RgbaColor)((HsvaColor)_topSideColor).OffsetHue(125.0f * deltaTime);
 
-            if (isCenter)
+            if (_isCenter)
             {
                 if (Vector3.Distance(level.Player.Position, Position + new Vector3(0.0f, 1.0f, 0.0f)) < 1.0f)
                     level.Finish();
@@ -60,7 +54,7 @@ namespace Microcube.Game.Blocks
             {
                 for (float z = -1; z <= 1; z++)
                 {
-                    var blockPosition = new Vector3(position.X + x, position.Y, position.Z + z);
+                    Vector3 blockPosition = new(position.X + x, position.Y, position.Z + z);
                     bool isCenter = x == 0.0f && z == 0.0f;
                     yield return new Finish(blockPosition, color, isCenter);
                 }

@@ -7,9 +7,9 @@ namespace Microcube.Game.Blocks.Moving
     /// </summary>
     public class MoveQueue
     {
-        private readonly Movement[] movements;
-        private readonly Queue<Movement> movementQueue;
-        private Vector3 accurateOffset;
+        private readonly Movement[] _movements;
+        private readonly Queue<Movement> _movementQueue;
+        private Vector3 _accurateOffset;
 
         /// <summary>
         /// Represents general offset of the move queue as result of all movements for the elapsed time.
@@ -23,7 +23,7 @@ namespace Microcube.Game.Blocks.Moving
         {
             get
             {
-                _ = movementQueue.TryPeek(out var movement);
+                _ = _movementQueue.TryPeek(out var movement);
                 if (movement == null)
                     throw new InvalidOperationException();
 
@@ -50,7 +50,7 @@ namespace Microcube.Game.Blocks.Moving
             {
                 if (IsActive)
                 {
-                    _ = movementQueue.TryPeek(out var movement);
+                    _ = _movementQueue.TryPeek(out var movement);
                     if (movement != null)
                         return movement.FrameOffset.LengthSquared() != 0.0f;
                 }
@@ -62,8 +62,8 @@ namespace Microcube.Game.Blocks.Moving
         public MoveQueue(Movement[] movements, bool isRepeatable, bool isActive)
         {
             ArgumentNullException.ThrowIfNull(nameof(movements));
-            this.movements = movements;
-            this.movementQueue = new Queue<Movement>(movements);
+            _movements = movements;
+            _movementQueue = new Queue<Movement>(movements);
 
             IsRepeatable = isRepeatable;
             IsActive = isActive;
@@ -77,7 +77,7 @@ namespace Microcube.Game.Blocks.Moving
         {
             if (IsActive)
             {
-                movementQueue.TryPeek(out Movement? currentMovement);
+                _movementQueue.TryPeek(out Movement? currentMovement);
                 if (currentMovement != null)
                 {
                     currentMovement.Update(deltaTime);
@@ -85,20 +85,20 @@ namespace Microcube.Game.Blocks.Moving
 
                     if (currentMovement.IsTimeElapsed)
                     {
-                        accurateOffset += currentMovement.FinalOffset;
-                        Offset = accurateOffset;
-                        _ = movementQueue.Dequeue();
+                        _accurateOffset += currentMovement.FinalOffset;
+                        Offset = _accurateOffset;
+                        _ = _movementQueue.Dequeue();
                     }
                 }
                 else if (IsRepeatable)
                 {
-                    foreach (Movement movement in movements)
+                    foreach (Movement movement in _movements)
                     {
-                        movementQueue.Enqueue(movement);
+                        _movementQueue.Enqueue(movement);
                         movement.Reset();
                     }
                     Offset = Vector3.Zero;
-                    accurateOffset = Vector3.Zero;
+                    _accurateOffset = Vector3.Zero;
                 }
             }
         }

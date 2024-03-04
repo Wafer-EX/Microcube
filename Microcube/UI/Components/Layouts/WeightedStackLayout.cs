@@ -1,6 +1,7 @@
 ﻿using Microcube.Graphics.Raster;
 using Microcube.UI.Components.Enums;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components.Layouts
 {
@@ -16,21 +17,21 @@ namespace Microcube.UI.Components.Layouts
 
         public WeightedStackLayout() : base() { }
 
-        protected override IEnumerable<Sprite> GetSpritesOfTheseComponents(Rectangle<float> displayedArea, IReadOnlyList<Component?> components)
+        protected override IEnumerable<Sprite> GetSpritesOfTheseComponents(RectangleF displayedArea, IReadOnlyList<Component?> components)
         {
             if (!components.Any())
                 yield break;
 
-            float childWidth = displayedArea.Size.X / components.Count;
-            float childHeight = displayedArea.Size.Y / components.Count;
+            float childWidth = displayedArea.Width / components.Count;
+            float childHeight = displayedArea.Height / components.Count;
             float weightFactor = components.Count;
 
             for (int componentIndex = 0; componentIndex < components.Count; componentIndex++)
             {
-                Rectangle<float> componentDisplayedArea = GetComponentDisplayedArea(displayedArea, components.Count, componentIndex);
+                RectangleF componentDisplayedArea = GetComponentDisplayedArea(displayedArea, components.Count, componentIndex);
 
-                float positionX = displayedArea.Origin.X;
-                float positionY = displayedArea.Origin.Y;
+                float positionX = displayedArea.X;
+                float positionY = displayedArea.Y;
 
                 switch (Orientation)
                 {
@@ -38,21 +39,21 @@ namespace Microcube.UI.Components.Layouts
                         for (int i = 0; i < componentIndex; i++)
                             positionX += childWidth * Weights[i] * weightFactor;
 
-                        componentDisplayedArea.Origin.X = positionX;
-                        componentDisplayedArea.Size.X *= Weights[componentIndex] * weightFactor;
+                        componentDisplayedArea.X = positionX;
+                        componentDisplayedArea.Width *= Weights[componentIndex] * weightFactor;
                         break;
                     case StackLayoutOrientation.Vertical:
                         for (int i = 0; i < componentIndex; i++)
                             positionY += childHeight * Weights[i] * weightFactor;
 
-                        componentDisplayedArea.Origin.Y = positionY;
-                        componentDisplayedArea.Size.Y *= Weights[componentIndex] * weightFactor;
+                        componentDisplayedArea.Y = positionY;
+                        componentDisplayedArea.Height *= Weights[componentIndex] * weightFactor;
                         break;
                     default:
                         throw new NotImplementedException();
                 }
 
-                foreach (var sprite in components[componentIndex]?.GetSprites(componentDisplayedArea) ?? Array.Empty<Sprite>())
+                foreach (var sprite in components[componentIndex]?.GetSprites(componentDisplayedArea) ?? [])
                     yield return sprite;
             }
         }

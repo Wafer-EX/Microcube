@@ -37,19 +37,19 @@ namespace Microcube.Scenes
             UIContext.Child = cardLayout = new CardLayout()
             {
                 IsFocused = true,
-                Childs = new List<Component?>()
-                {
+                Children =
+                [
                     new OverlayContainer()
                     {
                         Child = new WeightedStackLayout()
                         {
-                            Weights = new float[]
-                            {
+                            Weights =
+                            [
                                 0.4f,
                                 0.6f,
-                            },
-                            Childs = new List<Component?>()
-                            {
+                            ],
+                            Children =
+                            [
                                 spriteComponent,
                                 new SizedContainer()
                                 {
@@ -58,8 +58,8 @@ namespace Microcube.Scenes
                                     VerticalAlignment = VerticalAlignment.Middle,
                                     Child = new StackLayout()
                                     {
-                                        Childs = new List<Component?>()
-                                        {
+                                        Children =
+                                        [
                                             new ButtonComponent()
                                             {
                                                 Text = "Play",
@@ -76,10 +76,10 @@ namespace Microcube.Scenes
                                                 Font = DefaultFont,
                                                 OnClick = () => Environment.Exit(0),
                                             },
-                                        },
+                                        ],
                                     },
                                 },
-                            }
+                            ]
                         },
                         OverlayComponent = new PaddingContainer()
                         {
@@ -123,11 +123,11 @@ namespace Microcube.Scenes
                             Child = new LimitedStackLayout()
                             {
                                 DisplayedCount = 4,
-                                Childs = new List<Component?>(GetLevelButtons()),
+                                Children = new List<Component?>(GetLevelButtons()),
                             },
                         },
                     },
-                },
+                ],
             };
         }
 

@@ -2,44 +2,40 @@
 using Microcube.Input;
 using Microcube.UI.Components;
 using Silk.NET.Maths;
+using System.Drawing;
+using System.Numerics;
 
 namespace Microcube.UI
 {
     /// <summary>
     /// It's an entry point to any UI.
     /// </summary>
-    public class UIContext : IDisposable
+    public class UIContext(uint width, uint height) : IDisposable
     {
-        private Component? child;
+        private Component? _child;
 
         /// <summary>
         /// Represents the UI width.
         /// </summary>
-        public uint Width { get; set; }
+        public uint Width { get; set; } = width;
 
         /// <summary>
         /// Represents the UI height,
         /// </summary>
-        public uint Height { get; set; }
+        public uint Height { get; set; } = height;
 
         /// <summary>
         /// Child component that must be displayed as the first component of the UI.
         /// </summary>
         public Component? Child
         {
-            get => child;
+            get => _child;
             set
             {
-                child = value;
-                if (child is IFocusable focusable)
+                _child = value;
+                if (_child is IFocusable focusable)
                     focusable.IsFocused = true;
             }
-        }
-
-        public UIContext(uint width, uint height)
-        {
-            Width = width;
-            Height = height;
         }
 
         /// <summary>
@@ -67,7 +63,7 @@ namespace Microcube.UI
             if (Child == null)
                 yield break;
 
-            var displayedArea = new Rectangle<float>(Vector2D<float>.Zero, Width, Height);
+            var displayedArea = new RectangleF(0, 0, Width, Height);
 
             foreach (Sprite sprite in Child.GetSprites(displayedArea))
                 yield return sprite;

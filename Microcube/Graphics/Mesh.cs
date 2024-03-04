@@ -15,7 +15,7 @@
         /// </summary>
         public uint VerticesCount { get; private set; }
 
-        protected Mesh() => Vertices = Array.Empty<float>();
+        protected Mesh() => Vertices = [];
 
         /// <summary>
         /// Creates textured cube with positions, normals and texture coordinates (uv).

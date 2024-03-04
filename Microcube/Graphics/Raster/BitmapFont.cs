@@ -1,8 +1,8 @@
 ﻿using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster.TextModifiers;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Drawing;
 using System.Numerics;
 
 namespace Microcube.Graphics.Raster
@@ -73,13 +73,9 @@ namespace Microcube.Graphics.Raster
             foreach (string line in splittedText)
             {
                 float lineWidth = 0.0f;
+
                 foreach (char character in line)
-                {
-                    if (character == ' ')
-                        lineWidth += WordSpacing;
-                    else
-                        lineWidth += Sprites[character].TextureArea.Size.X * Scale + Tracking;
-                }
+                    lineWidth += character == ' ' ? WordSpacing : Sprites[character].TextureArea.Width * Scale + Tracking;
 
                 width = MathF.Max(width, lineWidth);
             }
@@ -92,11 +88,7 @@ namespace Microcube.Graphics.Raster
         /// </summary>
         /// <param name="text">The text which height should be getted.</param>
         /// <returns>Height of the text.</returns>
-        public float GetTextHeight(string text)
-        {
-            string[] splittedText = text.Split('\n');
-            return splittedText.Length * Leading;
-        }
+        public float GetTextHeight(string text) => text.Split('\n').Length * Leading;
 
         /// <summary>
         /// Get the text as a set of sprites to render it somewhere with specific position, color and text modifier.
@@ -109,37 +101,38 @@ namespace Microcube.Graphics.Raster
         /// <returns>Sprites of the characters in the text.</returns>
         public IEnumerable<Sprite> GetSprites(string text, Vector2 specificPosition, RgbaColor? specificColor = null, ITextModifier? specificTextModifier = null)
         {
-            if (text.Length == 0)
-                yield break;
-
-            float offsetX = 0.0f;
-            float offsetY = 0.0f;
-            for (int i = 0; i < text.Length; i++)
+            if (text.Length != 0)
             {
-                char character = text[i];
-                if (character == ' ')
-                {
-                    offsetX += WordSpacing;
-                }
-                else if (character != '\n')
-                {
-                    var sprite = Sprites[character];
-                    sprite.Color = specificColor ?? Color;
-                    sprite.Scale = Scale;
-                    sprite.ViewportArea = new Rectangle<float>(specificPosition.X + offsetX, specificPosition.Y + offsetY, sprite.TextureArea.Size);
+                float offsetX = 0.0f;
+                float offsetY = 0.0f;
 
-                    if (specificTextModifier != null)
-                        sprite = specificTextModifier.ModifyCharacter(sprite, i);
-                    else if (TextModifier != null)
-                        sprite = TextModifier.ModifyCharacter(sprite, i);
-
-                    yield return sprite;
-                    offsetX += (sprite.TextureArea.Size.X + Tracking) * Scale;
-                }
-                else
+                for (int i = 0; i < text.Length; i++)
                 {
-                    offsetX = 0.0f;
-                    offsetY += Leading;
+                    char character = text[i];
+                    if (character == ' ')
+                    {
+                        offsetX += WordSpacing;
+                    }
+                    else if (character != '\n')
+                    {
+                        Sprite sprite = Sprites[character];
+                        sprite.Color = specificColor ?? Color;
+                        sprite.Scale = Scale;
+                        sprite.ViewportArea = new RectangleF(specificPosition.X + offsetX, specificPosition.Y + offsetY, sprite.TextureArea.Width, sprite.TextureArea.Height);
+
+                        if (specificTextModifier != null)
+                            sprite = specificTextModifier.ModifyCharacter(sprite, i);
+                        else if (TextModifier != null)
+                            sprite = TextModifier.ModifyCharacter(sprite, i);
+
+                        yield return sprite;
+                        offsetX += (sprite.TextureArea.Width + Tracking) * Scale;
+                    }
+                    else
+                    {
+                        offsetX = 0.0f;
+                        offsetY += Leading;
+                    }
                 }
             }
         }
@@ -162,7 +155,7 @@ namespace Microcube.Graphics.Raster
         /// <param name="horizontalAlignment">Horizontal alignment of the text.</param>
         /// <param name="verticalAlignment">Vertical alignment of the text.</param>
         /// <returns>Sprites of the characters in the text.</returns>
-        public IEnumerable<Sprite> GetSprites(string text, Rectangle<float> specificArea,RgbaColor? specificColor = null, ITextModifier? specificTextModifier = null,
+        public IEnumerable<Sprite> GetSprites(string text, RectangleF specificArea, RgbaColor? specificColor = null, ITextModifier? specificTextModifier = null,
             HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left, VerticalAlignment verticalAlignment = VerticalAlignment.Top)
         {
             // TODO: refactor this?
@@ -182,23 +175,23 @@ namespace Microcube.Graphics.Raster
                 float offsetX = horizontalAlignment switch
                 {
                     HorizontalAlignment.Left => 0.0f,
-                    HorizontalAlignment.Center => MathF.Round(specificArea.Size.X / 2.0f - lineWidth / 2.0f),
-                    HorizontalAlignment.Right => specificArea.Size.X - lineWidth,
+                    HorizontalAlignment.Center => MathF.Round(specificArea.Width / 2.0f - lineWidth / 2.0f),
+                    HorizontalAlignment.Right => specificArea.Width - lineWidth,
                     _ => throw new NotImplementedException()
                 };
 
                 float offsetY = verticalAlignment switch
                 {
                     VerticalAlignment.Top => 0.0f,
-                    VerticalAlignment.Middle => MathF.Round(specificArea.Size.Y / 2.0f - textHeight / 2.0f + lineOffsetY),
-                    VerticalAlignment.Bottom => specificArea.Size.Y - textHeight + lineOffsetY,
+                    VerticalAlignment.Middle => MathF.Round(specificArea.Height / 2.0f - textHeight / 2.0f + lineOffsetY),
+                    VerticalAlignment.Bottom => specificArea.Height - textHeight + lineOffsetY,
                     _ => throw new NotImplementedException()
                 };
 
                 var position = new Vector2
                 {
-                    X = specificArea.Origin.X + offsetX,
-                    Y = specificArea.Origin.Y + offsetY,
+                    X = specificArea.X + offsetX,
+                    Y = specificArea.Y + offsetY,
                 };
 
                 foreach (Sprite sprite in GetSprites(splittedText[lineIndex], position, specificColor, specificTextModifier))

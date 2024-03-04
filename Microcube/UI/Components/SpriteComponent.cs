@@ -1,5 +1,6 @@
 ﻿using Microcube.Graphics.Raster;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components
 {
@@ -20,20 +21,20 @@ namespace Microcube.UI.Components
 
         public SpriteComponent() : base() => IsFitToDisplayedArea = true;
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             if (IsFitToDisplayedArea)
             {
                 Sprite fittedSprite = Sprite;
 
-                float widthDifference = displayedArea.Size.X / fittedSprite.ViewportArea.Size.X;
-                float heightDifference = displayedArea.Size.Y / fittedSprite.ViewportArea.Size.Y;
+                float widthDifference = displayedArea.Width / fittedSprite.ViewportArea.Width;
+                float heightDifference = displayedArea.Height / fittedSprite.ViewportArea.Height;
                 float sizeDifference = MathF.Min(widthDifference, heightDifference);
 
                 fittedSprite.Scale = sizeDifference;
 
-                fittedSprite.ViewportArea = new Rectangle<float>(
-                    displayedArea.Origin - fittedSprite.ViewportArea.Size / 2.0f + displayedArea.Size / 2.0f,
+                fittedSprite.ViewportArea = new RectangleF(
+                    displayedArea.Location - fittedSprite.ViewportArea.Size / 2.0f + displayedArea.Size / 2.0f,
                     fittedSprite.ViewportArea.Size);
 
                 yield return fittedSprite;
@@ -43,8 +44,8 @@ namespace Microcube.UI.Components
                 Sprite alignedSprite = Sprite;
 
                 // TODO: align sprite
-                alignedSprite.ViewportArea = new Rectangle<float>(
-                    displayedArea.Origin + displayedArea.Size / 2.0f - alignedSprite.ViewportArea.Size / 2.0f,
+                alignedSprite.ViewportArea = new RectangleF(
+                    displayedArea.Location + displayedArea.Size / 2.0f - alignedSprite.ViewportArea.Size / 2.0f,
                     alignedSprite.ViewportArea.Size);
 
                 yield return alignedSprite;

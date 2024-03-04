@@ -2,6 +2,7 @@
 using Microcube.Graphics.Raster;
 using Microcube.Input;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components.Layouts
 {
@@ -10,7 +11,7 @@ namespace Microcube.UI.Components.Layouts
     /// </summary>
     public class LimitedStackLayout : StackLayout
     {
-        private int displayedOffset = 0;
+        private int _displayedOffset = 0;
 
         /// <summary>
         /// Count of components that should be displayed.
@@ -19,16 +20,16 @@ namespace Microcube.UI.Components.Layouts
 
         public LimitedStackLayout() : base() { }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             if (BackgroundColor != RgbaColor.Transparent)
                 yield return new Sprite(displayedArea, BackgroundColor);
 
-            Index startIndex = displayedOffset;
-            Index endIndex = DisplayedCount + displayedOffset;
+            Index startIndex = _displayedOffset;
+            Index endIndex = DisplayedCount + _displayedOffset;
             Range range = startIndex..endIndex;
 
-            foreach (Sprite sprite in GetSpritesOfTheseComponents(displayedArea, Childs.Take(range).ToArray()))
+            foreach (Sprite sprite in GetSpritesOfTheseComponents(displayedArea, Children.Take(range).ToArray()))
                 yield return sprite;
         }
 
@@ -37,20 +38,20 @@ namespace Microcube.UI.Components.Layouts
             base.Input(actionBatch);
 
             int selectedChildIndex = 0;
-            for (int childIndex = 0; childIndex < Childs.Count; childIndex++)
+            for (int childIndex = 0; childIndex < Children.Count; childIndex++)
             {
-                if (Childs[childIndex] == FocusableChilds[SelectedFocusableIndex])
+                if (Children[childIndex] == FocusableChildren[SelectedFocusableIndex])
                 {
                     selectedChildIndex = childIndex;
                     break;
                 }
             }
 
-            if (selectedChildIndex > DisplayedCount - 1 + displayedOffset)
-                displayedOffset++;
+            if (selectedChildIndex > DisplayedCount - 1 + _displayedOffset)
+                _displayedOffset++;
 
-            if (selectedChildIndex < displayedOffset)
-                displayedOffset--;
+            if (selectedChildIndex < _displayedOffset)
+                _displayedOffset--;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microcube.Graphics.Abstractions;
-using Silk.NET.Maths;
 using Silk.NET.OpenGL;
+using System.Drawing;
 using System.Numerics;
 using System.Xml;
 
@@ -73,8 +73,8 @@ namespace Microcube.Graphics.Raster
                                 float width = float.Parse(widthAttribute.Value);
                                 float height = float.Parse(heightAttribute.Value);
 
-                                var viewportArea = new Rectangle<float>();
-                                var textureArea = new Rectangle<float>(x, y, width, height);
+                                var viewportArea = new RectangleF();
+                                var textureArea = new RectangleF(x, y, width, height);
                                 var sprite = new Sprite(Texture, viewportArea, textureArea);
 
                                 Sprites.Add(identifier, sprite);
@@ -105,7 +105,7 @@ namespace Microcube.Graphics.Raster
         public Sprite GetSprite(T identifier, Vector2 position)
         {
             Sprite sprite = Sprites[identifier];
-            sprite.ViewportArea = new Rectangle<float>(position.ToGeneric(), sprite.ViewportArea.Size);
+            sprite.ViewportArea = new RectangleF(new PointF(position), sprite.ViewportArea.Size);
             return sprite;
         }
 

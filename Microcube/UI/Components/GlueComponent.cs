@@ -1,6 +1,7 @@
 ﻿using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Raster;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components
 {
@@ -19,7 +20,7 @@ namespace Microcube.UI.Components
             Color = RgbaColor.Transparent;
         }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             if (Color == RgbaColor.Transparent)
                 yield break;

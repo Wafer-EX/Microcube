@@ -8,7 +8,7 @@ namespace Microcube.Graphics.Abstractions
     /// </summary>
     public class GLShaderProgram : IDisposable
     {
-        private readonly GL gl;
+        private readonly GL _gl;
         
         /// <summary>
         /// Identifier of the shader program.
@@ -24,7 +24,7 @@ namespace Microcube.Graphics.Abstractions
         public GLShaderProgram(GL gl, string vertexShaderPath, string fragmentShaderPath)
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
-            this.gl = gl;
+            _gl = gl;
 
             uint vertexShader = CompileShader(vertexShaderPath, ShaderType.VertexShader);
             uint fragmentShader = CompileShader(fragmentShaderPath, ShaderType.FragmentShader);
@@ -47,11 +47,11 @@ namespace Microcube.Graphics.Abstractions
         private uint CompileShader(string path, ShaderType shaderType)
         {
             string source = File.ReadAllText(path);
-            uint shader = gl.CreateShader(shaderType);
-            gl.ShaderSource(shader, source);
-            gl.CompileShader(shader);
+            uint shader = _gl.CreateShader(shaderType);
+            _gl.ShaderSource(shader, source);
+            _gl.CompileShader(shader);
 
-            string infoLog = gl.GetShaderInfoLog(shader);
+            string infoLog = _gl.GetShaderInfoLog(shader);
             // TODO: why shader doesn't work with it?
             if (!string.IsNullOrWhiteSpace(infoLog))
                 Console.WriteLine($"Error compiling {shaderType} shader {infoLog}");
@@ -67,7 +67,7 @@ namespace Microcube.Graphics.Abstractions
         public void SetUniform(string name, int value)
         {
             int location = GetLocation(name);
-            gl.Uniform1(location, value);
+            _gl.Uniform1(location, value);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Microcube.Graphics.Abstractions
         public void SetUniform(string name, float value)
         {
             int location = GetLocation(name);
-            gl.Uniform1(location, value);
+            _gl.Uniform1(location, value);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microcube.Graphics.Abstractions
         public void SetUniform(string name, Vector3 value)
         {
             int location = GetLocation(name);
-            gl.Uniform3(location, value);
+            _gl.Uniform3(location, value);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Microcube.Graphics.Abstractions
         public void SetUniform(string name, Vector4 value)
         {
             int location = GetLocation(name);
-            gl.Uniform4(location, value);
+            _gl.Uniform4(location, value);
         }
 
         /// <summary>
@@ -111,23 +111,23 @@ namespace Microcube.Graphics.Abstractions
         public unsafe void SetUniform(string name, Matrix4x4 matrix)
         {
             int location = GetLocation(name);
-            gl.UniformMatrix4(location, 1, false, (float*)&matrix);
+            _gl.UniformMatrix4(location, 1, false, (float*)&matrix);
         }
 
         /// <summary>
         /// Use this shader program when render anything. It's like global flag.
         /// </summary>
-        public void Use() => gl.UseProgram(Identifier);
+        public void Use() => _gl.UseProgram(Identifier);
 
         public void Dispose()
         {
-            gl.DeleteShader(Identifier);
+            _gl.DeleteShader(Identifier);
             GC.SuppressFinalize(this);
         }
 
         private int GetLocation(string name)
         {
-            int location = gl.GetUniformLocation(Identifier, name);
+            int location = _gl.GetUniformLocation(Identifier, name);
             if (location == -1)
                 throw new InvalidOperationException($"The {name} uniform not found on shader.");
 

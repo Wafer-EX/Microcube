@@ -1,6 +1,7 @@
 ﻿using Microcube.Graphics.ColorModels;
 using Microcube.Graphics.Raster;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components.Containers
 {
@@ -16,15 +17,15 @@ namespace Microcube.UI.Components.Containers
 
         public OverlayContainer() : base() { }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             if (BackgroundColor != RgbaColor.Transparent)
                 yield return new Sprite(displayedArea, BackgroundColor);
 
-            foreach (Sprite sprite in Child?.GetSprites(displayedArea) ?? Array.Empty<Sprite>())
+            foreach (Sprite sprite in Child?.GetSprites(displayedArea) ?? [])
                 yield return sprite;
 
-            foreach (Sprite sprite in OverlayComponent?.GetSprites(displayedArea) ?? Array.Empty<Sprite>())
+            foreach (Sprite sprite in OverlayComponent?.GetSprites(displayedArea) ?? [])
                 yield return sprite;
         }
     }

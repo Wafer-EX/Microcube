@@ -1,5 +1,6 @@
 ﻿using Microcube.Graphics.Raster;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components
 {
@@ -25,6 +26,6 @@ namespace Microcube.UI.Components
         /// </summary>
         /// <param name="displayedArea">Area where this component will be stretched.</param>
         /// <returns>All sprites that are ready to render.</returns>
-        public abstract IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea);
+        public abstract IEnumerable<Sprite> GetSprites(RectangleF displayedArea);
     }
 }

@@ -3,35 +3,27 @@
     /// <summary>
     /// Represents the HSV color model with extra alpha channel.
     /// </summary>
-    public struct HsvaColor
+    public struct HsvaColor(float hue, float saturation, float value, float alpha)
     {
         /// <summary>
         /// Hue of the color. The range is 0..360.
         /// </summary>
-        public float Hue { get; set; }
+        public float Hue { get; set; } = hue;
 
         /// <summary>
         /// Saturation of the color. The range is 0..1.
         /// </summary>
-        public float Saturation { get; set; }
+        public float Saturation { get; set; } = saturation;
 
         /// <summary>
         /// Value of the color. The range is 0..1.
         /// </summary>
-        public float Value { get; set; }
+        public float Value { get; set; } = value;
 
         /// <summary>
         /// Alpha of the color. The range is 0..1.
         /// </summary>
-        public float Alpha { get; set; }
-
-        public HsvaColor(float hue, float saturation, float value, float alpha)
-        {
-            Hue = hue;
-            Saturation = saturation;
-            Value = value;
-            Alpha = alpha;
-        }
+        public float Alpha { get; set; } = alpha;
 
         /// <summary>
         /// Safely offsets hue of this color.

@@ -8,7 +8,7 @@ namespace Microcube.UI.Components.Layouts
     /// </summary>
     public abstract class Layout : Component, IFocusable, IBackgrounded
     {
-        private IReadOnlyList<Component> childs = new List<Component>();
+        private IReadOnlyList<Component> _children = [];
 
         public RgbaColor BackgroundColor { get; set; }
 
@@ -18,7 +18,7 @@ namespace Microcube.UI.Components.Layouts
         {
             get
             {
-                foreach (IFocusable focusable in FocusableChilds)
+                foreach (IFocusable focusable in FocusableChildren)
                 {
                     if (focusable.IsFocused)
                     {
@@ -32,38 +32,38 @@ namespace Microcube.UI.Components.Layouts
         /// <summary>
         /// All childs of this component.
         /// </summary>
-        public virtual IReadOnlyList<Component?> Childs
+        public virtual IReadOnlyList<Component?> Children
         {
-            get => childs;
+            get => _children;
             set
             {
-                foreach (Component child in childs)
+                foreach (Component child in _children)
                 {
                     if (child.Parent == this)
                         child.Parent = null;
                 }
-                childs = value.Where(obj => obj != null).ToArray()!;
+                _children = value.Where(obj => obj != null).ToArray()!;
 
                 var focusableChildList = new List<IFocusable>();
-                foreach (Component child in childs)
+                foreach (Component child in _children)
                 {
                     child.Parent = this;
                     if (child is IFocusable focusable)
                         focusableChildList.Add(focusable);
                 }
-                FocusableChilds = focusableChildList;
+                FocusableChildren = focusableChildList;
             }
         }
 
         /// <summary>
         /// All childs of this component that can be focused.
         /// </summary>
-        protected IReadOnlyList<IFocusable> FocusableChilds { get; private set; }
+        protected IReadOnlyList<IFocusable> FocusableChildren { get; private set; }
 
         public Layout() : base()
         {
-            Childs = new List<Component>();
-            FocusableChilds = new List<IFocusable>();
+            Children = [];
+            FocusableChildren = [];
         }
 
 
@@ -73,7 +73,7 @@ namespace Microcube.UI.Components.Layouts
         /// <param name="deltaTime"></param>
         public override void Update(float deltaTime)
         {
-            foreach (Component? child in Childs)
+            foreach (Component? child in Children)
                 child?.Update(deltaTime);
         }
 

@@ -22,22 +22,22 @@ namespace Microcube.Scenes
     {
         private bool isPaused = false;
 
-        private readonly Level level;
-        private readonly Camera3D camera3D;
-        private readonly LevelRenderer levelRenderer;
-        private readonly RenderTarget levelRenderTarget;
-        private readonly ChromaticAberrationScreenEffect levelScreenEffect;
+        private readonly Level _level;
+        private readonly Camera3D _camera3D;
+        private readonly LevelRenderer _levelRenderer;
+        private readonly RenderTarget _levelRenderTarget;
+        private readonly ChromaticAberrationScreenEffect _levelScreenEffect;
 
         public LevelScene(GL gl, uint width, uint height, LevelInfo levelInfo) : base(gl, width, height)
         {
             ArgumentNullException.ThrowIfNull(levelInfo, nameof(levelInfo));
             LevelContent levelContent = LevelParser.Parse(levelInfo.Path);
 
-            level = new Level(levelContent.Blocks, levelContent.MoveQueues, levelContent.StartPosition);
-            camera3D = new Camera3D(Vector3.Zero, Vector3.Zero, 0.75f, (float)width / height, 5.0f);
-            levelRenderer = new LevelRenderer(gl);
-            levelScreenEffect = new ChromaticAberrationScreenEffect(gl);
-            levelRenderTarget = new RenderTarget(gl, width, height, levelScreenEffect);
+            _level = new Level(levelContent.Blocks, levelContent.MoveQueues, levelContent.StartPosition);
+            _camera3D = new Camera3D(Vector3.Zero, Vector3.Zero, 0.75f, (float)width / height, 5.0f);
+            _levelRenderer = new LevelRenderer(gl);
+            _levelScreenEffect = new ChromaticAberrationScreenEffect(gl);
+            _levelRenderTarget = new RenderTarget(gl, width, height, _levelScreenEffect);
 
             TextComponent? prismCountTextComponent = null;
             CardLayout? cardLayout = null;
@@ -45,7 +45,7 @@ namespace Microcube.Scenes
             UIContext.Child = cardLayout = new CardLayout()
             {
                 IsFocused = true,
-                Childs =
+                Children =
                 [
                     new InputInterceptorContainer()
                     {
@@ -70,7 +70,7 @@ namespace Microcube.Scenes
                             PaddingBottom = 8,
                             Child = prismCountTextComponent = new TextComponent()
                             {
-                                Text = $"Prisms: {level.CollectedPrisms} of {level.PrismCount}",
+                                Text = $"Prisms: {_level.CollectedPrisms} of {_level.PrismCount}",
                                 Font = DefaultFont,
                                 Color = RgbaColor.White,
                                 TextModifier = null,
@@ -85,7 +85,7 @@ namespace Microcube.Scenes
                         VerticalAlignment = VerticalAlignment.Middle,
                         Child = new StackLayout()
                         {
-                            Childs =
+                            Children =
                             [
                                 new ButtonComponent()
                                 {
@@ -122,7 +122,7 @@ namespace Microcube.Scenes
                                 0.80f,
                                 0.20f
                             ],
-                            Childs =
+                            Children =
                             [
                                 new TextComponent()
                                 {
@@ -137,7 +137,7 @@ namespace Microcube.Scenes
                                 new StackLayout()
                                 {
                                     Orientation = StackLayoutOrientation.Horizontal,
-                                    Childs =
+                                    Children =
                                     [
                                         levelInfo.NextLevel != null ? new ButtonComponent()
                                         {
@@ -159,12 +159,12 @@ namespace Microcube.Scenes
                 ],
             };
 
-            level.PrismCollected += () =>
+            _level.PrismCollected += () =>
             {
-                levelScreenEffect.Strength = 8.0f;
-                prismCountTextComponent.Text = $"Prisms: {level.CollectedPrisms} of {level.PrismCount}";
+                _levelScreenEffect.Strength = 8.0f;
+                prismCountTextComponent.Text = $"Prisms: {_level.CollectedPrisms} of {_level.PrismCount}";
             };
-            level.Finished += () => cardLayout.SelectedIndex = 2;
+            _level.Finished += () => cardLayout.SelectedIndex = 2;
         }
 
         public override void Update(GameActionBatch actionBatch, float deltaTime)
@@ -179,21 +179,21 @@ namespace Microcube.Scenes
                         {
                             bool isReversed = gameAction.Action == GameAction.Down || gameAction.Action == GameAction.Right;
                             bool changeAxis = gameAction.Action == GameAction.Left || gameAction.Action == GameAction.Right;
-                            level.Player.Move(isReversed, changeAxis);
+                            _level.Player.Move(isReversed, changeAxis);
                         }
                     }
                 }
 
-                level.Update(deltaTime);
-                camera3D.Target = level.Player.OffsettedPosition;
-                camera3D.Position = level.Player.OffsettedPosition + new Vector3(-5, 5, -5);
-                camera3D.Update(deltaTime);
+                _level.Update(deltaTime);
+                _camera3D.Target = _level.Player.OffsettedPosition;
+                _camera3D.Position = _level.Player.OffsettedPosition + new Vector3(-5, 5, -5);
+                _camera3D.Update(deltaTime);
 
-                if (levelScreenEffect.Strength > 0.0f)
-                    levelScreenEffect.Strength = MathF.Max(levelScreenEffect.Strength - 16.0f * deltaTime, 0.0f);
+                if (_levelScreenEffect.Strength > 0.0f)
+                    _levelScreenEffect.Strength = MathF.Max(_levelScreenEffect.Strength - 16.0f * deltaTime, 0.0f);
             }
 
-            levelRenderer.SetData(level);
+            _levelRenderer.SetData(_level);
             SpriteRenderer.SetData(UIContext.GetSprites());
 
             base.Update(actionBatch, deltaTime);
@@ -201,8 +201,8 @@ namespace Microcube.Scenes
 
         public override void Render(float deltaTime)
         {
-            levelRenderer.Render(camera3D, levelRenderTarget);
-            levelRenderTarget.Render(FinalRenderTarget.Framebuffer, 0, 0, FinalRenderTarget.Width, FinalRenderTarget.Height);
+            _levelRenderer.Render(_camera3D, _levelRenderTarget);
+            _levelRenderTarget.Render(FinalRenderTarget.Framebuffer, 0, 0, FinalRenderTarget.Width, FinalRenderTarget.Height);
             SpriteRenderer.Render(SpriteCamera, FinalRenderTarget);
         }
 
@@ -210,10 +210,10 @@ namespace Microcube.Scenes
         {
             base.Dispose();
 
-            levelRenderer.Dispose();
+            _levelRenderer.Dispose();
 
-            levelRenderTarget.Dispose();
-            levelScreenEffect.Dispose();
+            _levelRenderTarget.Dispose();
+            _levelScreenEffect.Dispose();
 
             GC.SuppressFinalize(this);
         }

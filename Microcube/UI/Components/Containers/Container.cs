@@ -9,18 +9,18 @@ namespace Microcube.UI.Components.Containers
     /// </summary>
     public abstract class Container : Component, IFocusable, IBackgrounded
     {
-        private bool isFocused;
-        private Component? child;
+        private bool _isFocused;
+        private Component? _child;
 
         public RgbaColor BackgroundColor { get; set; }
 
         public bool IsFocused
         {
-            get => isFocused;
+            get => _isFocused;
             set
             {
-                isFocused = value;
-                if (AutomaticallyFocusChild && child is IFocusable focusable)
+                _isFocused = value;
+                if (AutomaticallyFocusChild && _child is IFocusable focusable)
                     focusable.IsFocused = value;
             }
         }
@@ -38,16 +38,16 @@ namespace Microcube.UI.Components.Containers
         /// </summary>
         public Component? Child
         {
-            get => child;
+            get => _child;
             set
             {
-                if (child != null)
-                    child.Parent = null;
+                if (_child != null)
+                    _child.Parent = null;
 
                 if (value != null)
                     value.Parent = this;
 
-                child = value;
+                _child = value;
             }
         }
 

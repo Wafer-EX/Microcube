@@ -7,49 +7,44 @@ namespace Microcube.Game.Blocks
     /// <summary>
     /// Represents a block that can be moved by move queue.
     /// </summary>
-    public abstract class MovableBlock : Block, IDynamic
+    public abstract class MovableBlock(Vector3 position, RgbaColor color, MoveQueue? moveQueue = null) : Block(position, color), IDynamic
     {
-        private Vector3 position;
-        private Vector3 offsettedPosition;
-        private bool attachPlayer = false;
+        private Vector3 _position;
+        private Vector3 _offsettedPosition;
+        private bool _attachPlayer = false;
 
         public override Vector3 Position
         {
-            get => MoveQueue != null ? offsettedPosition : position;
-            set => position = value;
+            get => MoveQueue != null ? _offsettedPosition : _position;
+            set => _position = value;
         }
 
         /// <summary>
         /// Move queue of the block that will move this block.
         /// </summary>
-        public MoveQueue? MoveQueue { get; private set; }
-
-        public MovableBlock(Vector3 position, RgbaColor color, MoveQueue? moveQueue = null) : base(position, color)
-        {
-            MoveQueue = moveQueue;
-        }
+        public MoveQueue? MoveQueue { get; private set; } = moveQueue;
 
         public virtual void Update(float deltaTime, Level level)
         {
             ArgumentNullException.ThrowIfNull(level, nameof(level));
             if (MoveQueue != null)
             {
-                attachPlayer = level.Player.Position == offsettedPosition + new Vector3(0, 1.0f, 0);
-                offsettedPosition = position + MoveQueue.Offset;
+                _attachPlayer = level.Player.Position == _offsettedPosition + new Vector3(0, 1.0f, 0);
+                _offsettedPosition = _position + MoveQueue.Offset;
 
-                ModelMatrix = Matrix4x4.CreateTranslation(offsettedPosition);
+                ModelMatrix = Matrix4x4.CreateTranslation(_offsettedPosition);
 
                 // TODO: something is wrong with player attaching
                 if (MoveQueue.IsMoving)
                 {
-                    float distance = Vector3.Distance(offsettedPosition, level.Player.Position);
-                    float nextPositionDistance = Vector3.Distance(offsettedPosition, level.Player.NextPosition);
+                    float distance = Vector3.Distance(_offsettedPosition, level.Player.Position);
+                    float nextPositionDistance = Vector3.Distance(_offsettedPosition, level.Player.NextPosition);
 
-                    if (distance < 1.0f || nextPositionDistance < 1.0f || attachPlayer)
+                    if (distance < 1.0f || nextPositionDistance < 1.0f || _attachPlayer)
                         // TODO: calculate real push offset
                         level.Player.Push(MoveQueue.FrameOffset);
                 }
-                else if (attachPlayer)
+                else if (_attachPlayer)
                 {
                     level.Player.Position = new Vector3
                     {

@@ -13,66 +13,63 @@ namespace Microcube
     /// </summary>
     public class MicrocubeGame : IDisposable
     {
-        private readonly IWindow window;
+        private readonly IWindow _window;
 
-        private IInputContext? inputContext;
-        private GL? gl;
+        private GL _gl = null!;
+        private IInputContext _inputContext = null!;
 
-        private SceneManager? sceneManager;
-        private KeyboardManager? keyboardManager;
-        private Viewport? viewport;
+        private SceneManager _sceneManager = null!;
+        private KeyboardManager _keyboardManager = null!;
+        private Viewport _viewport = null!;
 
         public MicrocubeGame(int width, int height)
         {
-            window = Window.Create(WindowOptions.Default with
+            _window = Window.Create(WindowOptions.Default with
             {
                 API = new GraphicsAPI(ContextAPI.OpenGL, new APIVersion(4, 6)),
                 Size = new Vector2D<int>(width, height),
                 Title = "Microcube",
             });
 
-            window.Load += () =>
+            _window.Load += () =>
             {
-                gl = window.CreateOpenGL() ?? throw new NotSupportedException();
-                inputContext = window.CreateInput() ?? throw new NotSupportedException();
+                _gl = _window.CreateOpenGL();
+                _inputContext = _window.CreateInput();
 
-                keyboardManager = new KeyboardManager(inputContext.Keyboards);
-                viewport = new Viewport(gl, (uint)window.Size.X, (uint)window.Size.Y);
-                sceneManager = new SceneManager(viewport, new MainMenuScene(gl, 640, 360));
+                _keyboardManager = new KeyboardManager(_inputContext.Keyboards);
+                _viewport = new Viewport(_gl, (uint)_window.Size.X, (uint)_window.Size.Y);
+                _sceneManager = new SceneManager(_viewport, new MainMenuScene(_gl, 640, 360));
             };
 
-            window.Update += (deltaTime) =>
+            _window.Update += (deltaTime) =>
             {
-                if (sceneManager != null && keyboardManager != null)
+                if (_sceneManager != null && _keyboardManager != null)
                 {
-                    var actionBatch = new GameActionBatch(keyboardManager.GetActions());
+                    var actionBatch = new GameActionBatch(_keyboardManager.GetActions());
 
-                    sceneManager.Update(actionBatch, (float)deltaTime);
-                    keyboardManager.Update();
+                    _sceneManager.Update(actionBatch, (float)deltaTime);
+                    _keyboardManager.Update();
                 }
             };
 
-            window.Render += (deltaTime) =>
-            {
-                sceneManager?.Render((float)deltaTime);
-            };
+            _window.Render += (deltaTime) => _sceneManager?.Render((float)deltaTime);
 
-            window.Resize += (Vector2D<int> size) =>
+            _window.Resize += (Vector2D<int> size) =>
             {
-                if (viewport != null)
+                if (_viewport != null)
                 {
-                    viewport.Width = (uint)size.X;
-                    viewport.Height = (uint)size.Y;
+                    _viewport.Width = (uint)size.X;
+                    _viewport.Height = (uint)size.Y;
                 }
             };
         }
 
-        public void Run() => window.Run();
+        public void Run() => _window.Run();
 
         public void Dispose()
         {
-            window.Dispose();
-            inputContext?.Dispose();
+            _window.Dispose();
+            _inputContext?.Dispose();
 
             GC.SuppressFinalize(this);
         }

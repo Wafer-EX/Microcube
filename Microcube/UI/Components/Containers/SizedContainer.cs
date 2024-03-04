@@ -2,6 +2,7 @@
 using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster;
 using Silk.NET.Maths;
+using System.Drawing;
 using System.Numerics;
 
 namespace Microcube.UI.Components.Containers
@@ -32,37 +33,37 @@ namespace Microcube.UI.Components.Containers
             VerticalAlignment = VerticalAlignment.Top;
         }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
-            float width = MathF.Min(Size.X, displayedArea.Size.X);
-            float height = MathF.Min(Size.Y, displayedArea.Size.Y);
+            float width = MathF.Min(Size.X, displayedArea.Width);
+            float height = MathF.Min(Size.Y, displayedArea.Height);
 
             float offsetX = HorizontalAlignment switch
             {
                 HorizontalAlignment.Left => 0.0f,
-                HorizontalAlignment.Center => displayedArea.Size.X / 2.0f - width / 2.0f,
-                HorizontalAlignment.Right => displayedArea.Size.X - width,
+                HorizontalAlignment.Center => displayedArea.Width / 2.0f - width / 2.0f,
+                HorizontalAlignment.Right => displayedArea.Width - width,
                 _ => throw new NotImplementedException()
             };
 
             float offsetY = VerticalAlignment switch
             {
                 VerticalAlignment.Top => 0.0f,
-                VerticalAlignment.Middle => displayedArea.Size.Y / 2.0f - height / 2.0f,
-                VerticalAlignment.Bottom => displayedArea.Size.Y - height,
+                VerticalAlignment.Middle => displayedArea.Height / 2.0f - height / 2.0f,
+                VerticalAlignment.Bottom => displayedArea.Height - height,
                 _ => throw new NotImplementedException()
             };
 
-            displayedArea = new Rectangle<float>()
+            displayedArea = new RectangleF()
             {
-                Origin = displayedArea.Origin + new Vector2D<float>(offsetX, offsetY),
-                Size = new Vector2D<float>(width, height),
+                Location = new PointF(displayedArea.Location.ToVector2() + new Vector2(offsetX, offsetY)),
+                Size = new SizeF(width, height),
             };
 
             if (BackgroundColor != RgbaColor.Transparent)
                 yield return new Sprite(displayedArea, BackgroundColor);
 
-            foreach (var sprite in Child?.GetSprites(displayedArea) ?? Array.Empty<Sprite>())
+            foreach (var sprite in Child?.GetSprites(displayedArea) ?? [])
                 yield return sprite;
         }
     }

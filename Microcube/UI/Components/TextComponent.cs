@@ -3,6 +3,7 @@ using Microcube.Graphics.Enums;
 using Microcube.Graphics.Raster;
 using Microcube.Graphics.Raster.TextModifiers;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components
 {
@@ -52,7 +53,7 @@ namespace Microcube.UI.Components
 
         public override void Update(float deltaTime) => TextModifier?.Update(deltaTime);
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
             => Font.GetSprites(Text, displayedArea, Color, TextModifier, HorizontalAlignment, VerticalAlignment);
     }
 }

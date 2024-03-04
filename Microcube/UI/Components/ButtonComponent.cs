@@ -5,6 +5,7 @@ using Microcube.Graphics.Raster.TextModifiers;
 using Microcube.Input;
 using Microcube.UI.Components.Styles;
 using Silk.NET.Maths;
+using System.Drawing;
 
 namespace Microcube.UI.Components
 {
@@ -58,7 +59,7 @@ namespace Microcube.UI.Components
                 UnfocusedStyle.TextModifier?.Update(deltaTime);
         }
 
-        public override IEnumerable<Sprite> GetSprites(Rectangle<float> displayedArea)
+        public override IEnumerable<Sprite> GetSprites(RectangleF displayedArea)
         {
             yield return new Sprite(displayedArea, IsFocused ? FocusedStyle.BackgroundColor : UnfocusedStyle.BackgroundColor);
 

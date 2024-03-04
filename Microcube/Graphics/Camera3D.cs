@@ -7,18 +7,18 @@ namespace Microcube.Graphics
     /// </summary>
     public class Camera3D
     {
-        private Vector3 position;
-        private Vector3 target;
-        private Vector3 intermediatePosition;
-        private Vector3 intermediateTarget;
+        private Vector3 _position;
+        private Vector3 _target;
+        private Vector3 _intermediatePosition;
+        private Vector3 _intermediateTarget;
 
         /// <summary>
         /// Position of the camera.
         /// </summary>
         public Vector3 Position
         {
-            get => intermediatePosition;
-            set => position = value;
+            get => _intermediatePosition;
+            set => _position = value;
         }
 
         /// <summary>
@@ -26,8 +26,8 @@ namespace Microcube.Graphics
         /// </summary>
         public Vector3 Target
         {
-            get => intermediateTarget;
-            set => target = value;
+            get => _intermediateTarget;
+            set => _target = value;
         }
 
         /// <summary>
@@ -80,13 +80,13 @@ namespace Microcube.Graphics
         {
             if (MovingSpeed > 0.0f)
             {
-                intermediatePosition += (position - intermediatePosition) * MovingSpeed * deltaTime;
-                intermediateTarget += (target - intermediateTarget) * MovingSpeed * deltaTime;
+                _intermediatePosition += (_position - _intermediatePosition) * MovingSpeed * deltaTime;
+                _intermediateTarget += (_target - _intermediateTarget) * MovingSpeed * deltaTime;
             }
             else
             {
-                intermediatePosition = position;
-                intermediateTarget = target;
+                _intermediatePosition = _position;
+                _intermediateTarget = _target;
             }
         }
     }

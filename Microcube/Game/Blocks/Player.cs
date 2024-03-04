@@ -1,6 +1,5 @@
 ﻿using Microcube.Game.Blocks.Enums;
 using Microcube.Graphics.ColorModels;
-using Silk.NET.Maths;
 using System.Numerics;
 
 namespace Microcube.Game.Blocks
@@ -12,19 +11,19 @@ namespace Microcube.Game.Blocks
     {
         private readonly Level level;
 
-        private PlayerState state = PlayerState.Falling;
-        private PlayerBarrier barrier = PlayerBarrier.Nothing;
+        private PlayerState _state = PlayerState.Falling;
+        private PlayerBarrier _barrier = PlayerBarrier.Nothing;
 
-        private float innerOffset = 0.0f;
-        private float velocity = 0.0f;
+        private float _innerOffset = 0.0f;
+        private float _velocity = 0.0f;
 
-        private bool isKeyPressed = false;
-        private bool isReversed = false;
-        private bool changeAxis = false;
-        private bool isPushed = false;
+        private bool _isKeyPressed = false;
+        private bool _isReversed = false;
+        private bool _changeAxis = false;
+        private bool _isPushed = false;
 
-        private readonly float mass = 0.01f;
-        private readonly float gravity = -9.81f;
+        private readonly float _mass = 0.01f;
+        private readonly float _gravity = -9.81f;
 
         public override Vector3 Position
         {
@@ -33,7 +32,7 @@ namespace Microcube.Game.Blocks
             {
                 base.Position = value;
                 // TODO: something is wrong when player falling and pushing my other block
-                ModelMatrix = CalculateMovingMatrix(innerOffset, barrier, changeAxis)
+                ModelMatrix = CalculateMovingMatrix(_innerOffset, _barrier, _changeAxis)
                     * Matrix4x4.CreateTranslation(Position);
             }
         }
@@ -56,29 +55,24 @@ namespace Microcube.Game.Blocks
         {
             get
             {
-                switch (state)
+                switch (_state)
                 {
                     case PlayerState.Moving:
-                        if (barrier == PlayerBarrier.Nothing)
+                        if (_barrier == PlayerBarrier.Nothing)
                         {
-                            float moveX = 0.0f, moveZ = innerOffset;
-                            if (changeAxis)
+                            float moveX = 0.0f, moveZ = _innerOffset;
+                            if (_changeAxis)
                                 (moveX, moveZ) = (moveZ, moveX);
 
                             return Position + new Vector3(moveX, 0.0f, moveZ);
                         }
                         else
                         {
-                            // TODO: remove Silk.NET library using
-                            Vector4D<float> silkVector4D = new Vector4D<float>(0.0f, 0.0f, 0.0f, 1.0f)
-                                * CalculateMovingMatrix(innerOffset, barrier, changeAxis).ToGeneric();
-
-                            Vector4 vector4D = silkVector4D.ToSystem();
-
+                            Vector4 vector4D = Vector4.Transform(Vector4.UnitW, CalculateMovingMatrix(_innerOffset, _barrier, _changeAxis));
                             return Position + new Vector3(vector4D.X, vector4D.Y, vector4D.Z);
                         }
                     case PlayerState.Falling:
-                        return new Vector3(Position.X, Position.Y + innerOffset, Position.Z);
+                        return new Vector3(Position.X, Position.Y + _innerOffset, Position.Z);
                 }
                 return Position;
             }
@@ -91,13 +85,13 @@ namespace Microcube.Game.Blocks
         {
             get
             {
-                if (state == PlayerState.Moving && innerOffset != 0.0f)
+                if (_state == PlayerState.Moving && _innerOffset != 0.0f)
                 {
                     float moveX = 0.0f;
-                    float moveY = barrier == PlayerBarrier.Step || barrier == PlayerBarrier.Wall ? 1.0f : 0.0f;
-                    float moveZ = barrier != PlayerBarrier.Wall ? MathF.CopySign(1.0f, innerOffset) : 0.0f;
+                    float moveY = _barrier == PlayerBarrier.Step || _barrier == PlayerBarrier.Wall ? 1.0f : 0.0f;
+                    float moveZ = _barrier != PlayerBarrier.Wall ? MathF.CopySign(1.0f, _innerOffset) : 0.0f;
 
-                    if (changeAxis)
+                    if (_changeAxis)
                         (moveX, moveZ) = (moveZ, moveX);
 
                     return new Vector3(Position.X + moveX, Position.Y + moveY, Position.Z + moveZ);
@@ -128,14 +122,14 @@ namespace Microcube.Game.Blocks
         /// <param name="changeAxis">Is change axis from Z to X.</param>
         public void Move(bool isReversed, bool changeAxis)
         {
-            if (state != PlayerState.Falling)
+            if (_state != PlayerState.Falling)
             {
-                this.isReversed = isReversed;
-                if (innerOffset == 0.0f)
-                    this.changeAxis = changeAxis;
+                _isReversed = isReversed;
+                if (_innerOffset == 0.0f)
+                    _changeAxis = changeAxis;
 
-                if (this.changeAxis == changeAxis && barrier != PlayerBarrier.Unsuitable && barrier != PlayerBarrier.Trap)
-                    isKeyPressed = true;
+                if (_changeAxis == changeAxis && _barrier != PlayerBarrier.Unsuitable && _barrier != PlayerBarrier.Trap)
+                    _isKeyPressed = true;
             }
         }
 
@@ -147,21 +141,21 @@ namespace Microcube.Game.Blocks
         public void Push(Vector3 offset)
         {
             Position += offset;
-            isPushed = true;
+            _isPushed = true;
         }
 
         public void Update(float deltaTime)
         {
             // TODO: something is wrong with velocity on different framerates
-            velocity += velocity * (mass * gravity) * deltaTime;
+            _velocity += _velocity * (_mass * _gravity) * deltaTime;
             Color = (RgbaColor)((HsvaColor)Color).OffsetHue(Energy * 240.0f * deltaTime);
 
-            if (state == PlayerState.Falling)
+            if (_state == PlayerState.Falling)
             {
-                velocity -= deltaTime;
-                innerOffset += velocity;
+                _velocity -= deltaTime;
+                _innerOffset += _velocity;
 
-                if (innerOffset < -10.0f)
+                if (_innerOffset < -10.0f)
                     ProcessPosition(StartPosition);
                 else
                 {
@@ -170,63 +164,63 @@ namespace Microcube.Game.Blocks
                         ProcessPosition(new Vector3(Position.X, highestBlock.Position.Y + 1.0f, Position.Z));
                 }
 
-                ModelMatrix = Matrix4x4.CreateTranslation(Position.X, Position.Y + innerOffset, Position.Z);
+                ModelMatrix = Matrix4x4.CreateTranslation(Position.X, Position.Y + _innerOffset, Position.Z);
             }
             else
             {
-                if (innerOffset == 0.0f && state == PlayerState.Standing)
-                    barrier = EnvirnomentAnalysis.GetGlobalBarrierFromPosition(Position, level.GetBarrierBlockCoordinates(), isReversed, changeAxis);
+                if (_innerOffset == 0.0f && _state == PlayerState.Standing)
+                    _barrier = EnvirnomentAnalysis.GetGlobalBarrierFromPosition(Position, level.GetBarrierBlockCoordinates(), _isReversed, _changeAxis);
 
                 // TODO: rewrite it
-                if (!isPushed && state == PlayerState.Standing && (Math.Truncate(Position.X) != 0.0f || Math.Truncate(Position.Y) != 0.0f))
+                if (!_isPushed && _state == PlayerState.Standing && (Math.Truncate(Position.X) != 0.0f || Math.Truncate(Position.Y) != 0.0f))
                     ProcessPosition(new Vector3(MathF.Round(Position.X), Position.Y, MathF.Round(Position.Z)));
 
-                float movingForceStrength = velocity == 0.0f ? Energy : 0.50f;
+                float movingForceStrength = _velocity == 0.0f ? Energy : 0.50f;
                 float weightForceStrength = 0.25f;
 
-                if (barrier == PlayerBarrier.Nothing || barrier == PlayerBarrier.Step || barrier == PlayerBarrier.Wall)
+                if (_barrier == PlayerBarrier.Nothing || _barrier == PlayerBarrier.Step || _barrier == PlayerBarrier.Wall)
                 {
-                    if (isKeyPressed)
+                    if (_isKeyPressed)
                     {
-                        float movingForce = (isReversed ? -movingForceStrength : movingForceStrength) * deltaTime;
-                        velocity += movingForce;
+                        float movingForce = (_isReversed ? -movingForceStrength : movingForceStrength) * deltaTime;
+                        _velocity += movingForce;
                     }
 
-                    if (innerOffset != 0.0f)
+                    if (_innerOffset != 0.0f)
                     {
-                        float weightForce = barrier switch
+                        float weightForce = _barrier switch
                         {
-                            PlayerBarrier.Nothing => (MathF.Abs(innerOffset) > 0.5f ? weightForceStrength : -weightForceStrength) * MathF.Sign(innerOffset),
-                            PlayerBarrier.Step => (MathF.Abs(innerOffset) < 1.5f ? -weightForceStrength : weightForceStrength) * MathF.Sign(innerOffset),
-                            PlayerBarrier.Wall => MathF.CopySign(weightForceStrength, -innerOffset),
+                            PlayerBarrier.Nothing => (MathF.Abs(_innerOffset) > 0.5f ? weightForceStrength : -weightForceStrength) * MathF.Sign(_innerOffset),
+                            PlayerBarrier.Step => (MathF.Abs(_innerOffset) < 1.5f ? -weightForceStrength : weightForceStrength) * MathF.Sign(_innerOffset),
+                            PlayerBarrier.Wall => MathF.CopySign(weightForceStrength, -_innerOffset),
                             _ => 0.0f
                         } * deltaTime;
 
-                        velocity += weightForce;
+                        _velocity += weightForce;
                     }
                 }
 
-                float previousInnerOffset = innerOffset;
-                innerOffset += velocity;
+                float previousInnerOffset = _innerOffset;
+                _innerOffset += _velocity;
 
-                if (state == PlayerState.Moving && MathF.Sign(previousInnerOffset) != MathF.Sign(innerOffset))
+                if (_state == PlayerState.Moving && MathF.Sign(previousInnerOffset) != MathF.Sign(_innerOffset))
                     ProcessPosition(Position);
                 else
                 {
-                    if (innerOffset != 0.0f)
-                        state = PlayerState.Moving;
+                    if (_innerOffset != 0.0f)
+                        _state = PlayerState.Moving;
 
-                    float criticalOffset = barrier == PlayerBarrier.Step ? 2.0f : 1.0f;
-                    if (MathF.Abs(innerOffset) > criticalOffset)
+                    float criticalOffset = _barrier == PlayerBarrier.Step ? 2.0f : 1.0f;
+                    if (MathF.Abs(_innerOffset) > criticalOffset)
                         ProcessPosition(NextPosition);
                 }
 
-                ModelMatrix = CalculateMovingMatrix(innerOffset, barrier, changeAxis)
+                ModelMatrix = CalculateMovingMatrix(_innerOffset, _barrier, _changeAxis)
                     * Matrix4x4.CreateTranslation(Position);
             }
 
-            isKeyPressed = false;
-            isPushed = false;
+            _isKeyPressed = false;
+            _isPushed = false;
         }
 
         /// <summary>
@@ -235,15 +229,15 @@ namespace Microcube.Game.Blocks
         /// <param name="position">New position.</param>
         public void ProcessPosition(Vector3 position)
         {
-            innerOffset = 0.0f;
-            velocity = 0.0f;
-            state = PlayerState.Standing;
+            _innerOffset = 0.0f;
+            _velocity = 0.0f;
+            _state = PlayerState.Standing;
 
             Position = position;
 
             Block? highestBlock = level.GetHighestBarrierFromHeight(Position.X, Position.Z, Position.Y);
             if (highestBlock == null || (highestBlock.IsBarrier && OffsettedPosition.Y - highestBlock.Position.Y > 1.0f))
-                state = PlayerState.Falling;
+                _state = PlayerState.Falling;
         }
 
         /// <summary>

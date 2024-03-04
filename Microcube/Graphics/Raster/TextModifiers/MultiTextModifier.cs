@@ -5,17 +5,17 @@
     /// </summary>
     public class MultiTextModifier : ITextModifier
     {
-        private readonly ITextModifier[] modifiers;
+        private readonly ITextModifier[] _modifiers;
 
         public MultiTextModifier(params ITextModifier[] modifiers)
         {
             ArgumentNullException.ThrowIfNull(modifiers, nameof(modifiers));
-            this.modifiers = modifiers;
+            _modifiers = modifiers;
         }
 
         public virtual Sprite ModifyCharacter(Sprite sprite, int index)
         {
-            foreach (var modifier in modifiers)
+            foreach (var modifier in _modifiers)
                 sprite = modifier.ModifyCharacter(sprite, index);
 
             return sprite;
@@ -23,7 +23,7 @@
 
         public void Update(float deltaTime)
         {
-            foreach (var modifier in modifiers)
+            foreach (var modifier in _modifiers)
                 modifier.Update(deltaTime);
         }
     }
