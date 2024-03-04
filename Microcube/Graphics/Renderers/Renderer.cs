@@ -29,7 +29,6 @@ namespace Microcube.Graphics.Renderers
         {
             ArgumentNullException.ThrowIfNull(nameof(gl));
             GL = gl;
-
             ClearColor = RgbaColor.Black;
         }
 

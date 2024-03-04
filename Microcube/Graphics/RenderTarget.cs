@@ -1,4 +1,4 @@
-﻿using Microcube.Graphics.Abstractions;
+﻿using Microcube.Graphics.OpenGL;
 using Microcube.Graphics.ScreenEffects;
 using Silk.NET.OpenGL;
 using System.Drawing;
@@ -12,9 +12,9 @@ namespace Microcube.Graphics
     {
         private readonly GL _gl;
 
-        private readonly GLVertexArray _screenQuadVao;
-        private readonly GLBuffer<float> _screenQuadVbo;
-        private readonly GLFramebuffer _framebuffer;
+        private readonly GLVertexArray _screenQuadVertexArray;
+        private readonly GLBuffer<float> _screenQuadBuffer;
+        private readonly GLFramebuffer _glFramebuffer;
 
         /// <summary>
         /// Color texture that represents colors of vertices.
@@ -44,7 +44,7 @@ namespace Microcube.Graphics
         /// <summary>
         /// Identifier of the frame buffer that was generated inside this render target.
         /// </summary>
-        public uint Framebuffer => _framebuffer.Identifier;
+        public uint Framebuffer => _glFramebuffer.Identifier;
 
         public RenderTarget(GL gl, uint width, uint height, ScreenEffect? screenEffect = null)
         {
@@ -65,12 +65,12 @@ namespace Microcube.Graphics
             DepthStencilTexture.SetParameter(TextureParameterName.TextureMinFilter, GLEnum.Nearest);
             DepthStencilTexture.SetParameter(TextureParameterName.TextureMagFilter, GLEnum.Nearest);
 
-            _framebuffer = new GLFramebuffer(gl);
-            _framebuffer.AttachTexture(ColorTexture, FramebufferAttachment.ColorAttachment0);
-            _framebuffer.AttachTexture(DepthStencilTexture, FramebufferAttachment.DepthStencilAttachment);
+            _glFramebuffer = new GLFramebuffer(gl);
+            _glFramebuffer.AttachTexture(ColorTexture, FramebufferAttachment.ColorAttachment0);
+            _glFramebuffer.AttachTexture(DepthStencilTexture, FramebufferAttachment.DepthStencilAttachment);
 
-            _screenQuadVao = new GLVertexArray(gl);
-            _screenQuadVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer,
+            _screenQuadVertexArray = new GLVertexArray(gl);
+            _screenQuadBuffer = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer,
             [
                 // ---- SCREEN QUAD ----
                 // 2x POSITIONS | 2x UVs
@@ -82,8 +82,8 @@ namespace Microcube.Graphics
                 -1.0f,  1.0f, 0.0f, 1.0f,
             ]);
 
-            _screenQuadVao.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, 0);
-            _screenQuadVao.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, sizeof(float) * 2);
+            _screenQuadVertexArray.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, 0);
+            _screenQuadVertexArray.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 4, sizeof(float) * 2);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Microcube.Graphics
         /// </summary>
         public void Use()
         {
-            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _framebuffer.Identifier);
+            _gl.BindFramebuffer(FramebufferTarget.Framebuffer, _glFramebuffer.Identifier);
             _gl.Viewport(0, 0, Width, Height);
         }
 
@@ -108,9 +108,9 @@ namespace Microcube.Graphics
             _gl.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
             _gl.Viewport(x, y, width, height);
 
-            _screenQuadVao.Bind();
+            _screenQuadVertexArray.Bind();
             ScreenEffect.Setup(ColorTexture);
-            _gl.DrawArrays(PrimitiveType.Triangles, 0, _screenQuadVbo.Count);
+            _gl.DrawArrays(PrimitiveType.Triangles, 0, _screenQuadBuffer.Count);
         }
 
         /// <summary>
@@ -128,9 +128,9 @@ namespace Microcube.Graphics
             ScreenEffect.Dispose();
             ColorTexture.Dispose();
 
-            _screenQuadVao.Dispose();
-            _screenQuadVbo.Dispose();
-            _framebuffer.Dispose();
+            _screenQuadVertexArray.Dispose();
+            _screenQuadBuffer.Dispose();
+            _glFramebuffer.Dispose();
 
             GC.SuppressFinalize(this);
         }

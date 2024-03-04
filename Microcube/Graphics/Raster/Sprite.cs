@@ -1,5 +1,5 @@
-﻿using Microcube.Graphics.Abstractions;
-using Microcube.Graphics.ColorModels;
+﻿using Microcube.Graphics.ColorModels;
+using Microcube.Graphics.OpenGL;
 using Silk.NET.OpenGL;
 using System.Drawing;
 using System.Numerics;

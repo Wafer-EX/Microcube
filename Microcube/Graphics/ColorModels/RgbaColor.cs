@@ -100,9 +100,6 @@
             return false;
         }
 
-        public override readonly int GetHashCode()
-        {
-            return HashCode.Combine(Red, Green, Blue, Alpha);
-        }
+        public override readonly int GetHashCode() => HashCode.Combine(Red, Green, Blue, Alpha);
     }
 }

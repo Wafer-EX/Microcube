@@ -1,7 +1,7 @@
 ﻿using Silk.NET.OpenGL;
 using System.Numerics;
 
-namespace Microcube.Graphics.Abstractions
+namespace Microcube.Graphics.OpenGL
 {
     /// <summary>
     /// Abstraction of an OpenGL shader program to more easily use in the project.

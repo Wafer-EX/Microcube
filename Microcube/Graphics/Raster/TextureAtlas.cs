@@ -1,4 +1,4 @@
-﻿using Microcube.Graphics.Abstractions;
+﻿using Microcube.Graphics.OpenGL;
 using Silk.NET.OpenGL;
 using System.Drawing;
 using System.Numerics;

@@ -11,7 +11,7 @@ namespace Microcube.Graphics
         /// <summary>
         /// OpenGL context.
         /// </summary>
-        public GL GLContext { get; set; }
+        public GL GL { get; set; }
 
         /// <summary>
         /// Width of the viewport.
@@ -32,7 +32,7 @@ namespace Microcube.Graphics
         {
             ArgumentNullException.ThrowIfNull(gl, nameof(gl));
 
-            GLContext = gl;
+            GL = gl;
             Width = width;
             Height = height;
         }

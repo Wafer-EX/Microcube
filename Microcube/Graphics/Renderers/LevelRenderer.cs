@@ -1,5 +1,5 @@
-﻿using Microcube.Graphics.Abstractions;
-using Microcube.Graphics.ColorModels;
+﻿using Microcube.Graphics.ColorModels;
+using Microcube.Graphics.OpenGL;
 using Microcube.Graphics.Shaders;
 using Microcube.Playable;
 using Microcube.Playable.Blocks;
@@ -13,9 +13,9 @@ namespace Microcube.Graphics.Renderers
     /// </summary>
     public class LevelRenderer : Renderer<Level, Camera3D>, IDisposable
     {
-        private readonly GLVertexArray _blockVao;
-        private readonly GLBuffer<float> _blockVerticesVbo;
-        private readonly GLBuffer<float> _blockInstancesVbo;
+        private readonly GLVertexArray _glVertexArray;
+        private readonly GLBuffer<float> _glBufferVertices;
+        private readonly GLBuffer<float> _glBufferInstances;
 
         private readonly BlockShader _shader;
 
@@ -29,22 +29,22 @@ namespace Microcube.Graphics.Renderers
                 LightDirection = new Vector3(-0.65f, 1.0f, -0.75f)
             };
 
-            _blockVao = new GLVertexArray(gl);
+            _glVertexArray = new GLVertexArray(gl);
 
-            _blockVerticesVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, Block.Mesh.Vertices);
-            _blockVao.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
-            _blockVao.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 3 * sizeof(float));
-            _blockVao.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, 6 * sizeof(float));
+            _glBufferVertices = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, Block.Mesh.Vertices);
+            _glVertexArray.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
+            _glVertexArray.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 3 * sizeof(float));
+            _glVertexArray.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, 6 * sizeof(float));
 
-            _blockInstancesVbo = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, null);
-            _blockVao.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 0);
-            _blockVao.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 3 * sizeof(float));
-            _blockVao.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 6 * sizeof(float));
-            _blockVao.VertexAttribPointer(6, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 9 * sizeof(float));
-            _blockVao.VertexAttribPointer(7, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 13 * sizeof(float));
-            _blockVao.VertexAttribPointer(8, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 17 * sizeof(float));
-            _blockVao.VertexAttribPointer(9, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 21 * sizeof(float));
-            _blockVao.VertexAttribPointer(10, 1, VertexAttribPointerType.Float, false, sizeof(float) * 26, 25 * sizeof(float));
+            _glBufferInstances = new GLBuffer<float>(gl, BufferTargetARB.ArrayBuffer, null);
+            _glVertexArray.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 0);
+            _glVertexArray.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 3 * sizeof(float));
+            _glVertexArray.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeof(float) * 26, 6 * sizeof(float));
+            _glVertexArray.VertexAttribPointer(6, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 9 * sizeof(float));
+            _glVertexArray.VertexAttribPointer(7, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 13 * sizeof(float));
+            _glVertexArray.VertexAttribPointer(8, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 17 * sizeof(float));
+            _glVertexArray.VertexAttribPointer(9, 4, VertexAttribPointerType.Float, false, sizeof(float) * 26, 21 * sizeof(float));
+            _glVertexArray.VertexAttribPointer(10, 1, VertexAttribPointerType.Float, false, sizeof(float) * 26, 25 * sizeof(float));
 
             gl.VertexAttribDivisor(3, 1);
             gl.VertexAttribDivisor(4, 1);
@@ -69,7 +69,7 @@ namespace Microcube.Graphics.Renderers
                 if (block.IsRender)
                     blockInstancesList.AddRange(block.GetInstanceData());
             }
-            _blockInstancesVbo.SetBufferData(blockInstancesList.ToArray());
+            _glBufferInstances.SetBufferData(blockInstancesList.ToArray());
         }
 
         public override void Render(Camera3D camera, RenderTarget? renderTarget = null)
@@ -91,22 +91,22 @@ namespace Microcube.Graphics.Renderers
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);
 
-            _blockVao.Bind();
+            _glVertexArray.Bind();
 
             _shader.ProjectionMatrix = camera.GetProjectionMatrix();
             _shader.ViewMatrix = camera.GetViewMatrix();
             _shader.Prepare();
 
-            GL.DrawArraysInstanced(PrimitiveType.Triangles, 0, Block.Mesh.VerticesCount, _blockInstancesVbo.Count);
+            GL.DrawArraysInstanced(PrimitiveType.Triangles, 0, Block.Mesh.VerticesCount, _glBufferInstances.Count);
             GL.Disable(EnableCap.DepthTest);
             GL.Disable(EnableCap.CullFace);
         }
 
         public override void Dispose()
         {
-            _blockVao.Dispose();
-            _blockVerticesVbo.Dispose();
-            _blockInstancesVbo.Dispose();
+            _glVertexArray.Dispose();
+            _glBufferVertices.Dispose();
+            _glBufferInstances.Dispose();
 
             _shader.Dispose();
 

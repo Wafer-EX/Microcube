@@ -1,4 +1,4 @@
-﻿using Microcube.Graphics.Abstractions;
+﻿using Microcube.Graphics.OpenGL;
 using Silk.NET.OpenGL;
 
 namespace Microcube.Graphics.ScreenEffects

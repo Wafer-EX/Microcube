@@ -1,6 +1,6 @@
 ﻿using Silk.NET.OpenGL;
 
-namespace Microcube.Graphics.Abstractions
+namespace Microcube.Graphics.OpenGL
 {
     /// <summary>
     /// Represents an OpenGL frame buffer abstraction to use it easily in the project.

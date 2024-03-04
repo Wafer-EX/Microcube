@@ -23,7 +23,7 @@ namespace Microcube.Scenes
         {
             ArgumentNullException.ThrowIfNull(viewport, nameof(viewport));
 
-            Translation = new DefaultTranslation(viewport.GLContext);
+            Translation = new DefaultTranslation(viewport.GL);
 
             _viewport = viewport;
             _currentScene = initialScene;

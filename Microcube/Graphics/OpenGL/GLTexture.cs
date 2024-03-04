@@ -1,7 +1,7 @@
 ﻿using Silk.NET.OpenGL;
 using StbImageSharp;
 
-namespace Microcube.Graphics.Abstractions
+namespace Microcube.Graphics.OpenGL
 {
     /// <summary>
     /// Represents an OpenGL texture object abstraction.
